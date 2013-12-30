@@ -1,6 +1,5 @@
 "------------------------------------------------------------------"
 " Author:       kevin Jossart                                      "
-" Source:       TODO commit to github when ready                   "
 " Credits:      Various vimfora, public .vimrc's and manuals       "
 " Comments:     Extra Credits for Tim Sæterøy are needed           "
 "               because much of what appears in this .vimrc        "
