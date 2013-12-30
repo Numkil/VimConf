@@ -552,7 +552,7 @@
 
     " Highlight characters past 79, toggle with <leader>h
         let g:overlength_enabled = 0
-        highlight OverLength ctermbg=238 guibg=MistyRose1
+        highlight OverLength ctermbg=181 guibg=MistyRose1
 
         function! ToggleOverLength()
             if g:overlength_enabled == 0
