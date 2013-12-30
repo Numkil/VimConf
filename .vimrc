@@ -1,5 +1,6 @@
 "------------------------------------------------------------------"
 " Author:       kevin Jossart                                      "
+" Source:       https://github.com/Numkil/VimConf                  "
 " Credits:      Various vimfora, public .vimrc's and manuals       "
 " Comments:     Extra Credits for Tim Sæterøy are needed           "
 "               because much of what appears in this .vimrc        "
