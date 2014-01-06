@@ -16,10 +16,11 @@ But ofcourse if you happen to stumble on here or you are one of my colleagues yo
 Installation
 ------------
 **Required packages:** clang, ctags, jedi, ruby, a terminal emulator that supports 256 colors if you
-want to benefit from the amazingly researched solarized colorscheme.
+want to benefit from the amazingly researched solarized colorscheme, personally I prefer using Gvim
+because it makes copying from different sources and colourschemes a hell of a lot more straightforward.
 
     git clone https://github.com/Numkil/VimConf.git
-    ln -s VimConf/.vimrc ~/.vimrc
+    ln -s /pathTowhereyoucloned/VimConf/.vimrc ~/.vimrc
 
 Running vim with this .vimrc will cause it to automatically install Vundle and a bunch of plugins. (I
 hope)
