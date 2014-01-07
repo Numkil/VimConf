@@ -106,6 +106,7 @@
     endif
 
 "" General Built-in Settings
+
     set cursorline                          "highlight cursor line
     set more                                ""--more-- like less
     set number	                            " Show line numbers
@@ -167,6 +168,7 @@
         set updatecount=50                  " update swp after 50chars
 
 " Text formatting
+
     set autoindent	                        " Auto-indent new lines
     set backspace=indent,eol,start          " smart backspace
     set cinkeys-=0#                         " don't force # indentation
@@ -181,6 +183,7 @@
         au FileType c,cpp setlocal comments -=:// comments +=f://
 
 "" Syntax highlighting
+
     filetype plugin indent on                   " detect file plugin+indent
     syntax on                                   " syntax highlighting
     set t_Co=256                                " 256-colors
@@ -192,6 +195,7 @@
     au BufRead,BufNewFile *.txt set ft=sh       " opens .txt w/highlight
 
 "" Advanced Built-in Settings
+
     set ruler	" Show row and column ruler information
     set undolevels=1000	" Number of undo levels
 
