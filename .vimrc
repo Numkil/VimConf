@@ -595,3 +595,9 @@
         autocmd FileType c,cpp,css,html,perl,php,python,java,sh autocmd 
                     \BufWritePre <buffer> :call <SID>StripTrailingWhitespace()
 
+"If you would like to costumize this vimconfiguration and still be able to just pull updates
+"from the repository you can manually create the file mentioned below and add your personal 
+"additions. Beware that this will override options if you are not carefull. 
+    if filereadable($HOME."/.vimrc_personal")
+        source $HOME/.vimrc_personal
+    endif 
