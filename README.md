@@ -25,6 +25,11 @@ because it makes copying from different sources and colourschemes a hell of a lo
 Running vim with this .vimrc will cause it to automatically install Vundle and a bunch of plugins. (I
 hope)
 
+**Making your own configurations:** This is possible through manually creating a file called
+.vimrc_personal in your home folder. You can there add stuff that won't be overrated when pulling in
+the lastest version of this config. Beware though that this will override settings if you are not
+carefull. 
+
 Preview
 -------
 ![Preview](http://imgur.com/6S796Zt.png "screeny")
