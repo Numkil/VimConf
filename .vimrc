@@ -560,7 +560,7 @@
 
         function! ToggleOverLength()
             if g:overlength_enabled == 0
-                match OverLength /\%79v.*/
+                match OverLength /\%85v.*/
                 let g:overlength_enabled = 1
                 echo 'OverLength highlighting turned on'
             else
