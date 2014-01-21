@@ -15,7 +15,7 @@ Installation
 ------------
 **Required packages:** 
 
-    clang, ctags,git, gcc
+    clang, ctags, git, gcc, gcc-c++
 
 **advice:**
 
