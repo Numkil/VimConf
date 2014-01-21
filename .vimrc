@@ -10,7 +10,7 @@
 "------------------------------------------------------------------"
 
     set nocompatible "this vimconf is not vi-compatible
-
+    call system("mkdir -p $HOME/.vim/{plugin,undo}") "NOTICE, this shit will crash on windows
 "" Vundle plugin manager
     "Automatically setting up Vundle, taken from
     "http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
