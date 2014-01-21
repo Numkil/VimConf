@@ -15,14 +15,15 @@ Installation
 ------------
 **Required packages:** 
 
-    clang, ctags,git, gcc.
+    clang, ctags,git, gcc
 
-**advice**
+**advice:**
+
 I strongly advice to use terminal emulator that supports 256 colors if you
 want to benefit from the amazingly researched solarized colorscheme, personally I prefer using Gvim
 because it makes copying from different sources and using colourschemes a hell of a lot more straightforward.
 
-**Instructions**
+**Instructions:**
 
     git clone https://github.com/Numkil/VimConf.git
     ln -s /pathTowhereyoucloned/VimConf/.vimrc ~/.vimrc
