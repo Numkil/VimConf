@@ -17,9 +17,7 @@ Installation
 
     clang, ctags, git, gcc, gcc-c++
 
-**advice:**
-
-I strongly advice to use terminal emulator that supports 256 colors if you
+**advice:** I strongly advice to use a terminal emulator that supports 256 colors if you
 want to benefit from the amazingly researched solarized colorscheme, personally I prefer using Gvim
 because it makes copying from different sources and using colourschemes a hell of a lot more straightforward.
 
@@ -39,6 +37,12 @@ carefull.
 Preview
 -------
 ![Preview](http://imgur.com/6S796Zt.png "screeny")
+
+
+TODO
+----
+Changing background colour with f7 kills overlength
+Keep up to date with new stuff I find
 
 Credits
 -------
