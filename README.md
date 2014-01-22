@@ -41,8 +41,8 @@ Preview
 
 TODO
 ----
-Changing background colour with f7 kills overlength
-Keep up to date with new stuff I find
+* Changing background colour with f7 kills overlength.
+* Keep up to date with new stuff I find.
 
 Credits
 -------
