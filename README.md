@@ -36,7 +36,7 @@ carefull.
 
 Preview
 -------
-![Preview](http://imgur.com/6S796Zt.png "screeny")
+![Preview](http://imgur.com/6S796Zt.png "screenshot")
 
 
 TODO
