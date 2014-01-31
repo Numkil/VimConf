@@ -41,11 +41,10 @@ Preview
 
 TODO
 ----
-* Autocomplete is sometimes preventing 'escaping' to normal mode.  
 * Changing background colour with f7 kills overlength.
 * Keep up to date with new stuff I find.
-
 Credits
 -------
 I should give credits to most of the public .vimrc's out there because well this really is mostly a
 compilation of various public .vimrc's with some additions of myself.
+
