@@ -309,6 +309,8 @@
     " Toggle tagbar (definitions, functions etc.)
     map <F1> :TagbarToggle<CR>
 
+    " Toggle Autopairing tags like (
+    let g:AutoPairsShortcutToggle = '<F3>'
 "" Plugin Configuration
 
     " Remove trailing whitespace after moving a block. 
