@@ -59,8 +59,8 @@
     Bundle 'itchyny/lightline.vim'
     Bundle 'bling/vim-bufferline'
     
-    " Autoclose (, " etc
-    Bundle 'Townk/vim-autoclose'
+    " Closes ( or " etc.
+    Bundle 'jiangmiao/auto-pairs'
 
     " Git wrapper inside Vim
     Bundle 'tpope/vim-fugitive'
