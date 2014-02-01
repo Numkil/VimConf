@@ -36,13 +36,14 @@ carefull.
 
 Preview
 -------
-![Preview](http://imgur.com/6S796Zt.png "screenshot")
-
+![Preview](http://i.imgur.com/DQ1IRvj.png "light")
+![Preview](http://i.imgur.com/5LEeZ1w.png "dark")
 
 TODO
 ----
 * Changing background colour with f7 kills overlength.
 * Keep up to date with new stuff I find.
+
 Credits
 -------
 I should give credits to most of the public .vimrc's out there because well this really is mostly a
