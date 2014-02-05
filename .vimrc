@@ -82,6 +82,7 @@
 
     " Awesome syntax checker.
     "There is a problem with some language's and imports from different files
+    "Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro
     Bundle 'scrooloose/syntastic'
 
     " Functions, class data etc.
