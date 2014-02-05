@@ -113,7 +113,7 @@
     set showmatch	                        " Highlight matching brace
     set smartindent	                        " Enable smart-indent
     set scrolloff=3                         " Lines above/below cursor
-    set wildignore=.bak,.pyc,.o,.ojb,.,a,   " ignore said files
+    set wildignore=.bak,.pyc,.o,.ojb,.a,   " ignore said files
                     \.pdf,.jpg,.gif,.png,
                     \.avi,.mkv,.so
     set wildmenu                            " better auto complete
@@ -192,7 +192,8 @@
     highlight LineNr ctermbg=NONE               " use terminal background
     highlight SignColumn ctermbg=NONE           " use terminal background
     highlight CursorLine ctermbg=235            " a slightly lighter line
-    au BufRead,BufNewFile *.txt set ft=sh       " opens .txt w/highlight
+    au BufNewFile,BufRead *.txt se ft=sh tw=79  " opens .txt w/highlight
+    au BufNewFile,BufRead *.tex se ft=tex tw=79 " No plaintext
 
 "" Advanced Built-in Settings
 
@@ -430,7 +431,7 @@
         endfunction
 
         function! MyReadonly()
-            return &ft !~? 'help' && &readonly ? '≠' : '' " or ⭤
+            return &ft !~? 'help' && &readonly ? '≠' : ''
         endfunction
 
         function! MyBufferline()
