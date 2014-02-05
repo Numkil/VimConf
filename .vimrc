@@ -336,9 +336,6 @@
     call SingleCompile#SetOutfile('cpp', 'gcc', '$(FILE_TITLE)$')
     call SingleCompile#ChooseCompiler('cpp', 'gcc')
 
-    " clang_complete - C++11
-    let g:clang_user_options="-std=c++0x"
-
     " TagBar
     let g:tagbar_left = 0
     let g:tagbar_width = 30
