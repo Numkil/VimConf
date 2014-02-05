@@ -188,13 +188,19 @@
     filetype plugin indent on                   " detect file plugin+indent
     syntax on                                   " syntax highlighting
     set t_Co=256                                " 256-colors
-    highlight Normal ctermbg=NONE               " use terminal background
-    highlight nonText ctermbg=NONE              " use terminal background
-    highlight LineNr ctermbg=NONE               " use terminal background
-    highlight SignColumn ctermbg=NONE           " use terminal background
-    highlight CursorLine ctermbg=235            " a slightly lighter line
     au BufNewFile,BufRead *.txt se ft=sh tw=79  " opens .txt w/highlight
     au BufNewFile,BufRead *.tex se ft=tex tw=79 " No plaintext
+        "" Custom highlighting, where NONE uses terminal background
+            function! CustomHighlighting()
+                highlight Normal ctermbg=NONE
+                highlight nonText ctermbg=NONE
+                highlight LineNr ctermbg=NONE
+                highlight SignColumn ctermbg=NONE
+                highlight CursorLine ctermbg=235
+            endfunction
+
+            call CustomHighlighting()
+        ""
 
 "" Advanced Built-in Settings
 
@@ -296,8 +302,7 @@
     nnoremap gf <C-^>
 
     " Toggle syntax highlighting
-    map <F4> :if exists("syntax_on")
-        \<Bar>syntax off<Bar>else<Bar>syntax enable<Bar>endif<CR>
+    nnoremap <F4> :call ToggleSyntaxHighLighting()<CR>
     
     " Toggle Overlength // function defined later on
     nnoremap <leader>h :call ToggleOverLength()<CR>
@@ -306,13 +311,14 @@
     nnoremap <leader>r :call NumberToggle()<CR>
 
     " Call Deletemultipleemptylines //function defined later on
-     nnoremap <leader>ld :call DeleteMultipleEmptyLines()<CR>
+    nnoremap <leader>ld :call DeleteMultipleEmptyLines()<CR>
 
     " Toggle tagbar (definitions, functions etc.)
     map <F1> :TagbarToggle<CR>
 
     " Toggle Autopairing tags like (
     let g:AutoPairsShortcutToggle = '<F3>'
+
 "" Plugin Configuration
 
     " Remove trailing whitespace after moving a block. 
@@ -547,16 +553,16 @@
     " Open multiple lines (insert empty lines) before or after current line,
     " and position cursor in the new space, with at least one blank line
     " before and after the cursor.
-    function! OpenLines(nrlines, dir)
-        let nrlines = a:nrlines < 3 ? 3 : a:nrlines
-        let start = line('.') + a:dir
-        call append(start, repeat([''], nrlines))
-        if a:dir < 0
-            normal! 2k
-        else
-            normal! 2j
-        endif
-    endfunction
+        function! OpenLines(nrlines, dir)
+            let nrlines = a:nrlines < 3 ? 3 : a:nrlines
+            let start = line('.') + a:dir
+            call append(start, repeat([''], nrlines))
+            if a:dir < 0
+                normal! 2k
+            else
+                normal! 2j
+            endif
+        endfunction
 
     " Highlight characters past 79, toggle with <leader>h
         let g:overlength_enabled = 0
@@ -583,6 +589,16 @@
             endif
         endfunction
         
+    " Toggle Syntax highlighting using <F4>
+        function! ToggleSyntaxHighLighting()
+            if exists("g:syntax_on")
+                syntax off
+            else
+                syntax on
+                call CustomHighlighting()
+            endif
+        endfunction
+
     " Remove multiple empty lines 
         function! DeleteMultipleEmptyLines()
             g/^\_$\n\_^$/d
