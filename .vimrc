@@ -89,15 +89,15 @@
     " REQUIREMENTS: (exuberant)-ctags
     Bundle 'majutsushi/tagbar'
 
-    " AutoComplete
-    Bundle 'Shougo/neocomplcache'
-
     " Snippets like textmate
     Bundle 'MarcWeber/vim-addon-mw-utils'
     Bundle 'tomtom/tlib_vim'
     Bundle 'honza/vim-snippets'
     Bundle 'garbas/vim-snipmate'
     Bundle 'Shougo/neosnippet'
+    "
+    " AutoComplete
+    Bundle 'Shougo/neocomplcache'
 
     " Installing plugins the first time {{{
     if has_vundle == 0
@@ -180,7 +180,7 @@
     set smarttab                            " tab to 0,4,8 etc.
     set softtabstop=4                       " "tab" feels like <tab>
     set tabstop=4                           " replace <TAB> w/4 spaces
-    """ Only auto-comment newline for block comments {{{
+    """ Only auto-comment newline for block comments 
         au FileType c,cpp setlocal comments -=:// comments +=f://
 
 "" Syntax highlighting
@@ -348,7 +348,7 @@
     let g:syntastic_mode_map = {
         \ 'mode': 'passive',
         \ 'active_filetypes':
-            \ ['c', 'cpp', 'php', 'java'] }
+            \ ['c', 'cpp', 'php', 'perl', 'java'] }
 
     " Automatically remove preview window after autocomplete (mainly for clang_complete)
     autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
@@ -478,7 +478,7 @@
 
         augroup AutoSyntastic
             autocmd!
-            autocmd BufWritePost *.c,*.cpp,*.h,*.php,*.java call s:syntastic()
+            autocmd BufWritePost *.pl,*.c,*.cpp,*.h,*.php,*.java call s:syntastic()
         augroup END
         function! s:syntastic()
             SyntasticCheck
