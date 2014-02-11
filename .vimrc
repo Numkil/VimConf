@@ -85,19 +85,22 @@
     "Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro
     Bundle 'scrooloose/syntastic'
 
-    " Functions, class data etc.
+    " Displays a list of classes/functions/variabels in the file
     " REQUIREMENTS: (exuberant)-ctags
     Bundle 'majutsushi/tagbar'
 
-    " Snippets like textmate
-    Bundle 'MarcWeber/vim-addon-mw-utils'
-    Bundle 'tomtom/tlib_vim'
+    " 3 big snippet libraries
     Bundle 'honza/vim-snippets'
     Bundle 'garbas/vim-snipmate'
     Bundle 'Shougo/neosnippet'
+    Bundle 'Shougo/neosnippet-snippets'
 
     " AutoComplete
     Bundle 'Shougo/neocomplcache'
+
+    " Misc. plugins
+    Bundle 'MarcWeber/vim-addon-mw-utils'
+    Bundle 'tomtom/tlib_vim'
 
     " Installing plugins the first time {{{
     if has_vundle == 0
