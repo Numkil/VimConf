@@ -42,7 +42,6 @@ Preview
 TODO
 ----
 * Changing background colour with f7 kills overlength.
-* Strange error message from neosnippet keeps popping up
 * Keep up to date with new stuff I find.
 
 Credits
