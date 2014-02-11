@@ -95,7 +95,7 @@
     Bundle 'honza/vim-snippets'
     Bundle 'garbas/vim-snipmate'
     Bundle 'Shougo/neosnippet'
-    "
+
     " AutoComplete
     Bundle 'Shougo/neocomplcache'
 
