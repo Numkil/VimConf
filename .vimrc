@@ -334,7 +334,7 @@
     " SingleCompile - check if installed since this gives warnings if not
     autocmd VimEnter * if exists('g:loaded_SingleCompile')
     call SingleCompile#SetCompilerTemplate('gcc', 'cpp', 'GNU C Compiler',
-            \'g++', '-Wall -Wextra -pedantic -O3 -std=c++0x -o $(FILE_TITLE)$',
+            \'g++', '-Wall -Wextra -Wpedantic -std=c++11 -stdlib=libc++ -o $(FILE_TITLE)$',
             \'./$(FILE_TITLE)$')
     call SingleCompile#SetOutfile('gcc', 'cpp', '$(FILE_TITLE)$')
     call SingleCompile#ChooseCompiler('gcc', 'cpp')
@@ -347,6 +347,7 @@
     " Syntastic - This is largely up to your own usage, and override these
     "             changes if be needed. This is merely an exemplification.
     let g:syntastic_cpp_check_header = 1
+    let g:syntastic_cpp_compiler_options = ' -std=c++11'
     let g:syntastic_mode_map = {
         \ 'mode': 'passive',
         \ 'active_filetypes':
