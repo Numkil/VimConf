@@ -188,11 +188,12 @@
 
 "" Syntax highlighting
 
-    filetype plugin indent on                   " detect file plugin+indent
-    syntax on                                   " syntax highlighting
-    set t_Co=256                                " 256-colors
-    au BufNewFile,BufRead *.txt se ft=sh tw=79  " opens .txt w/highlight
-    au BufNewFile,BufRead *.tex se ft=tex tw=79 " No plaintext
+    filetype plugin indent on                           " detect file plugin+indent
+    syntax on                                           " syntax highlighting
+    set t_Co=256                                        " 256-colors
+    au BufNewFile,BufRead *.txt se ft=sh tw=79          " opens .txt w/highlight
+    au BufNewFile,BufRead *.tex se ft=tex tw=79         " No plaintex
+    au BufNewFile,BufRead *.md se ft=markdown tw=79     " markdown opened w/highlight
         "" Custom highlighting, where NONE uses terminal background
             function! CustomHighlighting()
                 highlight Normal ctermbg=NONE
