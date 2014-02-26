@@ -34,9 +34,6 @@
     "Damien Conway's dragvisuals 
     Bundle 'atweiden/vim-dragvisuals' 
 
-    "Simple compile/run binds
-    Bundle 'xuhdev/SingleCompile'
-
     "A file tree explorer
     Bundle 'scrooloose/nerdtree'
 
@@ -269,10 +266,6 @@
     "Toggle the NERDTree file browser
     map <F2> :NERDTreeToggle<CR>  
 
-    "SingleCompile
-    nmap <F5> :SCCompile<CR>
-    nmap <F6> :SCCompileRun<CR>
-
     "toggle backgroundcolor
     call togglebg#map("<F7>")
 
@@ -332,14 +325,6 @@
     let g:NERDTreeWinPos = "left"
     let g:NERDTreeHijackNetrw = 1  
 
-    " SingleCompile - check if installed since this gives warnings if not
-    autocmd VimEnter * if exists('g:loaded_SingleCompile')
-    call SingleCompile#SetCompilerTemplate('gcc', 'cpp', 'GNU C Compiler',
-            \'g++', '-Wall -Wextra -Wpedantic -std=c++11 -stdlib=libc++ -o $(FILE_TITLE)$',
-            \'./$(FILE_TITLE)$')
-    call SingleCompile#SetOutfile('gcc', 'cpp', '$(FILE_TITLE)$')
-    call SingleCompile#ChooseCompiler('gcc', 'cpp')
-
     " TagBar
     let g:tagbar_left = 0
     let g:tagbar_width = 30
@@ -352,7 +337,7 @@
     let g:syntastic_mode_map = {
         \ 'mode': 'passive',
         \ 'active_filetypes':
-            \ ['c', 'cpp', 'php', 'perl', 'java'] }
+            \ ['js', 'cpp', 'php', 'perl', 'java'] }
 
     " Automatically remove preview window after autocomplete (mainly for clang_complete)
     autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
