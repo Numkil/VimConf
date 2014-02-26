@@ -31,9 +31,6 @@
     " Recursive Vundle so it can self-update
     Bundle 'gmarik/vundle'
 
-    "Damien Conway's dragvisuals 
-    Bundle 'atweiden/vim-dragvisuals' 
-
     "A file tree explorer
     Bundle 'scrooloose/nerdtree'
 
@@ -244,18 +241,11 @@
     nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
     vnoremap <Space> zf
 
-    "Moving between windows for noobs"
+    "Moving between splits for noobs"
     nmap <silent> <A-Up> :wincmd k<CR>
     nmap <silent> <A-Down> :wincmd j<CR>
     nmap <silent> <A-Left> :wincmd h<CR>
     nmap <silent> <A-Right> :wincmd l<CR>
-
-    "Use shift-arrows for DragVisuals and capital D for copying 
-    vmap <expr> <S-Left>    DVB_Drag('left')
-    vmap <expr> <S-Right>   DVB_Drag('right')
-    vmap <expr> <S-Down>    DVB_Drag('down') 
-    vmap <expr> <S-Up>      DVB_Drag('up')  
-    vmap  <expr>  D         DVB_Duplicate() 
 
     "External yanking and pasting using clipboard
     nnoremap <A-y> "+y
