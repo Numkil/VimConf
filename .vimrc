@@ -328,6 +328,7 @@
         \ 'mode': 'passive',
         \ 'active_filetypes':
             \ ['js', 'cpp', 'php', 'perl', 'java'] }
+    let g:syntastic_enable_perl_checker = 1
 
     " Automatically remove preview window after autocomplete (mainly for clang_complete)
     autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
