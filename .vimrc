@@ -323,12 +323,12 @@
     " Syntastic - This is largely up to your own usage, and override these
     "             changes if be needed. This is merely an exemplification.
     let g:syntastic_cpp_check_header = 1
+    let g:syntastic_enable_perl_checker = 1
     let g:syntastic_cpp_compiler_options = ' -std=c++11'
     let g:syntastic_mode_map = {
         \ 'mode': 'passive',
         \ 'active_filetypes':
             \ ['js', 'cpp', 'php', 'perl', 'java'] }
-    let g:syntastic_enable_perl_checker = 1
 
     " Automatically remove preview window after autocomplete (mainly for clang_complete)
     autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
