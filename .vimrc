@@ -324,6 +324,7 @@
     "             changes if be needed. This is merely an exemplification.
     let g:syntastic_cpp_check_header = 1
     let g:syntastic_enable_perl_checker = 1
+    let g:syntastic_perl_checkers = ['perl']
     let g:syntastic_cpp_compiler_options = ' -std=c++11'
     let g:syntastic_mode_map = {
         \ 'mode': 'passive',
