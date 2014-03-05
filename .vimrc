@@ -290,6 +290,9 @@
 
     " Toggle syntax highlighting
     nnoremap <F4> :call ToggleSyntaxHighLighting()<CR>
+
+    "Split headers & source files in cpp
+    nnoremap <leader>sp :call SplitSource()<CR>
     
     " Toggle Overlength // function defined later on
     nnoremap <leader>h :call ToggleOverLength()<CR>
@@ -595,6 +598,19 @@
 
         autocmd FileType c,cpp,css,html,perl,php,python,java,sh autocmd 
                     \BufWritePre <buffer> :call <SID>StripTrailingWhitespace()
+
+    " Split to relative header/source
+        function SplitSource()
+            let s:fname = expand("%:t:r")
+            if expand("%:e") == "h"
+                set nosplitright
+                exe "vsplit" fnameescape("../sources/" . s:fname . ".cpp")
+                set splitright
+            elseif expand("%:e") == "cpp"
+                exe "vsplit" fnameescape("../headers/" . s:fname . ".h")
+            endif
+        endfunction
+
 
 "If you would like to costumize this vimconfiguration and still be able to just pull updates
 "from the repository you can manually create the file mentioned below and add your personal 
