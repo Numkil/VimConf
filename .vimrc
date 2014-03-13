@@ -11,96 +11,100 @@
 
     set nocompatible "this vimconf is not vi-compatible
     call system("mkdir -p $HOME/.vim/{plugin,undo}") "NOTICE, this shit will crash on windows
-"" Vundle plugin manager
-    "Automatically setting up Vundle, taken from
+"" NeoBundle plugin manager
+    "Automatically setting up NeoBundle, taken from
     "http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
-        let has_vundle=1
-        if !filereadable($HOME."/.vim/bundle/vundle/README.md")
-            echo "Installing Vundle..."
+        let has_neobundle=1
+        if !filereadable($HOME."/.vim/bundle/NeoBundle/README.md")
+            echo "Installing NeoBundle..."
             echo ""
             silent !mkdir -p $HOME/.vim/bundle
-            silent !git clone https://github.com/gmarik/vundle $HOME/.vim/bundle/vundle
-            let has_vundle=0
+            silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/NeoBundle
+            let has_neobundle=0
         endif
     "Initialize Vundle
         filetype off                                " required to init
-        set rtp+=$HOME/.vim/bundle/vundle/          " include vundle
-        call vundle#rc()                            " init vundle
+        set runtimepath+=~/.vim/bundle/NeoBundle/
+        call neobundle#rc(expand('~/.vim/bundle/NeoBundle/'))
 "" Bundle's
 
+
+    "Recursive NeoBundle so it can self-update
+    NeoBundleFetch 'Shougo/neobundle.vim'
+
     " Recursive Vundle so it can self-update
-    Bundle 'gmarik/vundle'
+    NeoBundle 'gmarik/vundle'
 
     "A file tree explorer
-    Bundle 'scrooloose/nerdtree'
+    NeoBundle 'scrooloose/nerdtree'
 
     "Indentation guides for vim
-    Bundle 'Yggdroot/indentLine'
+    NeoBundle 'Yggdroot/indentLine'
 
     "PHP indenting (html enhanced)
-    Bundle 'vim-scripts/php.vim-html-enhanced'
+    NeoBundle 'vim-scripts/php.vim-html-enhanced'
 
     "Light colourscheme for vim
-    Bundle 'altercation/vim-colors-solarized'
+    NeoBundle 'altercation/vim-colors-solarized'
     
     " Edit files using sudo/su
-    Bundle 'chrisbra/SudoEdit.vim'
+    NeoBundle 'chrisbra/SudoEdit.vim'
 
     " <Tab> everything!
-    Bundle 'ervandew/supertab'
+    NeoBundle 'ervandew/supertab'
 
     " A pretty statusline, bufferline integration
-    Bundle 'itchyny/lightline.vim'
-    Bundle 'bling/vim-bufferline'
+    NeoBundle 'itchyny/lightline.vim'
+    NeoBundle 'bling/vim-bufferline'
     
     " Closes ( or " etc.
-    Bundle 'jiangmiao/auto-pairs'
+    NeoBundle 'jiangmiao/auto-pairs'
 
     " Git wrapper inside Vim
-    Bundle 'tpope/vim-fugitive'
+    NeoBundle 'tpope/vim-fugitive'
 
     " Handle surround chars like ''
-    Bundle 'tpope/vim-surround'
+    NeoBundle 'tpope/vim-surround'
 
     " Align your = etc.
-    Bundle 'vim-scripts/Align'
+    NeoBundle 'vim-scripts/Align'
 
     " Easy... motions... yeah.
-    Bundle 'Lokaltog/vim-easymotion'
+    NeoBundle 'Lokaltog/vim-easymotion'
 
     " Super easy commenting, toggle comments etc
-    Bundle 'scrooloose/nerdcommenter'
+    NeoBundle 'scrooloose/nerdcommenter'
 
     " A fancy start screen, shows MRU etc.
-    Bundle 'mhinz/vim-startify'
+    NeoBundle 'mhinz/vim-startify'
 
     " Awesome syntax checker.
     "There is a problem with some language's and imports from different files
     "Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro
-    Bundle 'scrooloose/syntastic'
+    NeoBundle 'scrooloose/syntastic'
 
     " Displays a list of classes/functions/variabels in the file
     " REQUIREMENTS: (exuberant)-ctags
-    Bundle 'majutsushi/tagbar'
+    NeoBundle 'majutsushi/tagbar'
 
     " 3 big snippet libraries
-    Bundle 'honza/vim-snippets'
-    Bundle 'garbas/vim-snipmate'
-    Bundle 'Shougo/neosnippet'
-    Bundle 'Shougo/neosnippet-snippets'
+    NeoBundle 'honza/vim-snippets'
+    NeoBundle 'garbas/vim-snipmate'
+    NeoBundle 'Shougo/neosnippet'
+    NeoBundle 'Shougo/neosnippet-snippets'
 
     " AutoComplete
-    Bundle 'Shougo/neocomplcache'
+    NeoBundle 'Shougo/neocomplcache'
 
     " Misc. plugins
-    Bundle 'MarcWeber/vim-addon-mw-utils'
-    Bundle 'tomtom/tlib_vim'
+    NeoBundle 'MarcWeber/vim-addon-mw-utils'
+    NeoBundle 'tomtom/tlib_vim'
 
-    " Installing plugins the first time {{{
-    if has_vundle == 0
+    " Installing plugins the first time 
+    if has_neobundle == 0
         echo "Installing Bundles, please ignore key map error messages"
         echo ""
-        :BundleInstall
+        NeoBundleCheck
     endif
 
 "" General Built-in Settings
