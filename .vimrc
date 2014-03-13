@@ -28,7 +28,6 @@
         call neobundle#rc(expand('~/.vim/bundle/NeoBundle/'))
 "" Bundle's
 
-
     "Recursive NeoBundle so it can self-update
     NeoBundleFetch 'Shougo/neobundle.vim'
 
