@@ -22,7 +22,7 @@
             silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/NeoBundle
             let has_neobundle=0
         endif
-    "Initialize Vundle
+    "Initialize NeoBundle
         filetype off                                " required to init
         set runtimepath+=~/.vim/bundle/NeoBundle/
         call neobundle#rc(expand('~/.vim/bundle/NeoBundle/'))
@@ -30,9 +30,6 @@
 
     "Recursive NeoBundle so it can self-update
     NeoBundleFetch 'Shougo/neobundle.vim'
-
-    " Recursive Vundle so it can self-update
-    NeoBundle 'gmarik/vundle'
 
     "A file tree explorer
     NeoBundle 'scrooloose/nerdtree'
