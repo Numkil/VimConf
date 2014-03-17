@@ -41,8 +41,6 @@ Preview
 
 TODO
 ----
-* For some reason NeoBundle tries to remove itself when Cleaning and it isn't
-  as nice as I had expected..Worth it??
 * Changing background colour with f7 kills overlength.
 * Keep up to date with new stuff I find.
 
