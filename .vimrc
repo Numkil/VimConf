@@ -15,21 +15,21 @@
     "Automatically setting up NeoBundle, taken from
     "http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
         let has_neobundle=1
-        if !filereadable($HOME."/.vim/bundle/NeoBundle/README.md")
+        if !filereadable($HOME."/.vim/bundle/neobundle.vim/README.md")
             echo "Installing NeoBundle..."
             echo ""
             silent !mkdir -p $HOME/.vim/bundle
-            silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/NeoBundle
+            silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
             let has_neobundle=0
         endif
     "Initialize NeoBundle
         filetype off                                " required to init
-        set runtimepath+=~/.vim/bundle/NeoBundle/
-        call neobundle#rc(expand('~/.vim/bundle/NeoBundle/'))
+        set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
+        call neobundle#rc(expand($HOME.'/.vim/bundle/'))
 "" Bundle's
 
     "Recursive NeoBundle so it can self-update
-    NeoBundleFetch 'Shougo/neobundle.vim'
+    NeoBundleFetch 'Shougo/neobundle.vim' 
 
     "A file tree explorer
     NeoBundle 'scrooloose/nerdtree'
