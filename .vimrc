@@ -75,8 +75,10 @@
     NeoBundle 'mhinz/vim-startify'
 
     " Awesome syntax checker.
-    "There is a problem with some language's and imports from different files
-    "Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro
+    " Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro
+    " Also please do check the configurations I did to syntastic later down the code
+    " Most of these settings are way to personal for me to choose for you and you should change
+    " or overwrite them when needed.
     NeoBundle 'scrooloose/syntastic'
 
     " Displays a list of classes/functions/variabels in the file
@@ -323,11 +325,12 @@
     let g:tagbar_width = 30
     set tags=tags;/
 
-    " Syntastic - This is largely up to your own usage, and override these
-    "             changes if be needed. This is merely an exemplification.
-    "You might want to disable the 2 commands regarding to perl because they
-    "would be unsafe to use if you find yourself using many pieces of perl code not written by yourself 
-    "it actually excecutes some code without thinking everytime you run a syntax check on it
+    " Syntastic - This is just a personal preference of mine that often changes.
+    " You should not just take over these settings. Syntastic is extremely powerfull when configured
+    " to fit your own needs. 
+    " You might want to disable the 2 commands regarding to perl because they
+    " would be unsafe to use if you find yourself using many pieces of perl code not written by yourself 
+    " it actually excecutes some code without thinking everytime you run a syntax check on it
     let g:syntastic_cpp_check_header = 1
     let g:syntastic_enable_perl_checker = 1
     let g:syntastic_perl_checkers = ['perl']
@@ -335,7 +338,7 @@
     let g:syntastic_mode_map = {
         \ 'mode': 'passive',
         \ 'active_filetypes':
-            \ ['js', 'cpp', 'php', 'perl', 'java'] }
+            \ ['js', 'cpp', 'php', 'perl', 'python'] }
 
     " Automatically remove preview window after autocomplete (mainly for clang_complete)
     autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
