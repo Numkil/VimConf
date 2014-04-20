@@ -10,7 +10,7 @@
 "------------------------------------------------------------------"
 
     set nocompatible "this vimconf is not vi-compatible
-    call system("mkdir -p $HOME/.vim/{plugin,undo}") "NOTICE, this shit will crash on windows
+    call system("mkdir -p $HOME/.vim/{plugin,undo}")
 "" NeoBundle plugin manager
     "Automatically setting up NeoBundle, taken from
     "http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
@@ -28,19 +28,19 @@
         call neobundle#rc(expand($HOME.'/.vim/bundle/'))
 "" Bundle's
 
-    "Recursive NeoBundle so it can self-update
+    " Recursive NeoBundle so it can self-update
     NeoBundleFetch 'Shougo/neobundle.vim' 
 
-    "A file tree explorer
+    " A file tree explorer
     NeoBundle 'scrooloose/nerdtree'
 
-    "Indentation guides for vim
+    " Indentation guides for vim
     NeoBundle 'Yggdroot/indentLine'
 
-    "PHP indenting (html enhanced)
+    " PHP indenting (html enhanced)
     NeoBundle 'vim-scripts/php.vim-html-enhanced'
 
-    "Light colourscheme for vim
+    " Light colourscheme for vim
     NeoBundle 'altercation/vim-colors-solarized'
     
     " Edit files using sudo/su
@@ -59,7 +59,7 @@
     " Git wrapper inside Vim
     NeoBundle 'tpope/vim-fugitive'
 
-    " Handle surround chars like ''
+    " Easily manipulate surrounding characters
     NeoBundle 'tpope/vim-surround'
 
     " Align your = etc.
@@ -77,7 +77,7 @@
     " Awesome syntax checker.
     " Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro
     " Also please do check the configurations I did to syntastic later down the code
-    " Most of these settings are way to personal for me to choose for you and you should change
+    " Most of these settings are way too personal for me to choose for you and you should change
     " or overwrite them when needed.
     NeoBundle 'scrooloose/syntastic'
 
@@ -86,10 +86,10 @@
     NeoBundle 'majutsushi/tagbar'
 
     " 3 big snippet libraries
-    NeoBundle 'honza/vim-snippets'
-    NeoBundle 'garbas/vim-snipmate'
     NeoBundle 'Shougo/neosnippet'
     NeoBundle 'Shougo/neosnippet-snippets'
+    NeoBundle 'honza/vim-snippets'
+    NeoBundle 'garbas/vim-snipmate'
 
     " AutoComplete
     NeoBundle 'Shougo/neocomplcache'
@@ -113,7 +113,7 @@
     set showmatch	                        " Highlight matching brace
     set smartindent	                        " Enable smart-indent
     set scrolloff=3                         " Lines above/below cursor
-    set wildignore=.bak,.pyc,.o,.ojb,.a,   " ignore said files
+    set wildignore=.bak,.pyc,.o,.ojb,.a,    " ignore said files
                     \.pdf,.jpg,.gif,.png,
                     \.avi,.mkv,.so
     set wildmenu                            " better auto complete
@@ -151,7 +151,7 @@
         set foldlevelstart=99               " folds open by default
     " Search and replace
         set gdefault                        " default s//g (global)
-        set incsearch                       " "live"-search
+        set incsearch                       " 'live'-search
         set hlsearch	                    " Highlight all search results
         set smartcase	                    " Enable smart-case search
         set ignorecase	                    " Always case-insensitive
@@ -177,7 +177,7 @@
     set shiftround                          " be clever with tabs
     set shiftwidth=4	                    " Number of auto-indent spaces, default 8
     set smarttab                            " tab to 0,4,8 etc.
-    set softtabstop=4                       " "tab" feels like <tab>
+    set softtabstop=4                       " 'tab' feels like <tab>
     set tabstop=4                           " replace <TAB> w/4 spaces
     """ Only auto-comment newline for block comments 
         au FileType c,cpp setlocal comments -=:// comments +=f://
@@ -235,7 +235,7 @@
 
     " Remap <leader>
     let mapleader=","
-    "
+
     " Toggle text wrapping
     nmap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
 
@@ -243,27 +243,23 @@
     nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
     vnoremap <Space> zf
 
-    "Moving between splits for noobs"
+    " Moving between splits with arrow keys. I chose arrows because it is a rarely used feature.
     nmap <silent> <A-Up> :wincmd k<CR>
     nmap <silent> <A-Down> :wincmd j<CR>
     nmap <silent> <A-Left> :wincmd h<CR>
     nmap <silent> <A-Right> :wincmd l<CR>
 
-    "External yanking and pasting using clipboard
+    " External yanking and pasting using clipboard. Only works in GVIM
     nnoremap <A-y> "+y
     vnoremap <A-y> "+y
     nnoremap <A-p> "+gP
     vnoremap <A-p> "+gP
 
-    "Toggle the NERDTree file browser
+    " Toggle the NERDTree file browser
     map <F2> :NERDTreeToggle<CR>  
 
-    "toggle backgroundcolor
+    " Toggle light-dark background
     call togglebg#map("<F7>")
-
-    " Mappings to open multiple lines and enter insert mode.
-    nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>S
-    nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>S
 
     " Move faster
     map <C-Down> <C-d>
@@ -290,10 +286,20 @@
     nnoremap gd :bdelete<CR>
     nnoremap gf <C-^>
 
-    " Toggle syntax highlighting
+    " Toggle tagbar (definitions, functions etc.)
+    map <F1> :TagbarToggle<CR>
+
+    " Toggle Autopairing tags like (
+    let g:AutoPairsShortcutToggle = '<F3>'
+
+    " Mappings to open multiple lines and enter insert mode. // function defined later on
+    nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>S
+    nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>S
+
+    " Toggle syntax highlighting // function defined later on
     nnoremap <F4> :call ToggleSyntaxHighLighting()<CR>
 
-    "Split headers & source files in cpp
+    " Open corresponding .cpp or .h file  // function defined later on
     nnoremap <leader>sp :call SplitSource()<CR>
     
     " Toggle Overlength // function defined later on
@@ -302,20 +308,11 @@
     " Toggle RelativeNumbers // function defined later on
     nnoremap <leader>r :call NumberToggle()<CR>
 
-    " Call Deletemultipleemptylines //function defined later on
+    " Call Deletemultipleemptylines // function defined later on
     nnoremap <leader>ld :call DeleteMultipleEmptyLines()<CR>
-
-    " Toggle tagbar (definitions, functions etc.)
-    map <F1> :TagbarToggle<CR>
-
-    " Toggle Autopairing tags like (
-    let g:AutoPairsShortcutToggle = '<F3>'
 
 "" Plugin Configuration
 
-    " Remove trailing whitespace after moving a block. 
-    let g:DVB_TrimWS = 1
-    
     " NERDTree Positioning
     let g:NERDTreeWinPos = "left"
     let g:NERDTreeHijackNetrw = 1  
@@ -332,15 +329,15 @@
     " would be unsafe to use if you find yourself using many pieces of perl code not written by yourself 
     " it actually excecutes some code without thinking everytime you run a syntax check on it
     let g:syntastic_cpp_check_header = 1
+    let g:syntastic_cpp_compiler_options = ' -std=c++11'
     let g:syntastic_enable_perl_checker = 1
     let g:syntastic_perl_checkers = ['perl']
-    let g:syntastic_cpp_compiler_options = ' -std=c++11'
     let g:syntastic_mode_map = {
         \ 'mode': 'passive',
         \ 'active_filetypes':
             \ ['js', 'cpp', 'php', 'perl', 'python'] }
 
-    " Automatically remove preview window after autocomplete (mainly for clang_complete)
+    " Automatically remove preview window after autocomplete (mainly for NeoComplete)
     autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
     autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
@@ -484,7 +481,7 @@
     " Use smartcase.
     let g:neocomplcache_enable_smart_case = 1
     " Set minimum syntax keyword length.
-    let g:neocomplcache_min_syntax_length = 3330
+    let g:neocomplcache_min_syntax_length = 4
     " Use camel case completion.
     let g:neocomplcache_enable_camel_case_completion = 1
     " Define dictionary.
@@ -551,7 +548,7 @@
             endif
         endfunction
 
-    " Highlight characters past 79, toggle with <leader>h
+    " Highlight characters past 85 characters 
         let g:overlength_enabled = 0
         highlight OverLength ctermbg=181 guibg=MistyRose1
 
@@ -567,7 +564,7 @@
             endif
         endfunction
 
-    " Toggle relativenumber using <leader>r 
+    " Toggle relativenumber
         function! NumberToggle()
             if(&rnu== 1)
                 set nornu
@@ -576,7 +573,7 @@
             endif
         endfunction
         
-    " Toggle Syntax highlighting using <F4>
+    " Toggle syntax highlighting
         function! ToggleSyntaxHighLighting()
             if exists("g:syntax_on")
                 syntax off
@@ -615,9 +612,7 @@
         endfunction
 
 
-"If you would like to costumize this vimconfiguration and still be able to just pull updates
-"from the repository you can manually create the file mentioned below and add your personal 
-"additions. Beware that this will override options if you are not carefull. 
+    " Attempt to include external file with personal extra configurations
     if filereadable($HOME."/.vimrc_personal")
         source $HOME/.vimrc_personal
     endif 
