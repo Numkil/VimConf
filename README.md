@@ -1,15 +1,17 @@
 VimConf
 =======
-This vimconf was made for my personal use and has been compiled from various other public vimrc's, I
-am Uploading this here for safekeeping.
-If you are looking to use someones vimconf and maybe do a little changes I suggest going for the
-more well known ones like timss/vimconf, those are more suited to add your own things and
-probably more updated.
-But ofcourse if you happen to stumble on here or you are one of my colleagues you can use and edit this code as much as you want.
+This vimconf was made for my personal use and is a collage of small parts from various 
+other public vimrc's added to with my own preferences.
+I am perfectly happy with anyone copying and using any part of the code written
+here, as I also copied it from other sources.
+Using this .vimrc without reading it or making any changes however is not a
+good idea. There are other .vimrc's more suited for this (Timss/vimconf is a
+good example) and even then it is better to also make your own decisions.
 
-* Installs itself
-* I've tried to comment every single option
-* Autocomplete, syntax checker, plugin manager, file browser and much more
+* Complete automated installion. As in 2 commands only.
+* I strived to comment every single option as much as possible and keep the
+  code clean. 
+* Autocomplete, syntax checker, plugin manager, git wrapper, file browser and much more
 
 Installation
 ------------
@@ -17,22 +19,24 @@ Installation
 
     clang, ctags, git, gcc, gcc-c++
 
-**advice:** I strongly advice to use a terminal emulator that supports 256 colors if you
-want to benefit from the amazingly researched solarized colorscheme, personally I prefer using Gvim
-because it makes copying from different sources and using colourschemes a hell of a lot more straightforward.
+**advice:** I strongly advice using a terminal emulator that supports 256 colors if you
+want to benefit from the amazing solarized colorscheme, Terminator
+is in my opinion the easiest to set up. Gvim also works straight out of the box
+and supports copying from the clipboard. My advice is to have both ready so you
+can use whatever suits the current use case best.
 
 **Instructions:**
 
     git clone https://github.com/Numkil/VimConf.git
-    ln -s /pathTowhereyoucloned/VimConf/.vimrc ~/.vimrc
+    ln -s /PathToWhereYouCloned/VimConf/.vimrc ~/.vimrc
 
 Running vim with this .vimrc will cause it to automatically install Vundle and a bunch of plugins. (I
 hope)
 
 **Making your own configurations:** This is possible through manually creating a file called
 .vimrc_personal in your home folder. You can there add stuff that won't be overwritten when pulling in
-the latest version of this config. Beware though that this will override settings if you are not
-carefull. 
+the latest version of this .vimrc. Since this will be called last it can and
+will override options defined earlier on. Handle it with thought. 
 
 Preview
 -------
