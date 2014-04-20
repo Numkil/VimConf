@@ -46,6 +46,8 @@ Preview
 TODO
 ----
 * Changing background colour with f7 kills overlength.
+* Try out UltiSnips instead of NeoSnippet to see if there are any worthwhile
+  improvements.
 * Keep up to date with new stuff I find.
 
 Credits
