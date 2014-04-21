@@ -475,7 +475,6 @@
             SyntasticCheck
             call lightline#update()
         endfunction
-
     " }}}
 
     " NeoSnippet!
@@ -535,7 +534,6 @@
 
     " Tell Neosnippet about the other snippets
     let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-
 
 "" Functions
 
