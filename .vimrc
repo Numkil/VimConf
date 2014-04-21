@@ -354,7 +354,8 @@
             \ ''
             \ ]
     
-    " Lightline // No credits taken for the whole Lightline part! {{{ 
+    " Lightline and bufferline configuration 
+        set ttimeoutlen=50 " Make bufferline leave insert mode more quickly
         let g:lightline = {
             \ 'colorscheme': 'solarized',
             \ 'active': {
@@ -474,6 +475,7 @@
             SyntasticCheck
             call lightline#update()
         endfunction
+
     " }}}
 
     " NeoSnippet!
