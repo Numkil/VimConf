@@ -313,6 +313,9 @@
 
 "" Plugin Configuration
 
+    " Setting indentline to speedmode
+    let g:indentLine_faster = 1
+
     " NERDTree Positioning
     let g:NERDTreeWinPos = "left"
     let g:NERDTreeHijackNetrw = 1  
