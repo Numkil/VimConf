@@ -204,8 +204,9 @@
 
 "" Advanced Built-in Settings
 
-    set ruler	" Show row and column ruler information
-    set undolevels=1000	" Number of undo levels
+    set ruler	                                       " Show row and column ruler information
+    set undolevels=1000	                               " Number of undo levels
+    set timeout timeoutlen=1000 ttimeoutlen=100        " Fluid ESC and other keycodes
 
     " Colorscheme
     set background=light
@@ -355,7 +356,6 @@
             \ ]
     
     " Lightline and bufferline configuration 
-        set ttimeoutlen=50 " Make bufferline leave insert mode more quickly
         let g:lightline = {
             \ 'colorscheme': 'solarized',
             \ 'active': {
