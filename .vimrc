@@ -75,10 +75,9 @@
     NeoBundle 'mhinz/vim-startify'
 
     " Awesome syntax checker.
-    " Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro
-    " Also please do check the configurations I did to syntastic later down the code
-    " Most of these settings are way too personal for me to choose for you and you should change
-    " or overwrite them when needed.
+    " Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro.
+    " You are required if you want Syntastic to be actually useful to add your own configurations
+    " of this plugin to .vimrc_personal, as it is always a strictly personal setting. 
     NeoBundle 'scrooloose/syntastic'
 
     " Displays a list of classes/functions/variabels in the file
@@ -325,21 +324,6 @@
     let g:tagbar_left = 0
     let g:tagbar_width = 30
     set tags=tags;/
-
-    " Syntastic - This is just a personal preference of mine that often changes.
-    " You should not just take over these settings. Syntastic is extremely powerfull when configured
-    " to fit your own needs. 
-    " You might want to disable the 2 commands regarding to perl because they
-    " would be unsafe to use if you find yourself using many pieces of perl code not written by yourself 
-    " it actually excecutes some code without thinking everytime you run a syntax check on it
-    let g:syntastic_cpp_check_header = 1
-    let g:syntastic_cpp_compiler_options = ' -std=c++11'
-    let g:syntastic_enable_perl_checker = 1
-    let g:syntastic_perl_checkers = ['perl']
-    let g:syntastic_mode_map = {
-        \ 'mode': 'passive',
-        \ 'active_filetypes':
-            \ ['js', 'cpp', 'php', 'perl', 'python'] }
 
     " Automatically remove preview window after autocomplete (mainly for NeoComplete)
     autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
