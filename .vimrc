@@ -586,10 +586,10 @@
             let s:fname = expand("%:t:r")
             if expand("%:e") == "h"
                 set nosplitright
-                exe "vsplit" fnameescape("../sources/" . s:fname . ".cpp")
+                exe "vsplit" fnameescape(s:fname . ".cpp")
                 set splitright
             elseif expand("%:e") == "cpp"
-                exe "vsplit" fnameescape("../headers/" . s:fname . ".h")
+                exe "vsplit" fnameescape(s:fname . ".h")
             endif
         endfunction
 
