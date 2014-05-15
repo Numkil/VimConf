@@ -31,6 +31,9 @@
     " Recursive NeoBundle so it can self-update
     NeoBundleFetch 'Shougo/neobundle.vim' 
 
+    " Advanced Undo solution 
+    NeoBundle 'sjl/gundo.vim'
+    
     " A file tree explorer
     NeoBundle 'scrooloose/nerdtree'
 
@@ -289,8 +292,11 @@
     " Toggle tagbar (definitions, functions etc.)
     map <F1> :TagbarToggle<CR>
 
+    " Toggle Gundo panel
+    nnoremap <f3> :GundoToggle<CR>
+
     " Toggle Autopairing tags like (
-    let g:AutoPairsShortcutToggle = '<F3>'
+    let g:AutoPairsShortcutToggle = '<F8>'
 
     " Mappings to open multiple lines and enter insert mode. // function defined later on
     nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>S
@@ -320,10 +326,15 @@
     let g:NERDTreeWinPos = "left"
     let g:NERDTreeHijackNetrw = 1  
 
-    " TagBar
+    " TagBar Positioning
     let g:tagbar_left = 0
     let g:tagbar_width = 30
     set tags=tags;/
+
+    " Gundo Positioning
+    let g:gundo_width = 35
+    let g:gundo_preview_height = 20
+    let g:gundo_right = 0
 
     " Automatically remove preview window after autocomplete (mainly for NeoComplete)
     autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
