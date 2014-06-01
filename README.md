@@ -8,7 +8,7 @@ Using this .vimrc without reading it or making any changes however is not a
 good idea. There are other .vimrc's more suited for this (Timss/vimconf is a
 good example) and even then it is better to also make your own decisions.
 
-* Complete automated installion. As in 2 commands only.
+* Complete automated installation. As in 2 commands only.
 * I strived to comment every single option as much as possible and keep the
   code clean. 
 * Autocomplete, syntax checker, plugin manager, git wrapper, file browser and much more
