@@ -10,7 +10,7 @@
 "------------------------------------------------------------------"
 
     set nocompatible "this vimconf is not vi-compatible
-    call system("mkdir -p $HOME/.vim/{plugin,undo}")
+    call system("mkdir -p $HOME/.vim/{privatesnips,undo}")
 "" NeoBundle plugin manager
     "Automatically setting up NeoBundle, taken from
     "http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
@@ -87,14 +87,15 @@
     " REQUIREMENTS: (exuberant)-ctags
     NeoBundle 'majutsushi/tagbar'
 
-    " 3 big snippet libraries
-    NeoBundle 'Shougo/neosnippet'
-    NeoBundle 'Shougo/neosnippet-snippets'
+    " Snippet engine and library
+    NeoBundle 'SirVer/ultisnips'
     NeoBundle 'honza/vim-snippets'
-    NeoBundle 'garbas/vim-snipmate'
 
     " AutoComplete
     NeoBundle 'Shougo/neocomplcache'
+
+    " Temporarily patch to bind ultisnips and neocompl
+    NeoBundle 'JazzCore/neocomplcache-ultisnips'
 
     " Misc. plugins
     NeoBundle 'MarcWeber/vim-addon-mw-utils'
@@ -472,7 +473,7 @@
         endfunction
     " }}}
 
-    " NeoComplete and NeoSnippet configurations {{{
+    " NeoComplete configurations {{{
         let g:acp_enableAtStartup = 0                           " Disable AutoComplPop.
         let g:neocomplcache_enable_at_startup = 1               " Use neocomplcache.
         let g:neocomplcache_enable_smart_case = 1               " Use smartcase.
@@ -506,24 +507,13 @@
         let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
         let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
         let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::' 
-
-        " SuperTab like snippets behavior.
-        imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-        \ "\<Plug>(neosnippet_expand_or_jump)"
-        \: pumvisible() ? "\<C-n>" : "\<TAB>"
-        smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-        \ "\<Plug>(neosnippet_expand_or_jump)"
-        \: "\<TAB>"
-
-        " For snippet_complete marker.
-        if has('conceal')
-            set conceallevel=2 concealcursor=i
-        endif 
-
-        " Tell NeoSnippet about snipmate and other snippets
-        let g:neosnippet#enable_snipmate_compatibility = 1
-        let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
     " }}}
+    
+    " UltiSnips
+        let g:UltiSnipsSnippetsDir="~/.vim/privatesnips"
+        let g:UltiSnipsExpandTrigger="<tab>"
+        let g:UltiSnipsJumpForwardTrigger="<c-b>"
+        let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "" Functions
 
