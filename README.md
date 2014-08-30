@@ -17,7 +17,7 @@ Installation
 ------------
 **Required packages:** 
 
-    clang, ctags, git, vim compiled with python support
+    clang, ctags, git, vim compiled with python, and lua support
 
 **advice:** I strongly advice using a terminal emulator that supports 256 colors if you
 want to benefit from the amazing solarized colorscheme, Terminator
