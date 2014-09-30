@@ -98,11 +98,10 @@
     NeoBundle 'MarcWeber/vim-addon-mw-utils'
     NeoBundle 'tomtom/tlib_vim'
 
-    " Installing plugins the first time 
+    " Installing plugins the first time then shuts down
     if has_neobundle == 0
-        echo "Installing Bundles, please ignore key map error messages"
-        echo ""
-        NeoBundleCheck
+        :silent! NeoBundleCheck
+        :qa
     endif
 
 "" General Built-in Settings
@@ -341,7 +340,8 @@
     " Startify Layout Configuration
     let g:ctrlp_reuse_window = 'startify' " don't split in startify
     let g:startify_bookmarks = [
-            \ $HOME . "/.vimrc" 
+            \ $HOME . "/.vimrc" ,
+            \ $HOME . "/.vimrc_personal",
             \ ]
     let g:startify_custom_header = [
             \ '   Author:      Kevin Jossart',
