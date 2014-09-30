@@ -100,7 +100,7 @@
 
     " Installing plugins the first time then shuts down
     if has_neobundle == 0
-        :silent! NeoBundleCheck
+        NeoBundleCheck
         :qa
     endif
 
@@ -303,7 +303,7 @@
     nnoremap <F4> :call ToggleSyntaxHighLighting()<CR>
 
     " Open corresponding .cpp or .h file  // function defined later on
-    nnoremap <leader>sp :call SplitSource()<CR>
+    nnoremap <leader>sp :call SplitSourceHeader()<CR>
     
     " Toggle Overlength // function defined later on
     nnoremap <leader>h :call ToggleOverLength()<CR>
@@ -583,7 +583,7 @@
                     \BufWritePre <buffer> :call <SID>StripTrailingWhitespace()
 
     " Split to relative header/source
-        function SplitSource()
+        function! SplitSourceHeader()
             let s:fname = expand("%:t:r")
             if expand("%:e") == "h"
                 set nosplitright
