@@ -25,7 +25,7 @@
     "Initialize NeoBundle
         filetype off                                " required to init
         set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
-        call neobundle#rc(expand($HOME.'/.vim/bundle/'))
+        call neobundle#begin(expand($HOME.'/.vim/bundle/'))
 "" Bundle's
 
     " Recursive NeoBundle so it can self-update
@@ -97,6 +97,8 @@
     " Misc. plugins
     NeoBundle 'MarcWeber/vim-addon-mw-utils'
     NeoBundle 'tomtom/tlib_vim'
+
+    call neobundle#end()
 
     " Installing plugins the first time then shuts down
     if has_neobundle == 0
