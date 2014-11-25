@@ -40,10 +40,7 @@
     " Indentation guides for vim
     NeoBundle 'Yggdroot/indentLine'
 
-    " PHP indenting (html enhanced)
-    NeoBundle 'vim-scripts/php.vim-html-enhanced'
-
-    " Light colourscheme for vim
+    " Light and dark colourscheme for vim
     NeoBundle 'altercation/vim-colors-solarized'
     
     " Edit files using sudo/su
@@ -56,7 +53,7 @@
     NeoBundle 'itchyny/lightline.vim'
     NeoBundle 'bling/vim-bufferline'
     
-    " Closes ( or " etc.
+    " Closes ( or ' etc.
     NeoBundle 'jiangmiao/auto-pairs'
 
     " Git wrapper inside Vim
@@ -97,6 +94,12 @@
     " Misc. plugins
     NeoBundle 'MarcWeber/vim-addon-mw-utils'
     NeoBundle 'tomtom/tlib_vim'
+
+    " scala
+    NeoBundle 'derekwyatt/vim-scala'
+    
+    " PHP indenting (html enhanced)
+    NeoBundle 'vim-scripts/php.vim-html-enhanced'
 
     call neobundle#end()
 
@@ -187,11 +190,16 @@
 
     filetype plugin indent on                           " detect file plugin+indent
     syntax on                                           " syntax highlighting
-    set t_Co=256                                        " 256-colors
     au BufNewFile,BufRead *.txt se ft=sh tw=79          " opens .txt w/highlight
     au BufNewFile,BufRead *.tex se ft=tex tw=79         " No plaintex
     au BufNewFile,BufRead *.md se ft=markdown tw=79     " markdown opened w/highlight
-        "" Custom highlighting, where NONE uses terminal background
+        "Only force 256 colors on select terminals, other terminals need to be configured
+        "outside of vim to correctly diplay these colors
+            if (&term =~ "xterm") || (&term =~ "screen")
+                set t_Co=256
+            endif
+
+        " Custom highlighting, where NONE uses terminal background
             function! CustomHighlighting()
                 highlight Normal ctermbg=NONE
                 highlight nonText ctermbg=NONE
@@ -201,7 +209,7 @@
             endfunction
 
             call CustomHighlighting()
-        ""
+        "
 
 "" Advanced Built-in Settings
 
@@ -210,7 +218,7 @@
     set timeout timeoutlen=1000 ttimeoutlen=100        " Fluid ESC and other keycodes
 
     " Colorscheme
-    set background=light
+    set background=dark
     colorscheme solarized
 
     " Disabling Flashbell in cli and gui
