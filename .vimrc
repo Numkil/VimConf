@@ -171,7 +171,7 @@
         set nobackup                        " disable backups
         set updatecount=50                  " update swp after 50chars
 
-" Text formatting
+"" Text formatting
 
     set autoindent	                        " Auto-indent new lines
     set backspace=indent,eol,start          " smart backspace
@@ -183,33 +183,39 @@
     set smarttab                            " tab to 0,4,8 etc.
     set softtabstop=4                       " 'tab' feels like <tab>
     set tabstop=4                           " replace <TAB> w/4 spaces
-    """ Only auto-comment newline for block comments 
-        au FileType c,cpp setlocal comments -=:// comments +=f://
+    " Only auto-comment newline for block comments 
+    augroup AutoBlockComment
+        autocmd! FileType c,cpp setlocal comments -=:// comments +=f://
+    augroup END
 
 "" Syntax highlighting
 
     filetype plugin indent on                           " detect file plugin+indent
     syntax on                                           " syntax highlighting
-    au BufNewFile,BufRead *.txt se ft=sh tw=79          " opens .txt w/highlight
-    au BufNewFile,BufRead *.tex se ft=tex tw=79         " No plaintex
-    au BufNewFile,BufRead *.md se ft=markdown tw=79     " markdown opened w/highlight
+    
+        ".txt w/highlight, plaintext is useless, markdown for .md
+        augroup FileTypeRules
+            autocmd!
+            autocmd BufNewFile,BufRead *.txt se ft=sh tw=79          " opens .txt w/highlight
+            autocmd BufNewFile,BufRead *.tex se ft=tex tw=79         " No plaintex
+            autocmd BufNewFile,BufRead *.md se ft=markdown tw=79     " markdown opened w/highlight
+        augroup END
+
         "Only force 256 colors on select terminals, other terminals need to be configured
         "outside of vim to correctly diplay these colors
-            if (&term =~ "xterm") || (&term =~ "screen")
-                set t_Co=256
-            endif
+        if (&term =~ "xterm") || (&term =~ "screen")
+            set t_Co=256
+        endif
 
         " Custom highlighting, where NONE uses terminal background
-            function! CustomHighlighting()
-                highlight Normal ctermbg=NONE
-                highlight nonText ctermbg=NONE
-                highlight LineNr ctermbg=NONE
-                highlight SignColumn ctermbg=NONE
-                highlight CursorLine ctermbg=235
-            endfunction
-
-            call CustomHighlighting()
-        "
+        function! CustomHighlighting()
+            highlight Normal ctermbg=NONE
+            highlight nonText ctermbg=NONE
+            highlight LineNr ctermbg=NONE
+            highlight SignColumn ctermbg=NONE
+            highlight CursorLine ctermbg=235
+        endfunction
+        call CustomHighlighting()
 
 "" Advanced Built-in Settings
 
@@ -224,14 +230,18 @@
     " Disabling Flashbell in cli and gui
     set noerrorbells visualbell t_vb=
     if has('autocmd')
-        autocmd GUIEnter * set visualbell t_vb=
+        augroup NoVisualBell
+            autocmd! GUIEnter * set visualbell t_vb=
+        augroup END
     endif
 
     "Return to last edit position when opening files
-    autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \     exe "normal! g`\"" |
-        \ endif
+    augroup LastPosition
+        autocmd! BufReadPost *
+            \ if line("'\"") > 0 && line("'\"") <= line("$") |
+            \     exe "normal! g`\"" |
+            \ endif
+    augroup END
 
     " Persistent undo. Requires Vim 7.3
         if has('persistent_undo') && exists("&undodir")
@@ -344,8 +354,11 @@
     let g:gundo_right = 0
 
     " Automatically remove preview window after autocomplete (mainly for NeoComplete)
-    autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-    autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+    augroup RemovePreview
+        autocmd!
+        autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+        autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+    augroup END
 
     " Startify Layout Configuration
     let g:ctrlp_reuse_window = 'startify' " don't split in startify
@@ -504,11 +517,14 @@
         let g:neocomplete#keyword_patterns['default'] = '\h\w*'
         
         " Enable omni completion.
-        autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-        autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-        autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-        autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+        augroup OmniCompletion
+            autocmd!
+            autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+            autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+            autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+            autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+            autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+        augroup END
 
         " Enable heavy omni completion.
         if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -589,8 +605,11 @@
             call cursor(l, c)
         endfunction
 
-        autocmd FileType c,cpp,css,html,perl,php,python,java,sh autocmd 
-                    \BufWritePre <buffer> :call <SID>StripTrailingWhitespace()
+        augroup StripTrailingWhiteSpace
+            autocmd!
+            autocmd FileType c,cpp,css,html,perl,php,python,java,sh autocmd
+                        \ BufWritePre <buffer> :call <SID>StripTrailingWhitespace()
+        augroup END
 
     " Split to relative header/source
         function! SplitSourceHeader()
