@@ -117,9 +117,10 @@
     set showmatch	                        " Highlight matching brace
     set smartindent	                        " Enable smart-indent
     set scrolloff=3                         " Lines above/below cursor
-    set wildignore=.bak,.pyc,.o,.ojb,.a,    " ignore said files
-                    \.pdf,.jpg,.gif,.png,
-                    \.avi,.mkv,.so
+    set wildignore=*.bak,*.pyc,*.o,*.ojb,   " ignore said files
+                    \*.a,*.pdf,*.jpg,*.gif,
+                    \*.avi,*.mkv,*.so,*.png,
+                    \*.swp, *.git
     set wildmenu                            " better auto complete
     set wildmode=longest,list               " bash-like auto complete
     set guifont=DejaVu\ Sans\ Mono\ 9
@@ -597,7 +598,7 @@
             g/^\_$\n\_^$/d
         endfunction
    
-    " Strip trailing whitespace, return to cursors at save 
+    " Strip trailing whitespace, return to cursor at save 
         function! <SID>StripTrailingWhitespace()
             let l = line(".")
             let c = col(".")
