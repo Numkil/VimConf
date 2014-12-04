@@ -36,7 +36,8 @@ hope)
 **Making your own configurations:** This is possible through manually creating a file called
 .vimrc_personal in your home folder. You can there add stuff that won't be overwritten when pulling in
 the latest version of this .vimrc. Since this will be called last it can and
-will override options defined earlier on. Handle it with thought. 
+will override options defined earlier on. Handle it with thought. Language
+specific plugins or extra plugins you want go into .vimrc_plugins
 
 Preview
 -------

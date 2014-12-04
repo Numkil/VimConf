@@ -95,11 +95,10 @@
     NeoBundle 'MarcWeber/vim-addon-mw-utils'
     NeoBundle 'tomtom/tlib_vim'
 
-    " scala
-    NeoBundle 'derekwyatt/vim-scala'
-    
-    " PHP indenting (html enhanced)
-    NeoBundle 'vim-scripts/php.vim-html-enhanced'
+    " Language Specific plugins go into this file
+    if filereadable($HOME."/.vimrc_plugins")
+        source $HOME/.vimrc_plugins
+    endif 
 
     call neobundle#end()
 
@@ -366,6 +365,7 @@
     let g:startify_bookmarks = [
             \ $HOME . "/.vimrc" ,
             \ $HOME . "/.vimrc_personal",
+            \ $HOME . "/.vimrc_plugins",
             \ ]
     let g:startify_custom_header = [
             \ '   Author:      Kevin Jossart',
