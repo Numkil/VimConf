@@ -257,7 +257,7 @@
     let mapleader=","
 
     " Toggle text wrapping
-    nmap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
+    nnoremap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
 
     " Toggle folding
     nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
@@ -269,8 +269,6 @@
     nnoremap <A-p> "+gP
     vnoremap <A-p> "+gP
 
-    " Toggle the NERDTree file browser
-    map <F2> :NERDTreeToggle<CR>  
 
     " Toggle light-dark background
     call togglebg#map("<F7>")
@@ -301,10 +299,10 @@
     map <Down> :echo "Error: cannot find Notepad.exe"<cr>
 
     " Convenient moving from split to split
-    nmap <silent> <C-k> :wincmd k<CR>
-    nmap <silent> <C-j> :wincmd j<CR>
-    nmap <silent> <C-h> :wincmd h<CR>
-    nmap <silent> <C-l> :wincmd l<CR>
+    nnoremap <silent> <C-k> :wincmd k<CR>
+    nnoremap <silent> <C-j> :wincmd j<CR>
+    nnoremap <silent> <C-h> :wincmd h<CR>
+    nnoremap <silent> <C-l> :wincmd l<CR>
     
     " Navigating through buffers
     nnoremap gn :bnext<CR>
@@ -313,13 +311,22 @@
     nnoremap gf <C-^>
 
     " Toggle tagbar (definitions, functions etc.)
-    map <F1> :TagbarToggle<CR>
+    nnoremap <F1> :TagbarToggle<CR>
+
+    " Toggle the NERDTree file browser
+    nnoremap <F2> :NERDTreeToggle<CR>  
 
     " Toggle Gundo panel
     nnoremap <f3> :GundoToggle<CR>
 
     " Toggle Autopairing tags like (
     let g:AutoPairsShortcutToggle = '<F8>'
+
+    " Fugitive shortcuts
+    "nnoremap :gs :Gstatus<cr>
+    "nnoremap :gw :Gwrite<cr>
+    "nnoremap :gd :Gdiff<cr>
+    "nnoremap :gc :Gcommit<cr>
 
     " Mappings to open multiple lines and enter insert mode. // function defined later on
     nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>S
