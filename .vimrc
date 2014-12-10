@@ -263,12 +263,6 @@
     nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
     vnoremap <Space> zf
 
-    " Moving between splits with arrow keys. I chose arrows because it is a rarely used feature.
-    nmap <silent> <A-Up> :wincmd k<CR>
-    nmap <silent> <A-Down> :wincmd j<CR>
-    nmap <silent> <A-Left> :wincmd h<CR>
-    nmap <silent> <A-Right> :wincmd l<CR>
-
     " External yanking and pasting using clipboard. Only works in GVIM
     nnoremap <A-y> "+y
     vnoremap <A-y> "+y
@@ -300,7 +294,19 @@
     " Disable annoying ex mode (Q)
     map Q <nop>
 
-    " Buffers, preferred over tabs now with bufferline. Buggy?
+    " Force vim intented usage
+    map <Left> :echo "Error: cannot find Notepad.exe"<cr>
+    map <Right> :echo "Error: cannot find Notepad.exe"<cr>
+    map <Up> :echo "Error: cannot find Notepad.exe"<cr>
+    map <Down> :echo "Error: cannot find Notepad.exe"<cr>
+
+    " Convenient moving from split to split
+    nmap <silent> <C-k> :wincmd k<CR>
+    nmap <silent> <C-j> :wincmd j<CR>
+    nmap <silent> <C-h> :wincmd h<CR>
+    nmap <silent> <C-l> :wincmd l<CR>
+    
+    " Navigating through buffers
     nnoremap gn :bnext<CR>
     nnoremap gN :bprevious<CR>
     nnoremap gd :bdelete<CR>
