@@ -37,6 +37,9 @@
     " A file tree explorer
     NeoBundle 'scrooloose/nerdtree'
 
+    " A fuzzy file finder
+    NeoBundle 'kien/ctrlp.vim'
+
     " Indentation guides for vim
     NeoBundle 'Yggdroot/indentLine'
 
@@ -116,10 +119,11 @@
     set showmatch	                        " Highlight matching brace
     set smartindent	                        " Enable smart-indent
     set scrolloff=3                         " Lines above/below cursor
-    set wildignore=*.bak,*.pyc,*.o,*.ojb,   " ignore said files
+    set wildignore+=*.bak,*.pyc,*.o,*.ojb,   " ignore said files
                     \*.a,*.pdf,*.jpg,*.gif,
                     \*.avi,*.mkv,*.so,*.png,
-                    \*.swp, *.git
+                    \*.swp, *.git, *.mp3, *.pdf,
+                    \*.m4a
     set wildmenu                            " better auto complete
     set wildmode=longest,list               " bash-like auto complete
     set guifont=DejaVu\ Sans\ Mono\ 9
@@ -349,6 +353,14 @@
 
 "" Plugin Configuration
 
+    " Ignores for ctrlp -> wildignore does not work?!?
+    let g:ctrlp_custom_ignore = {
+      \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+      \ 'file': '\v\.(pdf|mp3|m4a|mkv|iso|zip|ogg|png|jpg|webm)$',
+      \ 'link': '',
+      \ }
+    let g:ctrlp_working_path_mode = 'ra'
+
     " Setting indentline to speedmode
     let g:indentLine_faster = 1
 
@@ -360,7 +372,7 @@
     let g:tagbar_left = 0
     let g:tagbar_width = 30
     set tags=tags;/
-
+    
     " Gundo Positioning
     let g:gundo_width = 35
     let g:gundo_preview_height = 20
@@ -407,6 +419,7 @@
             \     'mode'         : 'MyMode',
             \     'fugitive'     : 'MyFugitive',
             \     'readonly'     : 'MyReadonly',
+            \     'ctrlpmark'    : 'CtrlPMark',
             \     'bufferline'   : 'MyBufferline',
             \     'fileformat'   : 'MyFileformat',
             \     'fileencoding' : 'MyFileencoding',
@@ -459,6 +472,16 @@
             return &ft !~? 'help' && &readonly ? '≠' : ''
         endfunction
 
+        function! CtrlPMark()
+            if expand('%:t') =~ 'ControlP'
+                call lightline#link('iR'[g:lightline.ctrlp_regex])
+                return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
+                    \ , g:lightline.ctrlp_next], 0)
+            else
+                return ''
+            endif
+        endfunction
+
         function! MyBufferline()
             call bufferline#refresh_status()
             let b = g:bufferline_status_info.before
@@ -488,6 +511,23 @@
 
         function! MyFiletype()
             return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+        endfunction
+
+        let g:ctrlp_status_func = {
+            \ 'main': 'CtrlPStatusFunc_1',
+            \ 'prog': 'CtrlPStatusFunc_2',
+            \ }
+
+        function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
+            let g:lightline.ctrlp_regex = a:regex
+            let g:lightline.ctrlp_prev = a:prev
+            let g:lightline.ctrlp_item = a:item
+            let g:lightline.ctrlp_next = a:next
+            return lightline#statusline(0)
+        endfunction
+
+        function! CtrlPStatusFunc_2(str)
+            return lightline#statusline(0)
         endfunction
 
         let g:tagbar_status_func = 'TagbarStatusFunc'
