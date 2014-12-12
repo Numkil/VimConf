@@ -65,11 +65,11 @@
     " Easily manipulate surrounding characters
     NeoBundle 'tpope/vim-surround'
 
-    " Align your = etc.
-    NeoBundle 'vim-scripts/Align'
-
     " Easy... motions... yeah.
     NeoBundle 'Lokaltog/vim-easymotion'
+
+    "Smarter inline f and t commands
+    NeoBundle 'rhysd/clever-f.vim'
 
     " Super easy commenting, toggle comments etc
     NeoBundle 'scrooloose/nerdcommenter'
@@ -94,7 +94,7 @@
     " AutoComplete
     NeoBundle 'Shougo/neocomplete'
 
-    " Misc. plugins
+    " Misc. plugins TODO: Check if I still needs this or not
     NeoBundle 'MarcWeber/vim-addon-mw-utils'
     NeoBundle 'tomtom/tlib_vim'
 
@@ -360,6 +360,10 @@
       \ 'link': '',
       \ }
     let g:ctrlp_working_path_mode = 'ra'
+
+    " Clever-f preferences
+    let g:clever_f_across_no_line = 1
+    let g:clever_f_show_promt = 1
 
     " Setting indentline to speedmode
     let g:indentLine_faster = 1
