@@ -40,6 +40,9 @@
     " A fuzzy file finder
     NeoBundle 'kien/ctrlp.vim'
 
+    " Finding keywords inside files
+    NeoBundle 'rking/ag.vim'
+
     " Indentation guides for vim
     NeoBundle 'Yggdroot/indentLine'
 
@@ -326,6 +329,9 @@
     " Toggle Autopairing tags like (
     let g:AutoPairsShortcutToggle = '<F8>'
 
+    " :Ag
+    nnoremap <leader>a :Ag!
+
     " Fugitive shortcuts
     "nnoremap :gs :Gstatus<cr>
     "nnoremap :gw :Gwrite<cr>
@@ -360,6 +366,7 @@
       \ 'link': '',
       \ }
     let g:ctrlp_working_path_mode = 'ra'
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
     " Clever-f preferences
     let g:clever_f_across_no_line = 1
