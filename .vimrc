@@ -31,9 +31,6 @@
     " Recursive NeoBundle so it can self-update
     NeoBundleFetch 'Shougo/neobundle.vim' 
 
-    " Advanced Undo solution 
-    NeoBundle 'sjl/gundo.vim'
-    
     " A file tree explorer
     NeoBundle 'scrooloose/nerdtree'
 
@@ -43,42 +40,24 @@
     " Finding keywords inside files
     NeoBundle 'rking/ag.vim'
 
-    " Indentation guides for vim
-    NeoBundle 'Yggdroot/indentLine'
-
-    " Light and dark colourscheme for vim
-    NeoBundle 'altercation/vim-colors-solarized'
-    
-    " Edit files using sudo/su
-    NeoBundle 'chrisbra/SudoEdit.vim'
-
-    " <Tab> everything!
-    NeoBundle 'ervandew/supertab'
-
-    " A pretty statusline, bufferline integration
-    NeoBundle 'itchyny/lightline.vim'
-    NeoBundle 'bling/vim-bufferline'
-    
-    " Closes ( or ' etc.
-    NeoBundle 'jiangmiao/auto-pairs'
-
     " Git wrapper inside Vim
     NeoBundle 'tpope/vim-fugitive'
 
-    " Easily manipulate surrounding characters
-    NeoBundle 'tpope/vim-surround'
-
-    " Easy... motions... yeah.
-    NeoBundle 'Lokaltog/vim-easymotion'
-
-    "Smarter inline f and t commands
-    NeoBundle 'rhysd/clever-f.vim'
+    " Advanced Undo solution 
+    NeoBundle 'sjl/gundo.vim'
 
     " Super easy commenting, toggle comments etc
     NeoBundle 'scrooloose/nerdcommenter'
 
-    " A fancy start screen, shows MRU etc.
-    NeoBundle 'mhinz/vim-startify'
+    " Displays a list of classes/functions/variabels in the file
+    " REQUIREMENTS: (exuberant)-ctags
+    NeoBundle 'majutsushi/tagbar'
+
+    " Edit files using sudo/su
+    NeoBundle 'chrisbra/SudoEdit.vim'
+    
+    " <Tab> everything!
+    NeoBundle 'ervandew/supertab'
 
     " Awesome syntax checker.
     " Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro.
@@ -86,16 +65,37 @@
     " of this plugin to .vimrc_personal, as it is always a strictly personal setting. 
     NeoBundle 'scrooloose/syntastic'
 
-    " Displays a list of classes/functions/variabels in the file
-    " REQUIREMENTS: (exuberant)-ctags
-    NeoBundle 'majutsushi/tagbar'
-
     " Snippet engine and library
     NeoBundle 'SirVer/ultisnips'
     NeoBundle 'honza/vim-snippets'
 
     " AutoComplete
     NeoBundle 'Shougo/neocomplete'
+
+    " Easy... motions... yeah.
+    NeoBundle 'Lokaltog/vim-easymotion'
+
+    " Smarter inline f and t commands
+    NeoBundle 'rhysd/clever-f.vim'
+
+    " Indentation guides for vim
+    NeoBundle 'Yggdroot/indentLine'
+    
+    " Closes ( or ' etc.
+    NeoBundle 'jiangmiao/auto-pairs'
+
+    " Easily manipulate surrounding characters
+    NeoBundle 'tpope/vim-surround'
+
+    " A pretty statusline, bufferline integration
+    NeoBundle 'itchyny/lightline.vim'
+    NeoBundle 'bling/vim-bufferline'
+    
+    " Light and dark colourscheme for vim
+    NeoBundle 'altercation/vim-colors-solarized'
+
+    " A fancy start screen, shows MRU etc.
+    NeoBundle 'mhinz/vim-startify'
 
     " Misc. plugins TODO: Check if I still needs this or not
     NeoBundle 'MarcWeber/vim-addon-mw-utils'
