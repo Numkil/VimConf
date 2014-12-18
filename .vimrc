@@ -457,12 +457,13 @@
             let fname = expand('%:t')
             return fname == '__Tagbar__' ? 'Tagbar' :
                     \ fname == 'ControlP' ? 'CtrlP' :
+                    \ fname == '__Gundo\|NERD_tree' ? '' :
                     \ winwidth('.') > 60 ? lightline#mode() : ''
         endfunction
 
         function! MyFugitive()
             try
-                if expand('%:t') !~? 'Tagbar' && exists('*fugitive#head')
+                if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && exists('*fugitive#head')
                     let mark = '∓ '
                     let _ = fugitive#head()
                     return strlen(_) ? mark._ : ''
