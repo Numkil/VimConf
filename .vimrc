@@ -44,7 +44,7 @@
     NeoBundle 'tpope/vim-fugitive'
 
     " Advanced Undo solution 
-    NeoBundle 'sjl/gundo.vim'
+    NeoBundle 'simnalamburt/vim-mundo'
 
     " Super easy commenting, toggle comments etc
     NeoBundle 'scrooloose/nerdcommenter'
