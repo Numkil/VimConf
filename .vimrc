@@ -276,9 +276,8 @@
     nnoremap <A-p> "+gP
     vnoremap <A-p> "+gP
 
-
     " Toggle light-dark background
-    call togglebg#map("<F7>")
+    call togglebg#map("<F5>")
 
     " Move faster
     map <C-Down> <C-d>
@@ -327,7 +326,7 @@
     nnoremap <f3> :GundoToggle<CR>
 
     " Toggle Autopairing tags like (
-    let g:AutoPairsShortcutToggle = '<F8>'
+    let g:AutoPairsShortcutToggle = '<F6>'
 
     " :Ag
     nnoremap <leader>a :Ag!
@@ -556,6 +555,28 @@
         function! s:syntastic()
             SyntasticCheck
             call lightline#update()
+        endfunction
+
+        "Changing background color on the fly
+        augroup LightLineColorScheme
+            autocmd!
+            autocmd ColorScheme * call s:lightline_update()
+        augroup END
+    	function! s:lightline_update()
+            if !exists('g:loaded_lightline')
+                return
+            endif
+            try
+                if g:colors_name =~# 'wombat\|solarized\|landscape\|jellybeans\|Tomorrow'
+                    let g:lightline.colorscheme =
+                        \ substitute(substitute(g:colors_name, '-', '_', 'g'), '256.*', '', '') .
+                        \ (g:colors_name ==# 'solarized' ? '_' . &background : '')
+                    call lightline#init()
+                    call lightline#colorscheme()
+                    call lightline#update()
+                endif
+            catch
+            endtry
         endfunction
     " }}}
 
