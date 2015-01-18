@@ -276,9 +276,6 @@
     nnoremap <A-p> "+gP
     vnoremap <A-p> "+gP
 
-    " Toggle light-dark background
-    call togglebg#map("<F5>")
-
     " Move faster
     map <C-Down> <C-d>
     map <C-Up> <C-u>
@@ -315,19 +312,7 @@
     nnoremap gN :bprevious<CR>
     nnoremap gd :bdelete<CR>
     nnoremap gf <C-^>
-
-    " Toggle tagbar (definitions, functions etc.)
-    nnoremap <F1> :TagbarToggle<CR>
-
-    " Toggle the NERDTree file browser
-    nnoremap <F2> :NERDTreeToggle<CR>  
-
-    " Toggle Gundo panel
-    nnoremap <f3> :GundoToggle<CR>
-
-    " Toggle Autopairing tags like (
-    let g:AutoPairsShortcutToggle = '<F6>'
-
+    
     " :Ag
     nnoremap <leader>a :Ag!
 
@@ -338,17 +323,32 @@
     "nnoremap :gc :Gcommit<cr>
 
     " Mappings to open multiple lines and enter insert mode. // function defined later on
-    nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>S
-    nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>S
-
-    " Toggle syntax highlighting // function defined later on
-    nnoremap <F4> :call ToggleSyntaxHighLighting()<CR>
+    nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>
+    nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>
 
     " Open corresponding .cpp or .h file  // function defined later on
     nnoremap <leader>sp :call SplitSourceHeader()<CR>
     
     " Toggle Overlength // function defined later on
     nnoremap <leader>h :call ToggleOverLength()<CR>
+
+    " Toggle tagbar (definitions, functions etc.)
+    nnoremap <F1> :TagbarToggle<CR>
+
+    " Toggle the NERDTree file browser
+    nnoremap <F2> :NERDTreeToggle<CR>  
+
+    " Toggle Gundo panel
+    nnoremap <f3> :GundoToggle<CR>
+
+    " Toggle syntax highlighting // function defined later on
+    nnoremap <F4> :call ToggleSyntaxHighLighting()<CR>
+
+    " Toggle light-dark background
+    nnoremap <F5> :call BackgroundToggle()<CR>
+
+    " Toggle Autopairing tags like (
+    let g:AutoPairsShortcutToggle = '<F6>'
 
     " Toggle RelativeNumbers // function defined later on
     nnoremap <leader>r :call NumberToggle()<CR>
@@ -646,9 +646,9 @@
 
     " Highlight characters past 85 characters 
         let g:overlength_enabled = 0
-        highlight OverLength ctermbg=181 guibg=MistyRose1
 
         function! ToggleOverLength()
+        highlight OverLength ctermbg=181 guibg=MistyRose1
             if g:overlength_enabled == 0
                 match OverLength /\%85v.*/
                 let g:overlength_enabled = 1
@@ -660,6 +660,14 @@
             endif
         endfunction
 
+    " Overlength sometimes need repainting after messing around with the colorscheme
+        function! RepaintOverLength()
+        highlight OverLength ctermbg=181 guibg=MistyRose1
+            if g:overlength_enabled == 1
+                match OverLength /\%85v.*/
+            endif
+        endfunction
+
     " Toggle relativenumber
         function! NumberToggle()
             if(&rnu== 1)
@@ -668,6 +676,15 @@
                 set rnu
             endif
         endfunction
+
+    " Toggle between dark and light background
+        function! BackgroundToggle()
+            let &background = ( &background == "dark"?"light" : "dark")
+            if exists("g:colors_name")
+                exe "colorscheme " . g:colors_name
+            endif
+            call RepaintOverLength()
+        endfunction
         
     " Toggle syntax highlighting
         function! ToggleSyntaxHighLighting()
@@ -675,8 +692,9 @@
                 syntax off
             else
                 syntax on
-                call CustomHighlighting()
             endif
+            IndentLinesReset
+            call RepaintOverLength()
         endfunction
 
     " Remove multiple empty lines 
