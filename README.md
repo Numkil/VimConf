@@ -17,7 +17,7 @@ Installation
 ------------
 **Required packages:** 
 
-    ctags, git,ag, vim compiled with python, and lua support
+    ctags, git,[ag](https://github.com/ggreer/the_silver_searcher), vim compiled with python, and lua support
 
 **advice:** I strongly advice using a terminal emulator that supports 256 colors if you
 want to benefit from the amazing solarized colorscheme, Terminator
