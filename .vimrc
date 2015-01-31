@@ -200,12 +200,13 @@
     filetype plugin indent on                           " detect file plugin+indent
     syntax on                                           " syntax highlighting
     
-        ".txt w/highlight, plaintext is useless, markdown for .md
+        " force behavior and filetypes, and by extension highlighting
         augroup FileTypeRules
             autocmd!
-            autocmd BufNewFile,BufRead *.txt se ft=sh tw=79          " opens .txt w/highlight
-            autocmd BufNewFile,BufRead *.tex se ft=tex tw=79         " No plaintex
-            autocmd BufNewFile,BufRead *.md se ft=markdown tw=79     " markdown opened w/highlight
+            autocmd BufNewFile,BufRead *.txt set ft=sh tw=79          " opens .txt w/highlight
+            autocmd BufNewFile,BufRead *.tex set ft=tex tw=79         " no plaintex
+            autocmd BufNewFile,BufRead *.md set ft=markdown tw=79     " markdown opened w/highlight
+            autocmd BufNewFile,BufRead *.conf set ft=cfg tw=79        " conf extension is same as cfg
         augroup END
 
         "Only force 256 colors on select terminals, other terminals need to be configured
