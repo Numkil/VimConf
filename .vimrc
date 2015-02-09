@@ -207,7 +207,6 @@
             autocmd BufNewFile,BufRead *.t set ft=perl tw=79          " opens .txt w/highlight
             autocmd BufNewFile,BufRead *.tex set ft=tex tw=79         " no plaintex
             autocmd BufNewFile,BufRead *.md set ft=markdown tw=79     " markdown opened w/highlight
-            autocmd BufNewFile,BufRead *.conf set ft=cfg tw=79        " conf extension is same as cfg
         augroup END
 
         "Only force 256 colors on select terminals, other terminals need to be configured
