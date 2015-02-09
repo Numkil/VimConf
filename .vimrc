@@ -148,7 +148,6 @@
     set shortmess+=I                        " disable startup message
     set splitbelow                          " splits go below w/focus
     set splitright                          " vsplits go right w/focus
-    set ttyfast                             " for faster redraws etc
     set ttymouse=xterm2                     " experimental
     " Wrapping
         set nowrap                          " don't wrap lines
