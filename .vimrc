@@ -72,6 +72,9 @@
     " AutoComplete
     NeoBundle 'Shougo/neocomplete'
 
+    " Multiple cursors to enable faster refactoring
+    NeoBundle 'terryma/vim-multiple-cursors'
+
     " Easy... motions... yeah.
     NeoBundle 'Lokaltog/vim-easymotion'
 
