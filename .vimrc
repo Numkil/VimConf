@@ -100,10 +100,6 @@
     " A fancy start screen, shows MRU etc.
     NeoBundle 'mhinz/vim-startify'
 
-    " Misc. plugins TODO: Check if I still needs this or not
-    NeoBundle 'MarcWeber/vim-addon-mw-utils'
-    NeoBundle 'tomtom/tlib_vim'
-
     " Language Specific plugins go into this file
     if filereadable($HOME."/.vimrc_plugins")
         source $HOME/.vimrc_plugins
@@ -119,8 +115,8 @@
 
 "" General Built-in Settings
 
-    set cursorline                          "highlight cursor line
-    set more                                ""--more-- like less
+    set cursorline                          " highlight cursor line
+    set more                                " -more-- like less
     set number	                            " Show line numbers
     set showmatch	                        " Highlight matching brace
     set smartindent	                        " Enable smart-indent
@@ -151,7 +147,6 @@
     set shortmess+=I                        " disable startup message
     set splitbelow                          " splits go below w/focus
     set splitright                          " vsplits go right w/focus
-    set ttymouse=xterm2                     " experimental
     " Wrapping
         set nowrap                          " don't wrap lines
         set showbreak=+++                   " Wrap-broken line prefix
@@ -192,10 +187,6 @@
     set smarttab                            " tab to 0,4,8 etc.
     set softtabstop=4                       " 'tab' feels like <tab>
     set tabstop=4                           " replace <TAB> w/4 spaces
-    " Only auto-comment newline for block comments 
-    augroup AutoBlockComment
-        autocmd! FileType c,cpp setlocal comments -=:// comments +=f://
-    augroup END
 
 "" Syntax highlighting
 
@@ -217,20 +208,9 @@
             set t_Co=256
         endif
 
-        " Custom highlighting, where NONE uses terminal background
-        function! CustomHighlighting()
-            highlight Normal ctermbg=NONE
-            highlight nonText ctermbg=NONE
-            highlight LineNr ctermbg=NONE
-            highlight SignColumn ctermbg=NONE
-            highlight CursorLine ctermbg=235
-        endfunction
-        call CustomHighlighting()
-
 "" Advanced Built-in Settings
 
     set ruler	                                       " Show row and column ruler information
-    set undolevels=1000	                               " Number of undo levels
     set timeout timeoutlen=1000 ttimeoutlen=100        " Fluid ESC and other keycodes
 
     " Colorscheme
@@ -319,20 +299,14 @@
     " :Ag
     nnoremap <leader>a :Ag!
 
-    " Fugitive shortcuts
-    "nnoremap :gs :Gstatus<cr>
-    "nnoremap :gw :Gwrite<cr>
-    "nnoremap :gd :Gdiff<cr>
-    "nnoremap :gc :Gcommit<cr>
-
-    " Mappings to open multiple lines and enter insert mode. // function defined later on
+    " Mappings to open multiple lines and enter insert mode. // Function at 613
     nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>
     nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>
 
-    " Open corresponding .cpp or .h file  // function defined later on
+    " Open corresponding .cpp or .h file  // Function at 697
     nnoremap <leader>sp :call SplitSourceHeader()<CR>
     
-    " Toggle Overlength // function defined later on
+    " Toggle Overlength // Function at 627
     nnoremap <leader>h :call ToggleOverLength()<CR>
 
     " Toggle tagbar (definitions, functions etc.)
@@ -344,19 +318,19 @@
     " Toggle Gundo panel
     nnoremap <f3> :GundoToggle<CR>
 
-    " Toggle syntax highlighting // function defined later on
+    " Toggle syntax highlighting // Function at 666
     nnoremap <F4> :call ToggleSyntaxHighLighting()<CR>
 
-    " Toggle light-dark background
+    " Toggle light-dark background // Function at 657
     nnoremap <F5> :call BackgroundToggle()<CR>
 
     " Toggle Autopairing tags like (
     let g:AutoPairsShortcutToggle = '<F6>'
 
-    " Toggle RelativeNumbers // function defined later on
+    " Toggle RelativeNumbers // Function at 649
     nnoremap <leader>r :call NumberToggle()<CR>
 
-    " Call Deletemultipleemptylines // function defined later on
+    " Call Deletemultipleemptylines // Function at 677
     nnoremap <leader>ld :call DeleteMultipleEmptyLines()<CR>
 
 "" Plugin Configuration
@@ -390,13 +364,6 @@
     let g:gundo_width = 35
     let g:gundo_preview_height = 20
     let g:gundo_right = 0
-
-    " Automatically remove preview window after autocomplete (mainly for NeoComplete)
-    augroup RemovePreview
-        autocmd!
-        autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-        autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-    augroup END
 
     " Startify Layout Configuration
     let g:ctrlp_reuse_window = 'startify' " don't split in startify
@@ -581,7 +548,7 @@
             catch
             endtry
         endfunction
-    " }}}
+    " }}} Lightline configuration ends here
 
     " NeoComplete configurations {{{
         " Disable AutoComplPop.
@@ -623,7 +590,7 @@
         let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
         let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
         let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*'
-    " }}}
+        " }}} Neocomplete configuration ends here
     
     " UltiSnips
         let g:UltiSnipsSnippetsDir="~/.vim/privatesnips"
