@@ -109,7 +109,7 @@
 
     " Installing plugins the first time then shuts down
     if has_neobundle == 0
-        NeoBundleCheck
+        NeoBundleInstall
         :qa
     endif
 
