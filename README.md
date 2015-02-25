@@ -30,7 +30,7 @@ can use whatever suits the current use case best.
     git clone https://github.com/Numkil/VimConf.git
     ln -s /PathToWhereYouCloned/VimConf/.vimrc ~/.vimrc
 
-Running vim with this .vimrc will cause it to automatically install Vundle and a bunch of plugins. (I
+Running vim with this .vimrc will cause it to automatically install NeoBundle and a bunch of plugins. (I
 hope)
 
 **Making your own configurations:** This is possible through manually creating a file called
