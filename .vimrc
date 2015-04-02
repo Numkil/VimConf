@@ -299,14 +299,14 @@
     " :Ag
     nnoremap <leader>a :Ag!
 
-    " Mappings to open multiple lines and enter insert mode. // Function at 613
+    " Mappings to open multiple lines and enter insert mode. // Function at Functions block
     nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>
     nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>
 
-    " Open corresponding .cpp or .h file  // Function at 697
+    " Open corresponding .cpp or .h file  // Function at Functions block
     nnoremap <leader>sp :call SplitSourceHeader()<CR>
     
-    " Toggle Overlength // Function at 627
+    " Toggle Overlength // Function at Functions block
     nnoremap <leader>h :call ToggleOverLength()<CR>
 
     " Toggle tagbar (definitions, functions etc.)
@@ -318,19 +318,19 @@
     " Toggle Gundo panel
     nnoremap <f3> :GundoToggle<CR>
 
-    " Toggle syntax highlighting // Function at 666
+    " Toggle syntax highlighting // Function at Functions block
     nnoremap <F4> :call ToggleSyntaxHighLighting()<CR>
 
-    " Toggle light-dark background // Function at 657
+    " Toggle light-dark background // Function at Functions block
     nnoremap <F5> :call BackgroundToggle()<CR>
 
     " Toggle Autopairing tags like (
     let g:AutoPairsShortcutToggle = '<F6>'
 
-    " Toggle RelativeNumbers // Function at 649
+    " Toggle RelativeNumbers // Function at Functions block
     nnoremap <leader>r :call NumberToggle()<CR>
 
-    " Call Deletemultipleemptylines // Function at 677
+    " Call Deletemultipleemptylines // Function at Functions block
     nnoremap <leader>ld :call DeleteMultipleEmptyLines()<CR>
 
 "" Plugin Configuration
@@ -597,6 +597,21 @@
         let g:UltiSnipsExpandTrigger="<tab>"
         let g:UltiSnipsJumpForwardTrigger="<c-b>"
         let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+    " Multiple cursors need to play nice with neocomplete
+        " Called once right before you start selecting multiple cursors
+        function! Multiple_cursors_before()
+            if exists(':NeoCompleteLock')==2
+                exe 'NeoCompleteLock'
+            endif
+        endfunction
+
+        " Called once only when the multiple selection is canceled (default <Esc>)
+        function! Multiple_cursors_after()
+            if exists(':NeoCompleteUnlock')==2
+                exe 'NeoCompleteUnlock'
+            endif
+        endfunction
 
 "" Functions
 
