@@ -613,6 +613,12 @@
             endif
         endfunction
 
+    " Syntastic default configuration every1 should use. Language specific stuff in vimrc_personal 
+        let g:syntastic_always_populate_loc_list = 1
+        let g:syntastic_auto_loc_list = 1
+        let g:syntastic_check_on_open = 1
+        let g:syntastic_check_on_wq = 0
+
 "" Functions
 
     " Open multiple lines (insert empty lines) before or after current line,
