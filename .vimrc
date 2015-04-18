@@ -6,7 +6,7 @@
 "               because much of what appears in this .vimrc        "
 "               are things I've taken/learned from his .vimrc      "
 "               make sure to also check his out if you like this.  "
-"               http://github.com/timss/vimconf                    " 
+"               http://github.com/timss/vimconf                    "
 "------------------------------------------------------------------"
 
     set nocompatible "this vimconf is not vi-compatible
@@ -29,7 +29,7 @@
 "" Bundle's
 
     " Recursive NeoBundle so it can self-update
-    NeoBundleFetch 'Shougo/neobundle.vim' 
+    NeoBundleFetch 'Shougo/neobundle.vim'
 
     " A file tree explorer
     NeoBundle 'scrooloose/nerdtree'
@@ -43,7 +43,7 @@
     " Git wrapper inside Vim
     NeoBundle 'tpope/vim-fugitive'
 
-    " Advanced Undo solution 
+    " Advanced Undo solution
     NeoBundle 'simnalamburt/vim-mundo'
 
     " Super easy commenting, toggle comments etc
@@ -55,14 +55,14 @@
 
     " Edit files using sudo/su
     NeoBundle 'chrisbra/SudoEdit.vim'
-    
+
     " <Tab> everything!
     NeoBundle 'ervandew/supertab'
 
     " Awesome syntax checker.
     " Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro.
     " You are required if you want Syntastic to be actually useful to add your own configurations
-    " of this plugin to .vimrc_personal, as it is always a strictly personal setting. 
+    " of this plugin to .vimrc_personal, as it is always a strictly personal setting.
     NeoBundle 'scrooloose/syntastic'
 
     " Snippet engine and library
@@ -83,7 +83,7 @@
 
     " Indentation guides for vim
     NeoBundle 'Yggdroot/indentLine'
-    
+
     " Closes ( or ' etc.
     NeoBundle 'jiangmiao/auto-pairs'
 
@@ -93,7 +93,7 @@
     " A pretty statusline, bufferline integration
     NeoBundle 'itchyny/lightline.vim'
     NeoBundle 'bling/vim-bufferline'
-    
+
     " Light and dark colourscheme for vim
     NeoBundle 'altercation/vim-colors-solarized'
 
@@ -103,7 +103,7 @@
     " Language Specific plugins go into this file
     if filereadable($HOME."/.vimrc_plugins")
         source $HOME/.vimrc_plugins
-    endif 
+    endif
 
     call neobundle#end()
 
@@ -192,7 +192,7 @@
 
     filetype plugin indent on                           " detect file plugin+indent
     syntax on                                           " syntax highlighting
-    
+
         " force behavior and filetypes, and by extension highlighting
         augroup FileTypeRules
             autocmd!
@@ -289,13 +289,13 @@
     nnoremap <silent> <C-j> :wincmd j<CR>
     nnoremap <silent> <C-h> :wincmd h<CR>
     nnoremap <silent> <C-l> :wincmd l<CR>
-    
+
     " Navigating through buffers
     nnoremap gn :bnext<CR>
     nnoremap gN :bprevious<CR>
     nnoremap gd :bdelete<CR>
     nnoremap gf <C-^>
-    
+
     " :Ag
     nnoremap <leader>a :Ag!
 
@@ -305,7 +305,7 @@
 
     " Open corresponding .cpp or .h file  // Function at Functions block
     nnoremap <leader>sp :call SplitSourceHeader()<CR>
-    
+
     " Toggle Overlength // Function at Functions block
     nnoremap <leader>h :call ToggleOverLength()<CR>
 
@@ -313,7 +313,7 @@
     nnoremap <F1> :TagbarToggle<CR>
 
     " Toggle the NERDTree file browser
-    nnoremap <F2> :NERDTreeToggle<CR>  
+    nnoremap <F2> :NERDTreeToggle<CR>
 
     " Toggle Gundo panel
     nnoremap <f3> :GundoToggle<CR>
@@ -335,13 +335,13 @@
 
 "" Plugin Configuration
 
-    " Ignores for ctrlp -> wildignore does not work?!?
+    " Settings for ctrlp and ag.vim -> Ignores do not seem to always be working
     let g:ctrlp_custom_ignore = {
       \ 'dir':  '\v[\/]\.(git|hg|svn)$',
       \ 'file': '\v\.(pdf|mp3|m4a|mkv|iso|zip|ogg|png|jpg|webm)$',
       \ 'link': '',
       \ }
-    let g:ctrlp_working_path_mode = 'ra'
+    let g:ctrlp_working_path_mode = 'ra' " Always start from project root
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
     " Clever-f preferences
@@ -353,13 +353,13 @@
 
     " NERDTree Positioning
     let g:NERDTreeWinPos = "left"
-    let g:NERDTreeHijackNetrw = 1  
+    let g:NERDTreeHijackNetrw = 1
 
     " TagBar Positioning
     let g:tagbar_left = 0
     let g:tagbar_width = 30
     set tags=tags;/
-    
+
     " Gundo Positioning
     let g:gundo_width = 35
     let g:gundo_preview_height = 20
@@ -376,7 +376,7 @@
             \ '   Author:      Kevin Jossart',
             \ ''
             \ ]
-    
+
     " Lightline and bufferline configuration  {{{
         let g:lightline = {
             \ 'colorscheme': 'solarized',
@@ -558,7 +558,7 @@
         " Use smartcase.
         let g:neocomplete#enable_smart_case = 1
         " Set minimum syntax keyword length.
-        let g:neocomplete#sources#syntax#min_keyword_length = 3 
+        let g:neocomplete#sources#syntax#min_keyword_length = 3
 
         " Define dictionary.
          let g:neocomplete#sources#dictionary#dictionaries = {
@@ -572,7 +572,7 @@
             let g:neocomplete#keyword_patterns = {}
         endif
         let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-        
+
         " Enable omni completion.
         augroup OmniCompletion
             autocmd!
@@ -591,7 +591,7 @@
         let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
         let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*'
         " }}} Neocomplete configuration ends here
-    
+
     " UltiSnips
         let g:UltiSnipsSnippetsDir="~/.vim/privatesnips"
         let g:UltiSnipsExpandTrigger="<tab>"
@@ -613,7 +613,7 @@
             endif
         endfunction
 
-    " Syntastic default configuration every1 should use. Language specific stuff in vimrc_personal 
+    " Syntastic default configuration every1 should use. Language specific stuff in vimrc_personal
         let g:syntastic_always_populate_loc_list = 1
         let g:syntastic_auto_loc_list = 1
         let g:syntastic_check_on_open = 1
@@ -635,7 +635,7 @@
             endif
         endfunction
 
-    " Highlight characters past 85 characters 
+    " Highlight characters past 85 characters
         let g:overlength_enabled = 0
 
         function! ToggleOverLength()
@@ -676,7 +676,7 @@
             endif
             call RepaintOverLength()
         endfunction
-        
+
     " Toggle syntax highlighting
         function! ToggleSyntaxHighLighting()
             if exists("g:syntax_on")
@@ -688,12 +688,12 @@
             call RepaintOverLength()
         endfunction
 
-    " Remove multiple empty lines 
+    " Remove multiple empty lines
         function! DeleteMultipleEmptyLines()
             g/^\_$\n\_^$/d
         endfunction
-   
-    " Strip trailing whitespace, return to cursor at save 
+
+    " Strip trailing whitespace, return to cursor at save
         function! <SID>StripTrailingWhitespace()
             let l = line(".")
             let c = col(".")
@@ -703,8 +703,7 @@
 
         augroup StripTrailingWhiteSpace
             autocmd!
-            autocmd FileType c,cpp,css,html,perl,php,python,java,sh autocmd
-                        \ BufWritePre <buffer> :call <SID>StripTrailingWhitespace()
+            autocmd BufWritePre * :call <SID>StripTrailingWhitespace()
         augroup END
 
     " Split to relative header/source
@@ -723,4 +722,4 @@
     " Attempt to include external file with personal extra configurations
     if filereadable($HOME."/.vimrc_personal")
         source $HOME/.vimrc_personal
-    endif 
+    endif
