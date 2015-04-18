@@ -38,7 +38,7 @@
     NeoBundle 'kien/ctrlp.vim'
 
     " Finding keywords inside files
-    NeoBundle 'rking/ag.vim'
+    NeoBundle 'numkil/ag.vim'
 
     " Git wrapper inside Vim
     NeoBundle 'tpope/vim-fugitive'
@@ -343,6 +343,7 @@
       \ }
     let g:ctrlp_working_path_mode = 'ra' " Always start from project root
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    let g:ag_working_path_mode = 'r' " Always start from project root
 
     " Clever-f preferences
     let g:clever_f_across_no_line = 1
