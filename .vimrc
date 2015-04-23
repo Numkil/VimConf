@@ -38,7 +38,7 @@
     NeoBundle 'kien/ctrlp.vim'
 
     " Finding keywords inside files
-    NeoBundle 'numkil/ag.vim'
+    NeoBundle 'numkil/ag.nvim'
 
     " Git wrapper inside Vim
     NeoBundle 'tpope/vim-fugitive'
@@ -297,7 +297,7 @@
     nnoremap gf <C-^>
 
     " :Ag
-    nnoremap <leader>a :Ag!
+    nnoremap <leader>a :LAg!
 
     " Mappings to open multiple lines and enter insert mode. // Function at Functions block
     nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>
