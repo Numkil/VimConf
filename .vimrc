@@ -296,6 +296,9 @@
     nnoremap gd :bdelete<CR>
     nnoremap gf <C-^>
 
+    " Insert a semicolon at the end of the string without moving the cursor
+    nnoremap <leader>; :call Ender()<cr>
+
     " :Ag
     nnoremap <leader>a :LAg!
 
@@ -719,6 +722,10 @@
             endif
         endfunction
 
+    " Insert semicolon at end of line without moving cursor
+       function! Ender()
+           :execute "normal! mqA;\<esc>`q"
+       endfunction
 
     " Attempt to include external file with personal extra configurations
     if filereadable($HOME."/.vimrc_personal")
