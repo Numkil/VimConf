@@ -9,15 +9,14 @@
 "               http://github.com/timss/vimconf                    "
 "------------------------------------------------------------------"
 
-    set nocompatible "this vimconf is not vi-compatible
-    call system("mkdir -p $HOME/.vim/{privatesnips,undo}")
+   call system('mkdir -p $HOME/.vim/{privatesnips,undo}')
 "" NeoBundle plugin manager
     "Automatically setting up NeoBundle, taken from
     "http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
         let has_neobundle=1
-        if !filereadable($HOME."/.vim/bundle/neobundle.vim/README.md")
-            echo "Installing NeoBundle..."
-            echo ""
+        if !filereadable($HOME.'/.vim/bundle/neobundle.vim/README.md')
+            echo 'Installing NeoBundle...'
+            echo ''
             silent !mkdir -p $HOME/.vim/bundle
             silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
             let has_neobundle=0
@@ -101,7 +100,7 @@
     NeoBundle 'mhinz/vim-startify'
 
     " Language Specific plugins go into this file
-    if filereadable($HOME."/.vimrc_plugins")
+    if filereadable($HOME.'/.vimrc_plugins')
         source $HOME/.vimrc_plugins
     endif
 
@@ -204,9 +203,10 @@
 
         "Only force 256 colors on select terminals, other terminals need to be configured
         "outside of vim to correctly diplay these colors
-        if (&term =~ "xterm") || (&term =~ "screen")
+        if (&term =~? 'xterm') || (&term =~? 'screen')
             set t_Co=256
         endif
+
 
 "" Advanced Built-in Settings
 
@@ -234,7 +234,7 @@
     augroup END
 
     " Persistent undo. Requires Vim 7.3
-        if has('persistent_undo') && exists("&undodir")
+        if has('persistent_undo') && exists('&undodir')
             set undodir=$HOME/.vim/undo/            " where to store undofiles
             set undofile                            " enable undofile
             set undolevels=500                      " max undos stored
@@ -244,7 +244,7 @@
 "" Keybinds
 
     " Remap <leader>
-    let mapleader=","
+    let mapleader=','
 
     " Toggle text wrapping
     nnoremap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
@@ -356,7 +356,7 @@
     let g:indentLine_faster = 1
 
     " NERDTree Positioning
-    let g:NERDTreeWinPos = "left"
+    let g:NERDTreeWinPos = 'left'
     let g:NERDTreeHijackNetrw = 1
 
     " TagBar Positioning
@@ -372,9 +372,9 @@
     " Startify Layout Configuration
     let g:ctrlp_reuse_window = 'startify' " don't split in startify
     let g:startify_bookmarks = [
-            \ $HOME . "/.vimrc" ,
-            \ $HOME . "/.vimrc_personal",
-            \ $HOME . "/.vimrc_plugins",
+            \ $HOME . '/.vimrc' ,
+            \ $HOME . '/.vimrc_personal',
+            \ $HOME . '/.vimrc_plugins',
             \ ]
     let g:startify_custom_header = [
             \ '   Author:      Kevin Jossart',
@@ -435,9 +435,9 @@
 
         function! MyMode()
             let fname = expand('%:t')
-            return fname == '__Tagbar__' ? 'Tagbar' :
-                    \ fname == 'ControlP' ? 'CtrlP' :
-                    \ fname == '__Gundo\|NERD_tree' ? '' :
+            return fname ==? '__Tagbar__' ? 'Tagbar' :
+                    \ fname ==? 'ControlP' ? 'CtrlP' :
+                    \ fname ==? '__Gundo\|NERD_tree' ? '' :
                     \ winwidth('.') > 60 ? lightline#mode() : ''
         endfunction
 
@@ -458,7 +458,7 @@
         endfunction
 
         function! CtrlPMark()
-            if expand('%:t') =~ 'ControlP'
+            if expand('%:t') =~? 'ControlP'
                 call lightline#link('iR'[g:lightline.ctrlp_regex])
                 return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
                     \ , g:lightline.ctrlp_next], 0)
@@ -597,10 +597,10 @@
         " }}} Neocomplete configuration ends here
 
     " UltiSnips
-        let g:UltiSnipsSnippetsDir="~/.vim/privatesnips"
-        let g:UltiSnipsExpandTrigger="<tab>"
-        let g:UltiSnipsJumpForwardTrigger="<c-b>"
-        let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+        let g:UltiSnipsSnippetsDir='~/.vim/privatesnips'
+        let g:UltiSnipsExpandTrigger='<tab>'
+        let g:UltiSnipsJumpForwardTrigger='<c-b>'
+        let g:UltiSnipsJumpBackwardTrigger='<c-z>'
 
     " Multiple cursors need to play nice with neocomplete
         " Called once right before you start selecting multiple cursors
@@ -674,16 +674,16 @@
 
     " Toggle between dark and light background
         function! BackgroundToggle()
-            let &background = ( &background == "dark"?"light" : "dark")
-            if exists("g:colors_name")
-                exe "colorscheme " . g:colors_name
+            let &background = ( &background ==? 'dark'?'light' : 'dark')
+            if exists('g:colors_name')
+                exe 'colorscheme ' . g:colors_name
             endif
             call RepaintOverLength()
         endfunction
 
     " Toggle syntax highlighting
         function! ToggleSyntaxHighLighting()
-            if exists("g:syntax_on")
+            if exists('g:syntax_on')
                 syntax off
             else
                 syntax on
@@ -699,8 +699,8 @@
 
     " Strip trailing whitespace, return to cursor at save
         function! <SID>StripTrailingWhitespace()
-            let l = line(".")
-            let c = col(".")
+            let l = line('.')
+            let c = col('.')
             %s/\s\+$//e
             call cursor(l, c)
         endfunction
@@ -712,13 +712,13 @@
 
     " Split to relative header/source
         function! SplitSourceHeader()
-            let s:fname = expand("%:t:r")
-            if expand("%:e") == "h"
+            let s:fname = expand('%:t:r')
+            if expand('%:e') ==? 'h'
                 set nosplitright
-                exe "vsplit" fnameescape(s:fname . ".cpp")
+                exe 'vsplit' fnameescape(s:fname . '.cpp')
                 set splitright
-            elseif expand("%:e") == "cpp"
-                exe "vsplit" fnameescape(s:fname . ".h")
+            elseif expand('%:e') ==? 'cpp'
+                exe 'vsplit' fnameescape(s:fname . '.h')
             endif
         endfunction
 
@@ -728,6 +728,6 @@
        endfunction
 
     " Attempt to include external file with personal extra configurations
-    if filereadable($HOME."/.vimrc_personal")
+    if filereadable($HOME.'/.vimrc_personal')
         source $HOME/.vimrc_personal
     endif
