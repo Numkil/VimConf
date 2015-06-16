@@ -19,7 +19,7 @@ Installation
 
 * Ctags
 * Git
-* Neovim together with both python2 and python3 plugin installed
+* [Neovim](https://github.com/neovim/neovim) together with both python2 and python3 plugin installed
 * [ag](https://github.com/ggreer/the_silver_searcher)
 
 **advice:** I strongly advice using a terminal emulator that supports 256 colors if you
