@@ -17,10 +17,10 @@ Installation
 ------------
 **Required packages:**
 
-*Ctags
-*Git
-*Neovim together with both python2 and python3 plugin installed
-*[ag](https://github.com/ggreer/the_silver_searcher)
+* Ctags
+* Git
+* Neovim together with both python2 and python3 plugin installed
+* [ag](https://github.com/ggreer/the_silver_searcher)
 
 **advice:** I strongly advice using a terminal emulator that supports 256 colors if you
 want to benefit from the amazing solarized colorscheme, Terminator
@@ -30,6 +30,9 @@ is in my opinion the easiest to set up.
 
     git clone https://github.com/Numkil/VimConf.git
     ln -s /PathToWhereYouCloned/VimConf/.vimrc ~/.vimrc
+
+    for Neovim
+    ln -s /PathToWhereYouCloned/VimConf/.vimrc ~/.nvimrc
 
 Running vim with this .vimrc will cause it to automatically install NeoBundle and a bunch of plugins. (I
 hope)
