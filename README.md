@@ -1,6 +1,6 @@
 VimConf
 =======
-This vimconf was made for my personal use and is a collage of small parts from various 
+This vimconf was made for my personal use and is a collage of small parts from various
 other public vimrc's added to with my own preferences.
 I am perfectly happy with anyone copying and using any part of the code written
 here, as I also copied it from other sources.
@@ -10,20 +10,21 @@ good example) and even then it is better to also make your own decisions.
 
 * Complete automated installation. As in 2 commands only.
 * I strived to comment every single option as much as possible and keep the
-  code clean. 
+  code clean.
 * Autocomplete, syntax checker, plugin manager, git wrapper, file browser and much more
 
 Installation
 ------------
-**Required packages:** 
+**Required packages:**
 
-    ctags, git,[ag](https://github.com/ggreer/the_silver_searcher), vim compiled with python, and lua support
+*Ctags
+*Git
+*Neovim together with both python2 and python3 plugin installed
+*[ag](https://github.com/ggreer/the_silver_searcher)
 
 **advice:** I strongly advice using a terminal emulator that supports 256 colors if you
 want to benefit from the amazing solarized colorscheme, Terminator
-is in my opinion the easiest to set up. Gvim also works straight out of the box
-and supports copying from the clipboard. My advice is to have both ready so you
-can use whatever suits the current use case best.
+is in my opinion the easiest to set up.
 
 **Instructions:**
 
