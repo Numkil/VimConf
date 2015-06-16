@@ -70,13 +70,9 @@
 
     " AutoComplete
     NeoBundle 'Shougo/deoplete.nvim'
-    NeoBundle 'Shougo/neocomplete.vim'
 
     " Multiple cursors to enable faster refactoring
     NeoBundle 'terryma/vim-multiple-cursors'
-
-    " Easy... motions... yeah.
-    NeoBundle 'Lokaltog/vim-easymotion'
 
     " Smarter inline f and t commands
     NeoBundle 'rhysd/clever-f.vim'
@@ -93,6 +89,10 @@
     " A pretty statusline, bufferline integration
     NeoBundle 'itchyny/lightline.vim'
     NeoBundle 'bling/vim-bufferline'
+
+    " Explorer view for buffers
+    " When too many open buffers and :bn is not enough
+    NeoBundle 'jlanzarotta/bufexplorer'
 
     " Light and dark colourscheme for vim
     NeoBundle 'altercation/vim-colors-solarized'
@@ -292,6 +292,7 @@
     nnoremap <silent> <C-l> :wincmd l<CR>
 
     " Navigating through buffers
+    nnoremap <leader>be :BufExplorerHorizontalSplit<CR>
     nnoremap gn :bnext<CR>
     nnoremap gN :bprevious<CR>
     nnoremap gd :bdelete<CR>
@@ -557,51 +558,14 @@
         endfunction
     " }}} Lightline configuration ends here
 
-    " NeoComplete/Deoplete configurations {{{
-        " Disable AutoComplPop.
-        let g:acp_enableAtStartup = 0
+    " Deoplete configurations
         if has('nvim')
+            " Disable AutoComplPop.
+            let g:acp_enableAtStartup = 0
+
+            " Enable deoplete
             let g:deoplete#enable_at_startup = 1
-            let g:neocomplete#enable_at_startup = 0
-        else
-            " Use neocomplete.
-            let g:neocomplete#enable_at_startup = 1
-            " Use smartcase.
-            let g:neocomplete#enable_smart_case = 1
-            " Set minimum syntax keyword length.
-            let g:neocomplete#sources#syntax#min_keyword_length = 3
-
-            " Define dictionary.
-            let g:neocomplete#sources#dictionary#dictionaries = {
-                    \ 'default' : '',
-                    \ 'vimshell' : $HOME.'/.vimshell_hist',
-                    \ 'scheme' : $HOME.'/.gosh_completions'
-                        \ }
-
-            " Define keyword.
-            if !exists('g:neocomplete#keyword_patterns')
-                let g:neocomplete#keyword_patterns = {}
-            endif
-            let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-            " Enable omni completion.
-            augroup OmniCompletion
-                autocmd!
-                autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-                autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-                autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-                autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-                autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-            augroup END
-
-            " Enable heavy omni completion.
-            if !exists('g:neocomplete#sources#omni#input_patterns')
-                let g:neocomplete#sources#omni#input_patterns = {}
-            endif
-            let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-            let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-            let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*'
-            " }}} Neocomplete configuration ends here
+            let g:deoplete#enable_smart_case = 1
         endif
 
     " UltiSnips
@@ -610,18 +574,18 @@
         let g:UltiSnipsJumpForwardTrigger='<c-b>'
         let g:UltiSnipsJumpBackwardTrigger='<c-z>'
 
-    " Multiple cursors need to play nice with neocomplete
+    " Multiple cursors need to play nice with Deoplete
         " Called once right before you start selecting multiple cursors
         function! Multiple_cursors_before()
-            if exists(':NeoCompleteLock')==2
-                exe 'NeoCompleteLock'
+            if exists(':DeopleteLock')==2
+                exe 'DeopleteLock'
             endif
         endfunction
 
         " Called once only when the multiple selection is canceled (default <Esc>)
         function! Multiple_cursors_after()
-            if exists(':NeoCompleteUnlock')==2
-                exe 'NeoCompleteUnlock'
+            if exists(':DeopleteUnlock')==2
+                exe 'DeopleteUnlock'
             endif
         endfunction
 
