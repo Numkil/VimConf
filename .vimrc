@@ -34,7 +34,7 @@
     NeoBundle 'scrooloose/nerdtree'
 
     " A fuzzy file finder
-    NeoBundle 'kien/ctrlp.vim'
+    NeoBundle 'ctrlpvim/ctrlp.vim'
 
     " Finding keywords inside files
     NeoBundle 'numkil/ag.nvim'
