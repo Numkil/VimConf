@@ -242,9 +242,11 @@
         set undoreload=10000                    " buffer stored undos
     endif
 
-    " Automatically reload vimrc when it's saved
+    " Automatically reload vimrc when it or one of it's extensions is saved
     augroup ReloadVimrcOnSave
-        au BufWritePost .vimrc so ~/.vimrc
+        au BufWritePost .vimrc source $HOME/.nvimrc
+        au BufWritePost .vimrc_plugins source $HOME/.nvimrc
+        au BufWritePost .vimrc_personal source $HOME/.nvimrc
     augroup END
 
 "" Keybinds
