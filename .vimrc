@@ -235,12 +235,17 @@
     augroup END
 
     " Persistent undo. Requires Vim 7.3
-        if has('persistent_undo') && exists('&undodir')
-            set undodir=$HOME/.vim/undo/            " where to store undofiles
-            set undofile                            " enable undofile
-            set undolevels=500                      " max undos stored
-            set undoreload=10000                    " buffer stored undos
-        endif
+    if has('persistent_undo') && exists('&undodir')
+        set undodir=$HOME/.vim/undo/            " where to store undofiles
+        set undofile                            " enable undofile
+        set undolevels=500                      " max undos stored
+        set undoreload=10000                    " buffer stored undos
+    endif
+
+    " Automatically reload vimrc when it's saved
+    augroup ReloadVimrcOnSave
+        au BufWritePost .vimrc so ~/.vimrc
+    augroup END
 
 "" Keybinds
 
@@ -681,18 +686,6 @@
             autocmd!
             autocmd BufWritePre * :call <SID>StripTrailingWhitespace()
         augroup END
-
-    " Split to relative header/source
-        function! SplitSourceHeader()
-            let s:fname = expand('%:t:r')
-            if expand('%:e') ==? 'h'
-                set nosplitright
-                exe 'vsplit' fnameescape(s:fname . '.cpp')
-                set splitright
-            elseif expand('%:e') ==? 'cpp'
-                exe 'vsplit' fnameescape(s:fname . '.h')
-            endif
-        endfunction
 
     " Insert semicolon at end of line without moving cursor
        function! Ender()
