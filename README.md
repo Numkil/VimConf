@@ -29,10 +29,7 @@ is in my opinion the easiest to set up.
 **Instructions:**
 
     git clone https://github.com/Numkil/VimConf.git
-    ln -s /PathToWhereYouCloned/VimConf/.vimrc ~/.vimrc
-
-    for Neovim
-    ln -s /PathToWhereYouCloned/VimConf/.vimrc ~/.nvimrc
+    ln -s /PathToWhereYouCloned/VimConf/.nvimrc ~/.nvimrc
 
 Running vim with this .vimrc will cause it to automatically install NeoBundle and a bunch of plugins. (I
 hope)

@@ -7,24 +7,25 @@
 "               are things I've taken/learned from his .vimrc      "
 "               make sure to also check his out if you like this.  "
 "               http://github.com/timss/vimconf                    "
+" Requirements: Neovim                                             "
 "------------------------------------------------------------------"
 
-   call system('mkdir -p $HOME/.vim/{privatesnips,undo}')
+   call system('mkdir -p $HOME/.nvim/{privatesnips,undo}')
 "" NeoBundle plugin manager
     "Automatically setting up NeoBundle, taken from
     "http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
         let has_neobundle=1
-        if !filereadable($HOME.'/.vim/bundle/neobundle.vim/README.md')
+        if !filereadable($HOME.'/.nvim/bundle/neobundle.vim/README.md')
             echo 'Installing NeoBundle...'
             echo ''
-            silent !mkdir -p $HOME/.vim/bundle
-            silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
+            silent !mkdir -p $HOME/.nvim/bundle
+            silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.nvim/bundle/neobundle.vim
             let has_neobundle=0
         endif
     "Initialize NeoBundle
         filetype off                                " required to init
-        set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
-        call neobundle#begin(expand($HOME.'/.vim/bundle/'))
+        set runtimepath+=$HOME/.nvim/bundle/neobundle.vim/
+        call neobundle#begin(expand($HOME.'/.nvim/bundle/'))
 "" Bundle's
 
     " Recursive NeoBundle so it can self-update
@@ -236,7 +237,7 @@
 
     " Persistent undo. Requires Vim 7.3
     if has('persistent_undo') && exists('&undodir')
-        set undodir=$HOME/.vim/undo/            " where to store undofiles
+        set undodir=$HOME/.nvim/undo/            " where to store undofiles
         set undofile                            " enable undofile
         set undolevels=500                      " max undos stored
         set undoreload=10000                    " buffer stored undos
@@ -244,7 +245,7 @@
 
     " Automatically reload vimrc when it or one of it's extensions is saved
     augroup ReloadVimrcOnSave
-        au BufWritePost .vimrc source $HOME/.nvimrc
+        au BufWritePost .nvimrc source $HOME/.nvimrc
         au BufWritePost .vimrc_plugins source $HOME/.nvimrc
         au BufWritePost .vimrc_personal source $HOME/.nvimrc
     augroup END
@@ -381,7 +382,7 @@
     " Startify Layout Configuration
     let g:ctrlp_reuse_window = 'startify' " don't split in startify
     let g:startify_bookmarks = [
-            \ $HOME . '/.vimrc' ,
+            \ $HOME . '/.nvimrc' ,
             \ $HOME . '/.vimrc_personal',
             \ $HOME . '/.vimrc_plugins',
             \ ]
@@ -576,7 +577,7 @@
         endif
 
     " UltiSnips
-        let g:UltiSnipsSnippetsDir='~/.vim/privatesnips'
+        let g:UltiSnipsSnippetsDir='~/.nvim/privatesnips'
         let g:UltiSnipsExpandTrigger='<tab>'
         let g:UltiSnipsJumpForwardTrigger='<c-b>'
         let g:UltiSnipsJumpBackwardTrigger='<c-z>'
