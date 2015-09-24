@@ -227,7 +227,7 @@
         augroup END
     endif
 
-    "Return to last edit position when opening files
+    " Return to last edit position when opening files
     augroup LastPosition
         autocmd! BufReadPost *
             \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -567,14 +567,23 @@
     " }}} Lightline configuration ends here
 
     " Deoplete configurations
-        if has('nvim')
-            " Disable AutoComplPop.
-            let g:acp_enableAtStartup = 0
+        " Disable AutoComplPop.
+        let g:acp_enableAtStartup = 0
 
-            " Enable deoplete
-            let g:deoplete#enable_at_startup = 1
-            let g:deoplete#enable_smart_case = 1
-        endif
+        let g:deoplete#enable_at_startup = 1
+        let g:deoplete#auto_completion_start_length = 1
+        let g:deoplete#enable_smart_case = 1
+
+        " Enable omni completion
+        let g:deoplete#deoplete_onmni_patterns = get(g:, 'deoplete#force_omni_input_patterns', {})
+        aug omnicomplete
+            au!
+            au FileType css,sass,scss,stylus,less setl omnifunc=csscomplete#CompleteCSS
+            au FileType html,htmldjango,jinja,markdown setl omnifunc=emmet#completeTag
+            au FileType javascript,jsx setl omnifunc=tern#Complete
+            au FileType python setl omnifunc=pythoncomplete#Complete
+            au FileType xml setl omnifunc=xmlcomplete#CompleteTags
+        aug END
 
     " UltiSnips
         let g:UltiSnipsSnippetsDir='~/.nvim/privatesnips'
