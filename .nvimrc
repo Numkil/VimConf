@@ -259,8 +259,8 @@
     nnoremap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
 
     " Toggle folding
+    " http://vim.wikia.com/wiki/Folding#Mappings_to_toggle_folds
     nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-    vnoremap <Space> zf
 
     " External yanking and pasting using clipboard. Only works in GVIM
     nnoremap <A-y> "+y
@@ -305,6 +305,9 @@
     nnoremap gN :bprevious<CR>
     nnoremap gd :bdelete<CR>
     nnoremap gf <C-^>
+
+    " Highlight last inserted text
+    nnoremap gV '[V']
 
     " Insert a semicolon at the end of the string without moving the cursor
     nnoremap <leader>; :call Ender()<cr>
@@ -430,6 +433,7 @@
             \ }
             \ }
 
+        " Ensure that each mode indicator is the same size and casing
         let g:lightline.mode_map = {
             \ 'n'      : ' N ',
             \ 'i'      : ' I ',
@@ -479,6 +483,7 @@
             endif
         endfunction
 
+        " https://github.com/itchyny/lightline.vim/issues/36
         function! MyBufferline()
             call bufferline#refresh_status()
             let b = g:bufferline_status_info.before
