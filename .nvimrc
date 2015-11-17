@@ -245,7 +245,7 @@
 
     " Automatically reload vimrc when it or one of it's extensions is saved
     augroup ReloadVimrcOnSave
-        au BufWritePost .nvimrc source $HOME/.nvimrc
+        au BufWritePost .nvimrc source $HOME/.config/nvim/init.vim
         au BufWritePost .vimrc_plugins source $HOME/.nvimrc
         au BufWritePost .vimrc_personal source $HOME/.nvimrc
     augroup END
@@ -385,7 +385,7 @@
     " Startify Layout Configuration
     let g:ctrlp_reuse_window = 'startify' " don't split in startify
     let g:startify_bookmarks = [
-            \ $HOME . '/.nvimrc' ,
+            \ $HOME . '/.config/nvim/init.vim' ,
             \ $HOME . '/.vimrc_personal',
             \ $HOME . '/.vimrc_plugins',
             \ ]
