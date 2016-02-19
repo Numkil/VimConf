@@ -122,17 +122,18 @@
     set showmatch	                        " Highlight matching brace
     set smartindent	                        " Enable smart-indent
     set scrolloff=3                         " Lines above/below cursor
-    set wildignore+=*.bak,*.pyc,*.o,*.ojb,   " ignore said files
-                    \*.a,*.pdf,*.jpg,*.gif,
-                    \*.avi,*.mkv,*.so,*.png,
-                    \*.swp, *.git, *.mp3, *.pdf,
-                    \*.m4a
+    set wildignore+=*.bak,*.pyc,*.o,*.ojb   " ignore said files
+    set wildignore+=*.a,*.pdf,*.jpg,*.gif
+    set wildignore+=*.avi,*.mkv,*.so,*.png
+    set wildignore+=*.swp,*/.git,*.mp3,*.pdf
+    set wildignore+=*.m4a
     set wildmenu                            " better auto complete
-    set wildmode=longest,list               " bash-like auto complete
+    set wildmode=longest:full,list:full     " bash-like auto complete
     set guifont=DejaVu\ Sans\ Mono\ 9
     set guioptions-=m                       " remove menubar
     set guioptions-=T                       " remove toolbar
     set guioptions-=r                       " remove right scrollbar
+    set completeopt=menu,preview,longest    " insert mode completion
     set hidden                              " buffer change, more undo
     set history=1000                        " default 20
     set iskeyword+=_,$,@,%,#                " not word dividers
@@ -393,6 +394,12 @@
             \ '   Author:      Kevin Jossart',
             \ ''
             \ ]
+    let g:startify_files_number = 5
+
+    " Supertab configuration
+    let g:SuperTabDefaultCompletionType = "context" " Complete based on context
+    let g:SuperTabLongestEnhanced = 1               " Longest common match
+    let g:SuperTabLongestHighlight = 1
 
     " Lightline and bufferline configuration  {{{
         let g:lightline = {
