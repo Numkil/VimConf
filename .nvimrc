@@ -333,7 +333,7 @@
     nnoremap <F2> :NERDTreeToggle<CR>
 
     " Toggle Gundo panel
-    nnoremap <f3> :GundoToggle<CR>
+    nnoremap <f3> :MundoToggle<CR>
 
     " Toggle syntax highlighting // Function at Functions block
     nnoremap <F4> :call ToggleSyntaxHighLighting()<CR>
@@ -379,9 +379,9 @@
     set tags=tags;/
 
     " Gundo Positioning
-    let g:gundo_width = 35
-    let g:gundo_preview_height = 20
-    let g:gundo_right = 0
+    let g:mundo_width = 35
+    let g:mundo_preview_height = 20
+    let g:mundo_right = 0
 
     " Startify Layout Configuration
     let g:ctrlp_reuse_window = 'startify' " don't split in startify
@@ -459,14 +459,14 @@
             return fname ==? '__Tagbar__' ? 'Tagbar' :
                     \ fname ==? 'ControlP' ? 'CtrlP' :
                     \ fname ==? 'NERD_tree' ? 'NerdTree' :
-                    \ fname ==? '__Gundo__' ? 'Gundo' :
-                    \ fname ==? '__Gundo_Preview__' ? 'Gundo Preview' :
+                    \ fname ==? '__Mundo__' ? 'Mundo' :
+                    \ fname ==? '__Mundo_Preview__' ? 'Mundo Preview' :
                     \ winwidth('.') > 60 ? lightline#mode() : ''
         endfunction
 
         function! MyFugitive()
             try
-                if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && exists('*fugitive#head')
+                if expand('%:t') !~? 'Tagbar\|Mundo\|NERD' && exists('*fugitive#head')
                     let mark = '∓ '
                     let _ = fugitive#head()
                     return strlen(_) ? mark._ : ''
