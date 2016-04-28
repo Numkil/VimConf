@@ -256,6 +256,9 @@
     " Remap <leader>
     let mapleader=','
 
+    " Alias :W with :w because I keep accidentally typing it
+    cnoreabbrev <expr> W getcmdtype() == ":" && getcmdline() == "W" ? "w" : "W"
+
     " Toggle text wrapping
     nnoremap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
 
