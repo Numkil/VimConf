@@ -210,7 +210,6 @@
             set t_Co=256
         endif
 
-
 "" Advanced Built-in Settings
 
     set ruler	                                       " Show row and column ruler information
@@ -266,12 +265,6 @@
     " http://vim.wikia.com/wiki/Folding#Mappings_to_toggle_folds
     nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 
-    " External yanking and pasting using clipboard. Only works in GVIM
-    nnoremap <A-y> "+y
-    vnoremap <A-y> "+y
-    nnoremap <A-p> "+gP
-    vnoremap <A-p> "+gP
-
     " Move faster
     map <C-Down> <C-d>
     map <C-Up> <C-u>
@@ -313,6 +306,14 @@
     " Highlight last inserted text
     nnoremap gV '[V']
 
+    " Visual shifting ( does not exist Visual mode )
+    vnoremap < <gv
+    vnoremap > >gv
+
+    " Allow using the repeat operator with a visual selection (!)
+    " http://stackoverflow.com/a/8064607/127816
+    vnoremap . :normal .<CR>
+
     " Insert a semicolon at the end of the string without moving the cursor
     nnoremap <leader>; :call Ender()<cr>
 
@@ -322,9 +323,6 @@
     " Mappings to open multiple lines and enter insert mode. // Function at Functions block
     nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>
     nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>
-
-    " Open corresponding .cpp or .h file  // Function at Functions block
-    nnoremap <leader>sp :call SplitSourceHeader()<CR>
 
     " Toggle Overlength // Function at Functions block
     nnoremap <leader>h :call ToggleOverLength()<CR>
