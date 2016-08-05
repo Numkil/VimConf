@@ -587,16 +587,10 @@
         let g:deoplete#auto_completion_start_length = 1
         let g:deoplete#enable_smart_case = 1
 
-        " Enable omni completion
-        let g:deoplete#deoplete_onmni_patterns = get(g:, 'deoplete#force_omni_input_patterns', {})
-        aug omnicomplete
-            au!
-            au FileType css,sass,scss,stylus,less setl omnifunc=csscomplete#CompleteCSS
-            au FileType html,htmldjango,jinja,markdown setl omnifunc=emmet#completeTag
-            au FileType javascript,jsx setl omnifunc=tern#Complete
-            au FileType python setl omnifunc=pythoncomplete#Complete
-            au FileType xml setl omnifunc=xmlcomplete#CompleteTags
-        aug END
+        let g:deoplete#sources = {}
+        let g:deoplete#sources._ = ['buffer', 'file', 'ultisnips']
+        let g:deoplete#omni_patterns = {}
+        let g:deoplete#omni_patterns.php = '\w+|[^. \t]->\w*|\w+::\w*'
 
     " UltiSnips
         let g:UltiSnipsSnippetsDir='~/.nvim/privatesnips'
