@@ -53,8 +53,8 @@
     " REQUIREMENTS: (exuberant)-ctags
     NeoBundle 'majutsushi/tagbar'
 
-    " Edit files using sudo/su
-    NeoBundle 'chrisbra/SudoEdit.vim'
+    " UNIX shell command helpers, e.g. sudo, chmod, remove etc.
+    NeoBundle 'tpope/vim-eunuch'
 
     " <Tab> everything!
     NeoBundle 'ervandew/supertab'
@@ -588,9 +588,11 @@
         let g:deoplete#enable_smart_case = 1
 
         let g:deoplete#sources = {}
-        let g:deoplete#sources._ = ['buffer', 'file', 'ultisnips']
+        let g:deoplete#sources._ = ['buffer', 'tag', 'member', 'file', 'omni', 'ultisnips']
         let g:deoplete#omni_patterns = {}
         let g:deoplete#omni_patterns.php = '\w+|[^. \t]->\w*|\w+::\w*'
+        let g:deoplete#omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
+        let g:deoplete#omni_patterns.html = '<[^>]*'
 
     " UltiSnips
         let g:UltiSnipsSnippetsDir='~/.nvim/privatesnips'
@@ -694,7 +696,7 @@
         endfunction
 
     " Strip trailing whitespace, return to cursor at save
-        function! <SID>StripTrailingWhitespace()
+        function! StripTrailingWhitespace()
             let l = line('.')
             let c = col('.')
             %s/\s\+$//e
@@ -703,7 +705,7 @@
 
         augroup StripTrailingWhiteSpace
             autocmd!
-            autocmd BufWritePre * :call <SID>StripTrailingWhitespace()
+            autocmd BufWritePre * :call StripTrailingWhitespace()
         augroup END
 
     " Insert semicolon at end of line without moving cursor
