@@ -63,7 +63,7 @@
     " Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro.
     " You are required if you want Syntastic to be actually useful to add your own configurations
     " of this plugin to .vimrc_personal, as it is always a strictly personal setting.
-    NeoBundle 'scrooloose/syntastic'
+    NeoBundle 'vim-syntastic/syntastic'
 
     " Snippet engine and library
     NeoBundle 'SirVer/ultisnips'
@@ -139,7 +139,7 @@
     set iskeyword+=_,$,@,%,#                " not word dividers
     set laststatus=2                        " always show statusline
     set linebreak                           " don't cut words on wrap
-    set listchars=tab:>\                    " > to highlight <tab>
+    set listchars=tab:>\                    " > to highlight <Tab>
     set list                                " displaying listchars
     set mouse=                              " disable mouse
     set nolist                              " wraps to whole words
@@ -182,20 +182,22 @@
     set autoindent	                        " Auto-indent new lines
     set backspace=indent,eol,start          " smart backspace
     set cinkeys-=0#                         " don't force # indentation
-    set expandtab                           " no real tabs
+    set expandtab                           " indents <Tab> as spaces
     set nrformats+=alpha                    " incr/decr letters C-a/-x
     set shiftround                          " be clever with tabs
-    set shiftwidth=4	                    " Number of auto-indent spaces, default 8
+    set shiftwidth=0	                    " Number of auto-indent spaces, default 8
     set smarttab                            " tab to 0,4,8 etc.
-    set softtabstop=4                       " 'tab' feels like <tab>
-    set tabstop=4                           " replace <TAB> w/4 spaces
+    set softtabstop=-1                      " =-1 uses 'sw' value
+    set tabstop=4                           " <Tab> as 4 spaces indent
 
 "" Syntax highlighting
 
     filetype plugin indent on                           " detect file plugin+indent
-    syntax on                                           " syntax highlighting
+    if !exists('g:syntax_on')
+        syntax enable                                   " syntax highlighting
+    endif
 
-        " force behavior and filetypes, and by extension highlighting
+    " force behavior and filetypes, and by extension highlighting
         augroup FileTypeRules
             autocmd!
             autocmd BufNewFile,BufRead *.txt set ft=sh tw=79          " opens .txt w/highlight
@@ -252,14 +254,14 @@
 
 "" Keybinds
 
-    " Remap <leader>
+    " Remap <Leader>
     let mapleader=','
 
     " Alias :W with :w because I keep accidentally typing it
     cnoreabbrev <expr> W getcmdtype() == ":" && getcmdline() == "W" ? "w" : "W"
 
     " Toggle text wrapping
-    nnoremap <silent> <leader>w :set invwrap<CR>:set wrap?<CR>
+    nnoremap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
 
     " Toggle folding
     " http://vim.wikia.com/wiki/Folding#Mappings_to_toggle_folds
@@ -270,8 +272,8 @@
     map <C-Up> <C-u>
 
     " Treat wrapped lines as normal lines
-    nnoremap j gj
-    nnoremap k gk
+    nnoremap <expr> j v:count == 0 ? 'gj' : 'j'
+    nnoremap <expr> k v:count == 0 ? 'gk' : 'k'
 
     " Working ci(, works for both breaklined, inline and multiple ()
     nnoremap ci( %ci(
@@ -297,16 +299,25 @@
     nnoremap <silent> <C-l> :wincmd l<CR>
 
     " Navigating through buffers
-    nnoremap <leader>be :BufExplorerHorizontalSplit<CR>
-    nnoremap gn :bnext<CR>
-    nnoremap gN :bprevious<CR>
-    nnoremap gd :bdelete<CR>
-    nnoremap gf <C-^>
+    nnoremap <Leader>be :BufExplorerHorizontalSplit<CR>
+    nnoremap <Leader>n :bnext<CR>
+    nnoremap <Leader>p :bprevious<CR>
+    nnoremap <Leader>f :b#<CR>
+    nnoremap <Leader>1 :1b<CR>
+    nnoremap <Leader>2 :2b<CR>
+    nnoremap <Leader>3 :3b<CR>
+    nnoremap <Leader>4 :4b<CR>
+    nnoremap <Leader>5 :5b<CR>
+    nnoremap <Leader>6 :6b<CR>
+    nnoremap <Leader>7 :7b<CR>
+    nnoremap <Leader>8 :8b<CR>
+    nnoremap <Leader>9 :9b<CR>
+    nnoremap <Leader>0 :10b<CR>
 
     " Highlight last inserted text
     nnoremap gV '[V']
 
-    " Visual shifting ( does not exist Visual mode )
+    " Visual shifting ( does not exit Visual mode )
     vnoremap < <gv
     vnoremap > >gv
 
@@ -315,17 +326,17 @@
     vnoremap . :normal .<CR>
 
     " Insert a semicolon at the end of the string without moving the cursor
-    nnoremap <leader>; :call Ender()<cr>
+    nnoremap <Leader>; :call Ender()<cr>
 
     " :Ag
-    nnoremap <leader>a :LAg!
+    nnoremap <Leader>a :LAg!
 
     " Mappings to open multiple lines and enter insert mode. // Function at Functions block
     nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>
     nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>
 
     " Toggle Overlength // Function at Functions block
-    nnoremap <leader>h :call ToggleOverLength()<CR>
+    nnoremap <Leader>h :call ToggleOverLength()<CR>
 
     " Toggle tagbar (definitions, functions etc.)
     nnoremap <F1> :TagbarToggle<CR>
@@ -346,10 +357,10 @@
     let g:AutoPairsShortcutToggle = '<F6>'
 
     " Toggle RelativeNumbers // Function at Functions block
-    nnoremap <leader>r :call NumberToggle()<CR>
+    nnoremap <Leader>r :call NumberToggle()<CR>
 
     " Call Deletemultipleemptylines // Function at Functions block
-    nnoremap <leader>ld :call DeleteMultipleEmptyLines()<CR>
+    nnoremap <Leader>ld :call DeleteMultipleEmptyLines()<CR>
 
 "" Plugin Configuration
 
@@ -421,14 +432,14 @@
             \     'paste': '%{&paste?"!":""}'
             \ },
             \ 'component_function': {
-            \     'mode'         : 'MyMode',
-            \     'fugitive'     : 'MyFugitive',
-            \     'readonly'     : 'MyReadonly',
-            \     'ctrlpmark'    : 'CtrlPMark',
-            \     'bufferline'   : 'MyBufferline',
-            \     'fileformat'   : 'MyFileformat',
-            \     'fileencoding' : 'MyFileencoding',
-            \     'filetype'     : 'MyFiletype'
+            \     'mode'         : 'LightlineMode',
+            \     'fugitive'     : 'LightlineFugitive',
+            \     'readonly'     : 'LightlineReadonly',
+            \     'ctrlpmark'    : 'LightlineCtrlPMark',
+            \     'bufferline'   : 'LightlineBufferline',
+            \     'fileformat'   : 'LightlineFileformat',
+            \     'fileencoding' : 'LightlineFileencoding',
+            \     'filetype'     : 'LightlineFiletype'
             \ },
             \ 'component_expand': {
             \     'syntastic': 'SyntasticStatuslineFlag',
@@ -455,34 +466,33 @@
             \ "\<C-s>" : 'S-B',
             \ '?'      : '      ' }
 
-        function! MyMode()
+        function! LightlineMode()
             let fname = expand('%:t')
             return fname ==? '__Tagbar__' ? 'Tagbar' :
                     \ fname ==? 'ControlP' ? 'CtrlP' :
                     \ fname ==? 'NERD_tree' ? 'NerdTree' :
                     \ fname ==? '__Mundo__' ? 'Mundo' :
                     \ fname ==? '__Mundo_Preview__' ? 'Mundo Preview' :
-                    \ winwidth('.') > 60 ? lightline#mode() : ''
+                    \ winwidth(0) > 60 ? lightline#mode() : ''
         endfunction
 
-        function! MyFugitive()
+        function! LightlineFugitive()
             try
                 if expand('%:t') !~? 'Tagbar\|Mundo\|NERD' && exists('*fugitive#head')
-                    let mark = '∓ '
-                    let _ = fugitive#head()
-                    return strlen(_) ? mark._ : ''
+                    let branch = fugitive#head()
+                    return branch !=# '' ? '± '.branch : ''
                 endif
             catch
             endtry
             return ''
         endfunction
 
-        function! MyReadonly()
+        function! LightlineReadonly()
             return &ft !~? 'help' && &readonly ? '≠' : ''
         endfunction
 
-        function! CtrlPMark()
-            if expand('%:t') =~? 'ControlP'
+        function! LightlineCtrlPMark()
+            if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
                 call lightline#link('iR'[g:lightline.ctrlp_regex])
                 return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
                     \ , g:lightline.ctrlp_next], 0)
@@ -492,7 +502,7 @@
         endfunction
 
         " https://github.com/itchyny/lightline.vim/issues/36
-        function! MyBufferline()
+        function! LightlineBufferline()
             call bufferline#refresh_status()
             let b = g:bufferline_status_info.before
             let c = g:bufferline_status_info.current
@@ -511,16 +521,16 @@
             endif
         endfunction
 
-        function! MyFileformat()
-            return winwidth('.') > 90 ? &fileformat : ''
+        function! LightlineFileformat()
+            return winwidth(0) > 90 ? &fileformat : ''
         endfunction
 
-        function! MyFileencoding()
-            return winwidth('.') > 80 ? (strlen(&fenc) ? &fenc : &enc) : ''
+        function! LightlineFileencoding()
+            return winwidth(0) > 80 ? (&fenc !=# '' ? &fenc : &enc) : ''
         endfunction
 
-        function! MyFiletype()
-            return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+        function! LightlineFiletype()
+            return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
         endfunction
 
         let g:ctrlp_status_func = {
@@ -596,9 +606,9 @@
 
     " UltiSnips
         let g:UltiSnipsSnippetsDir='~/.nvim/privatesnips'
-        let g:UltiSnipsExpandTrigger='<tab>'
-        let g:UltiSnipsJumpForwardTrigger='<c-b>'
-        let g:UltiSnipsJumpBackwardTrigger='<c-z>'
+        let g:UltiSnipsExpandTrigger='<Tab>'
+        let g:UltiSnipsJumpForwardTrigger='<Tab>'
+        let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
 
     " Multiple cursors need to play nice with Deoplete
         " Called once right before you start selecting multiple cursors
@@ -684,7 +694,7 @@
             if exists('g:syntax_on')
                 syntax off
             else
-                syntax on
+                syntax enable
             endif
             IndentLinesReset
             call RepaintOverLength()
