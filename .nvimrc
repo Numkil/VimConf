@@ -11,106 +11,109 @@
 "------------------------------------------------------------------"
 
    call system('mkdir -p $HOME/.nvim/{privatesnips,undo}')
-"" NeoBundle plugin manager
-    "Automatically setting up NeoBundle, taken from
+"" Dein plugin manager
+    "Automatically setting up Dein, taken from
     "http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
-        let has_neobundle=1
-        if !filereadable($HOME.'/.nvim/bundle/neobundle.vim/README.md')
-            echo 'Installing NeoBundle...'
+        let has_dein =1
+        if !filereadable($HOME.'/.nvim/bundle/repos/github.com/Shougo/dein.vim/README.md')
+            echo 'Installing Dein ...'
             echo ''
             silent !mkdir -p $HOME/.nvim/bundle
-            silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.nvim/bundle/neobundle.vim
-            let has_neobundle=0
+            silent !curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
+            silent !sh ./installer.sh $HOME/.nvim/bundle
+            silent !rm -rf installer.sh
+            let has_dein =0
         endif
-    "Initialize NeoBundle
+    "Initialize dein
         filetype off                                " required to init
-        set runtimepath+=$HOME/.nvim/bundle/neobundle.vim/
-        call neobundle#begin(expand($HOME.'/.nvim/bundle/'))
+        set runtimepath+=$HOME/.nvim/bundle/repos/github.com/Shougo/dein.vim
+        call dein#begin('~/.nvim/bundle')
 "" Bundle's
 
-    " Recursive NeoBundle so it can self-update
-    NeoBundleFetch 'Shougo/neobundle.vim'
+    " Recursive Dein so it can self-update
+    call dein#add('~/.nvim/bundle')
 
     " A file tree explorer
-    NeoBundle 'scrooloose/nerdtree'
+    call dein#add('scrooloose/nerdtree')
 
     " A fuzzy file finder
-    NeoBundle 'ctrlpvim/ctrlp.vim'
+    call dein#add('ctrlpvim/ctrlp.vim')
 
     " Finding keywords inside files
-    NeoBundle 'numkil/ag.nvim'
+    call dein#add('numkil/ag.nvim')
 
     " Git wrapper inside Vim
-    NeoBundle 'tpope/vim-fugitive'
+    call dein#add('tpope/vim-fugitive')
 
     " Advanced Undo solution
-    NeoBundle 'simnalamburt/vim-mundo'
+    call dein#add('simnalamburt/vim-mundo')
 
     " Super easy commenting, toggle comments etc
-    NeoBundle 'scrooloose/nerdcommenter'
+    call dein#add('scrooloose/nerdcommenter')
 
     " Displays a list of classes/functions/variabels in the file
     " REQUIREMENTS: (exuberant)-ctags
-    NeoBundle 'majutsushi/tagbar'
+    call dein#add('majutsushi/tagbar')
 
     " UNIX shell command helpers, e.g. sudo, chmod, remove etc.
-    NeoBundle 'tpope/vim-eunuch'
+    call dein#add('tpope/vim-eunuch')
 
     " <Tab> everything!
-    NeoBundle 'ervandew/supertab'
+    call dein#add('ervandew/supertab')
 
     " Awesome syntax checker.
     " Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro.
     " You are required if you want Syntastic to be actually useful to add your own configurations
     " of this plugin to .vimrc_personal, as it is always a strictly personal setting.
-    NeoBundle 'vim-syntastic/syntastic'
+    call dein#add('vim-syntastic/syntastic')
 
     " Snippet engine and library
-    NeoBundle 'SirVer/ultisnips'
-    NeoBundle 'honza/vim-snippets'
+    call dein#add('SirVer/ultisnips')
+    call dein#add('honza/vim-snippets')
 
     " AutoComplete
-    NeoBundle 'Shougo/deoplete.nvim'
+    call dein#add('Shougo/deoplete.nvim')
 
     " Multiple cursors to enable faster refactoring
-    NeoBundle 'terryma/vim-multiple-cursors'
+    call dein#add('terryma/vim-multiple-cursors')
 
     " Smarter inline f and t commands
-    NeoBundle 'rhysd/clever-f.vim'
+    call dein#add('rhysd/clever-f.vim')
 
     " Indentation guides for vim
-    NeoBundle 'Yggdroot/indentLine'
+    call dein#add('Yggdroot/indentLine')
 
     " Closes ( or ' etc.
-    NeoBundle 'jiangmiao/auto-pairs'
+    call dein#add('jiangmiao/auto-pairs')
 
     " Easily manipulate surrounding characters
-    NeoBundle 'tpope/vim-surround'
+    call dein#add('tpope/vim-surround')
 
     " A pretty statusline, bufferline integration
-    NeoBundle 'itchyny/lightline.vim'
-    NeoBundle 'bling/vim-bufferline'
+    call dein#add('itchyny/lightline.vim')
+    call dein#add('bling/vim-bufferline')
 
     " Explorer view for buffers
     " When too many open buffers and :bn is not enough
-    NeoBundle 'jlanzarotta/bufexplorer'
+    call dein#add('jlanzarotta/bufexplorer')
 
     " Light and dark colourscheme for vim
-    NeoBundle 'altercation/vim-colors-solarized'
+    call dein#add('altercation/vim-colors-solarized')
 
     " A fancy start screen, shows MRU etc.
-    NeoBundle 'mhinz/vim-startify'
+    call dein#add('mhinz/vim-startify')
 
     " Language Specific plugins go into this file
     if filereadable($HOME.'/.vimrc_plugins')
         source $HOME/.vimrc_plugins
     endif
 
-    call neobundle#end()
+    call dein#end()
+    call dein#save_state()
 
     " Installing plugins the first time then shuts down
-    if has_neobundle == 0
-        NeoBundleInstall
+    if has_dein == 0
+        call dein#install()
         :qa
     endif
 
