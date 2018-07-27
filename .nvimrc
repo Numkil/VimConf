@@ -270,10 +270,6 @@
     " http://vim.wikia.com/wiki/Folding#Mappings_to_toggle_folds
     nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 
-    " Move faster
-    map <C-Down> <C-d>
-    map <C-Up> <C-u>
-
     " Treat wrapped lines as normal lines
     nnoremap <expr> j v:count == 0 ? 'gj' : 'j'
     nnoremap <expr> k v:count == 0 ? 'gk' : 'k'
