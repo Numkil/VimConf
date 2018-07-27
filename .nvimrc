@@ -98,7 +98,7 @@
     call dein#add('jlanzarotta/bufexplorer')
 
     " Light and dark colourscheme for vim
-    call dein#add('altercation/vim-colors-solarized')
+    call dein#add('lifepillar/vim-solarized8')
 
     " A fancy start screen, shows MRU etc.
     call dein#add('mhinz/vim-startify')
@@ -221,8 +221,9 @@
     set timeout timeoutlen=1000 ttimeoutlen=100        " Fluid ESC and other keycodes
 
     " Colorscheme
+    set termguicolors
     set background=dark
-    colorscheme solarized
+    colorscheme solarized8
 
     " Disabling Flashbell in cli and gui
     set noerrorbells visualbell t_vb=
@@ -575,10 +576,10 @@
                 return
             endif
             try
-                if g:colors_name =~# 'wombat\|solarized\|landscape\|jellybeans\|Tomorrow'
+                if g:colors_name =~# 'wombat\|solarized8\|landscape\|jellybeans\|Tomorrow'
                     let g:lightline.colorscheme =
                         \ substitute(substitute(g:colors_name, '-', '_', 'g'), '256.*', '', '') .
-                        \ (g:colors_name ==# 'solarized' ? '_' . &background : '')
+                        \ (g:colors_name ==# 'solarized8' ? '_' . &background : '')
                     call lightline#init()
                     call lightline#colorscheme()
                     call lightline#update()
