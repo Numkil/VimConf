@@ -594,15 +594,14 @@
         let g:acp_enableAtStartup = 0
 
         let g:deoplete#enable_at_startup = 1
-        let g:deoplete#auto_completion_start_length = 1
-        let g:deoplete#enable_smart_case = 1
+	call deoplete#custom#option('camel_case', v:true)
+	call deoplete#custom#option('auto_complete_delay', 0)
+	call deoplete#custom#option('smart_case', v:true)
+	call deoplete#custom#option('min_pattern_length', 1)
+	call deoplete#custom#option('sources', {
+	      \ '_': ['tag', 'buffer', 'file', 'LanguageClient', 'syntax', 'omni', 'ultisnips'],
+	\})
 
-        let g:deoplete#sources = {}
-        let g:deoplete#sources._ = ['buffer', 'tag', 'member', 'file', 'omni', 'ultisnips']
-        let g:deoplete#omni_patterns = {}
-        let g:deoplete#omni_patterns.php = '\w+|[^. \t]->\w*|\w+::\w*'
-        let g:deoplete#omni_patterns.javascript = '[^. \t]\.\%(\h\w*\)\?'
-        let g:deoplete#omni_patterns.html = '<[^>]*'
 
     " UltiSnips
         let g:UltiSnipsSnippetsDir='~/.nvim/privatesnips'
