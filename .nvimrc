@@ -1,12 +1,6 @@
 "------------------------------------------------------------------"
 " Author:       Merel Jossart                                      "
 " Source:       https://github.com/Numkil/VimConf                  "
-" Credits:      Various vimfora, public .vimrc's and manuals       "
-" Comments:     Extra Credits for Tim Sæterøy are needed           "
-"               because much of what appears in this .vimrc        "
-"               are things I've taken/learned from his .vimrc      "
-"               make sure to also check his out if you like this.  "
-"               http://github.com/timss/vimconf                    "
 " Requirements: Neovim                                             "
 "------------------------------------------------------------------"
 
@@ -31,7 +25,7 @@
 "" Bundle's
 
     " Recursive Dein so it can self-update
-    call dein#add('~/.nvim/bundle')
+    call dein#add('~/.nvim/bundle/repos/github.com/Shougo/dein.vim')
 
     " A file tree explorer
     call dein#add('scrooloose/nerdtree')
@@ -45,6 +39,12 @@
     " Git wrapper inside Vim
     call dein#add('tpope/vim-fugitive')
 
+    " Show modified lines for files tracked in git
+    call dein#add('mhinz/vim-signify')
+
+    " Smooth scrolling
+    call dein#add('psliwka/vim-smoothie')
+
     " Advanced Undo solution
     call dein#add('simnalamburt/vim-mundo')
 
@@ -53,7 +53,7 @@
 
     " Displays a list of classes/functions/variabels in the file
     " REQUIREMENTS: (exuberant)-ctags
-    call dein#add('majutsushi/tagbar')
+    call dein#add('preservim/tagbar')
 
     " UNIX shell command helpers, e.g. sudo, chmod, remove etc.
     call dein#add('tpope/vim-eunuch')
@@ -227,11 +227,14 @@
 
     " Disabling Flashbell in cli and gui
     set noerrorbells visualbell t_vb=
-    if has('autocmd')
-        augroup NoVisualBell
-            autocmd! GUIEnter * set visualbell t_vb=
-        augroup END
-    endif
+    augroup NoVisualBell
+        autocmd! GUIEnter * set visualbell t_vb=
+    augroup END
+
+    " close nvim if nerdtree is the only remaining tab
+    augroup NoNerdTreeAlone
+        autocmd! BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+    augroup END
 
     " Return to last edit position when opening files
     augroup LastPosition
@@ -241,13 +244,11 @@
             \ endif
     augroup END
 
-    " Persistent undo. Requires Vim 7.3
-    if has('persistent_undo') && exists('&undodir')
-        set undodir=$HOME/.nvim/undo/            " where to store undofiles
-        set undofile                            " enable undofile
-        set undolevels=500                      " max undos stored
-        set undoreload=10000                    " buffer stored undos
-    endif
+    " Persistent undo.
+    set undodir=$HOME/.nvim/undo/            " where to store undofiles
+    set undofile                            " enable undofile
+    set undolevels=500                      " max undos stored
+    set undoreload=10000                    " buffer stored undos
 
     " Automatically reload vimrc when it or one of it's extensions is saved
     augroup ReloadVimrcOnSave
@@ -403,7 +404,7 @@
             \ $HOME . '/.vimrc_plugins',
             \ ]
     let g:startify_custom_header = [
-            \ '   Author:      Kevin Jossart',
+            \ '   Author:      Merel Jossart',
             \ ''
             \ ]
     let g:startify_files_number = 5
@@ -594,14 +595,13 @@
         let g:acp_enableAtStartup = 0
 
         let g:deoplete#enable_at_startup = 1
-	call deoplete#custom#option('camel_case', v:true)
-	call deoplete#custom#option('auto_complete_delay', 0)
-	call deoplete#custom#option('smart_case', v:true)
-	call deoplete#custom#option('min_pattern_length', 1)
-	call deoplete#custom#option('sources', {
-	      \ '_': ['tag', 'buffer', 'file', 'LanguageClient', 'syntax', 'omni', 'ultisnips'],
-	\})
-
+        call deoplete#custom#option('camel_case', v:true)
+        call deoplete#custom#option('auto_complete_delay', 0)
+        call deoplete#custom#option('smart_case', v:true)
+        call deoplete#custom#option('min_pattern_length', 1)
+        call deoplete#custom#option('sources', {
+            \ '_': ['tag', 'buffer', 'file', 'LanguageClient', 'syntax', 'omni', 'ultisnips'],
+        \})
 
     " UltiSnips
         let g:UltiSnipsSnippetsDir='~/.nvim/privatesnips'
