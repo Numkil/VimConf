@@ -74,6 +74,9 @@
     " AutoComplete
     call dein#add('Shougo/deoplete.nvim')
 
+    " Combined package for all filetype syntax support
+    call dein#add('sheerun/vim-polyglot')
+
     " Multiple cursors to enable faster refactoring
     call dein#add('terryma/vim-multiple-cursors')
 
@@ -122,6 +125,7 @@
     set cursorline                          " highlight cursor line
     set more                                " -more-- like less
     set number	                            " Show line numbers
+    set signcolumn=number                   " Merge git sign column and line numbers
     set showmatch	                        " Highlight matching brace
     set smartindent	                        " Enable smart-indent
     set scrolloff=3                         " Lines above/below cursor
@@ -219,6 +223,7 @@
 
     set ruler	                                       " Show row and column ruler information
     set timeout timeoutlen=1000 ttimeoutlen=100        " Fluid ESC and other keycodes
+    set updatetime=300                                 " Faster response on async functions
 
     " Colorscheme
     set termguicolors
@@ -249,13 +254,6 @@
     set undofile                            " enable undofile
     set undolevels=500                      " max undos stored
     set undoreload=10000                    " buffer stored undos
-
-    " Automatically reload vimrc when it or one of it's extensions is saved
-    augroup ReloadVimrcOnSave
-        au BufWritePost .nvimrc source $HOME/.config/nvim/init.vim
-        au BufWritePost .vimrc_plugins source $HOME/.nvimrc
-        au BufWritePost .vimrc_personal source $HOME/.nvimrc
-    augroup END
 
 "" Keybinds
 
