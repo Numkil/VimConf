@@ -236,6 +236,17 @@
         autocmd! GUIEnter * set visualbell t_vb=
     augroup END
 
+    augroup RereadBuffer
+        " Triger `autoread` when files changes on disk
+        autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
+                \ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
+
+        " Notification after file change
+        autocmd FileChangedShellPost *
+        \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+    augroup END
+
+
     " close nvim if nerdtree is the only remaining tab
     augroup NoNerdTreeAlone
         autocmd! BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
