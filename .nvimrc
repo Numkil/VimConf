@@ -618,21 +618,6 @@
         let g:UltiSnipsJumpForwardTrigger='<Tab>'
         let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
 
-    " Multiple cursors need to play nice with Deoplete
-        " Called once right before you start selecting multiple cursors
-        function! Multiple_cursors_before()
-            if exists(':DeopleteLock')==2
-                exe 'DeopleteLock'
-            endif
-        endfunction
-
-        " Called once only when the multiple selection is canceled (default <Esc>)
-        function! Multiple_cursors_after()
-            if exists(':DeopleteUnlock')==2
-                exe 'DeopleteUnlock'
-            endif
-        endfunction
-
     " Syntastic default configuration every1 should use. Language specific stuff in vimrc_personal
         let g:syntastic_always_populate_loc_list = 1
         let g:syntastic_auto_loc_list = 1
