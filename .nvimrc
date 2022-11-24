@@ -274,6 +274,9 @@
     " Toggle text wrapping
     nnoremap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
 
+    "Call our own tab function
+    inoremap <silent> <Tab> <C-R>=HandleTab()<CR>
+
     " Toggle folding
     " http://vim.wikia.com/wiki/Folding#Mappings_to_toggle_folds
     nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
@@ -594,6 +597,8 @@
     " Deoplete configurations
         " Disable AutoComplPop.
         let g:acp_enableAtStartup = 0
+        " Stop ultisnips from overriding our <Tab> remap
+        let g:UltiSnipsExpandTrigger = "<leader> <tab>"
 
         let g:deoplete#enable_at_startup = 1
         call deoplete#custom#option('camel_case', v:true)
@@ -602,23 +607,6 @@
             \ '_': ['tag', 'buffer', 'file', 'LanguageClient', 'syntax', 'omni', 'ultisnips'],
             \ 'php': ['omni', 'phpactor', 'ultisnips', 'buffer']
         \})
-
-        function! HandleTab() abort
-            call UltiSnips#ExpandSnippetOrJump()
-            if g:ulti_expand_or_jump_res > 0
-                return ""
-            endif
-            if pumvisible()
-                return "\<C-n>"
-            endif
-            let col = col('.') - 1
-            if !col || getline('.')[col - 1] =~ '\s'
-                return "\<Tab>"
-            endif
-            return deoplete#manual_complete()
-        endfunction
-
-        inoremap <Tab> :call HandleTab()<CR>
 
     " UltiSnips
         let g:UltiSnipsSnippetsDir='~/.nvim/privatesnips'
@@ -659,6 +647,22 @@
                 let g:overlength_enabled = 0
                 echo 'OverLength highlighting turned off'
             endif
+        endfunction
+
+    " Our own supertab function
+        function! HandleTab() abort
+            call UltiSnips#ExpandSnippetOrJump()
+            if g:ulti_expand_or_jump_res > 0
+                return ""
+            endif
+            if pumvisible()
+                return "\<C-n>"
+            endif
+            let col = col('.') - 1
+            if !col || getline('.')[col - 1] =~ '\s'
+                return "\<Tab>"
+            endif
+            return deoplete#manual_complete()
         endfunction
 
     " Overlength sometimes need repainting after messing around with the colorscheme
