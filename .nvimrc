@@ -58,9 +58,6 @@
     " UNIX shell command helpers, e.g. sudo, chmod, remove etc.
     call dein#add('tpope/vim-eunuch')
 
-    " <Tab> everything!
-    call dein#add('ervandew/supertab')
-
     " Awesome syntax checker.
     " Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro.
     " You are required if you want Syntastic to be actually useful to add your own configurations
@@ -418,11 +415,6 @@
             \ ]
     let g:startify_files_number = 5
 
-    " Supertab configuration
-    let g:SuperTabDefaultCompletionType = "context" " Complete based on context
-    let g:SuperTabLongestEnhanced = 1               " Longest common match
-    let g:SuperTabLongestHighlight = 1
-
     " Lightline and bufferline configuration  {{{
         let g:lightline = {
             \ 'colorscheme': 'solarized',
@@ -605,18 +597,31 @@
 
         let g:deoplete#enable_at_startup = 1
         call deoplete#custom#option('camel_case', v:true)
-        call deoplete#custom#option('auto_complete_delay', 0)
         call deoplete#custom#option('smart_case', v:true)
-        call deoplete#custom#option('min_pattern_length', 1)
         call deoplete#custom#option('sources', {
             \ '_': ['tag', 'buffer', 'file', 'LanguageClient', 'syntax', 'omni', 'ultisnips'],
+            \ 'php': ['omni', 'phpactor', 'ultisnips', 'buffer']
         \})
+
+        function! HandleTab() abort
+            call UltiSnips#ExpandSnippetOrJump()
+            if g:ulti_expand_or_jump_res > 0
+                return ""
+            endif
+            if pumvisible()
+                return "\<C-n>"
+            endif
+            let col = col('.') - 1
+            if !col || getline('.')[col - 1] =~ '\s'
+                return "\<Tab>"
+            endif
+            return deoplete#manual_complete()
+        endfunction
+
+        inoremap <Tab> :call HandleTab()<CR>
 
     " UltiSnips
         let g:UltiSnipsSnippetsDir='~/.nvim/privatesnips'
-        let g:UltiSnipsExpandTrigger='<Tab>'
-        let g:UltiSnipsJumpForwardTrigger='<Tab>'
-        let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
 
     " Syntastic default configuration every1 should use. Language specific stuff in vimrc_personal
         let g:syntastic_always_populate_loc_list = 1
