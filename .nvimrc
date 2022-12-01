@@ -598,7 +598,7 @@
         " Disable AutoComplPop.
         let g:acp_enableAtStartup = 0
         " Stop ultisnips from overriding our <Tab> remap
-        let g:UltiSnipsExpandTrigger = "<leader> <tab>"
+        let g:UltiSnipsExpandTrigger = "<F12>"
 
         let g:deoplete#enable_at_startup = 1
         call deoplete#custom#option('camel_case', v:true)
