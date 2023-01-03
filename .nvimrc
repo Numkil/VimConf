@@ -204,8 +204,7 @@
     " force behavior and filetypes, and by extension highlighting
         augroup FileTypeRules
             autocmd!
-            autocmd BufNewFile,BufRead *.txt set ft=sh tw=79          " opens .txt w/highlight
-            autocmd BufNewFile,BufRead *.t set ft=perl tw=79          " opens .txt w/highlight
+            autocmd BufNewFile,BufRead *.t set ft=perl tw=79          " opens .t w/highlight
             autocmd BufNewFile,BufRead *.tex set ft=tex tw=79         " no plaintex
             autocmd BufNewFile,BufRead *.md set ft=markdown tw=79     " markdown opened w/highlight
         augroup END
@@ -570,28 +569,6 @@
             SyntasticCheck
             call lightline#update()
         endfunction
-
-        "Changing background color on the fly
-        augroup LightLineColorScheme
-            autocmd!
-            autocmd ColorScheme * call s:lightline_update()
-        augroup END
-    	function! s:lightline_update()
-            if !exists('g:loaded_lightline')
-                return
-            endif
-            try
-                if g:colors_name =~# 'wombat\|solarized8\|landscape\|jellybeans\|Tomorrow'
-                    let g:lightline.colorscheme =
-                        \ substitute(substitute(g:colors_name, '-', '_', 'g'), '256.*', '', '') .
-                        \ (g:colors_name ==# 'solarized8' ? '_' . &background : '')
-                    call lightline#init()
-                    call lightline#colorscheme()
-                    call lightline#update()
-                endif
-            catch
-            endtry
-        endfunction
     " }}} Lightline configuration ends here
 
     " Deoplete configurations
@@ -684,9 +661,10 @@
 
     " Toggle between dark and light background
         function! BackgroundToggle()
-            let &background = ( &background ==? 'dark'?'light' : 'dark')
-            if exists('g:colors_name')
-                exe 'colorscheme ' . g:colors_name
+            let &background = ( &background ==? 'dark' ? 'light' : 'dark')
+            if exists("g:lightline")
+                runtime autoload/lightline/colorscheme/solarized.vim
+                call lightline#colorscheme()
             endif
             call RepaintOverLength()
         endfunction
