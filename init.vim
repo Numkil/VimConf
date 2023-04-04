@@ -9,11 +9,11 @@
     "Automatically setting up Dein, taken from
     "http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
         let has_dein =1
-        if !filereadable($HOME.'/.nvim/bundle/repos/github.com/Shougo/dein.vim/README.md')
+        if !isdirectory($HOME.'/.nvim/bundle/repos/github.com/Shougo/dein.vim')
             echo 'Installing Dein ...'
             echo ''
             silent !mkdir -p $HOME/.nvim/bundle
-            silent !curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
+            silent !curl https://raw.githubusercontent.com/Shougo/dein.vim/3.0/bin/installer.sh > installer.sh
             silent !sh ./installer.sh $HOME/.nvim/bundle
             silent !rm -rf installer.sh
             let has_dein =0
