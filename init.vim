@@ -30,11 +30,9 @@
     " A file tree explorer
     call dein#add('scrooloose/nerdtree')
 
-    " A fuzzy file finder
-    call dein#add('ctrlpvim/ctrlp.vim')
-
-    " Finding keywords inside files
-    call dein#add('numkil/ag.nvim')
+    " A fuzzy file finder + ripgrep content search + buffexplorer
+    call dein#add('nvim-lua/plenary.nvim')
+    call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.x' })
 
     " Git wrapper inside Vim
     call dein#add('tpope/vim-fugitive')
@@ -92,10 +90,6 @@
     " A pretty statusline, bufferline integration
     call dein#add('itchyny/lightline.vim')
     call dein#add('bling/vim-bufferline')
-
-    " Explorer view for buffers
-    " When too many open buffers and :bn is not enough
-    call dein#add('jlanzarotta/bufexplorer')
 
     " Light and dark colourscheme for vim
     call dein#add('lifepillar/vim-solarized8')
@@ -156,7 +150,7 @@
     " Wrapping
         set nowrap                          " don't wrap lines
         set showbreak=+++                   " Wrap-broken line prefix
-        set textwidth=100                   " Line wrap (number of cols)
+        set textwidth=0                     " Line wrap (number of cols)
         set numberwidth=5                   " 99999 lines
     " Folding
         set foldcolumn=0                    " hide folding column
@@ -308,9 +302,8 @@
     nnoremap <silent> <C-l> :wincmd l<CR>
 
     " Navigating through buffers
-    nnoremap <Leader>be :BufExplorerHorizontalSplit<CR>
     nnoremap <Leader>n :bnext<CR>
-    nnoremap <Leader>p :bprevious<CR>
+    nnoremap <Leader>N :bprevious<CR>
     nnoremap <Leader>f :b#<CR>
     nnoremap <Leader>1 :1b<CR>
     nnoremap <Leader>2 :2b<CR>
@@ -337,15 +330,18 @@
     " Insert a semicolon at the end of the string without moving the cursor
     nnoremap <Leader>; :call Ender()<cr>
 
-    " :Ag
-    nnoremap <Leader>a :LAg!
-
     " Mappings to open multiple lines and enter insert mode. // Function at Functions block
     nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>
     nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>
 
     " Toggle Overlength // Function at Functions block
     nnoremap <Leader>h :call ToggleOverLength()<CR>
+
+    " Telescope mappings
+    nnoremap <c-p> :Gcd<CR> :Telescope find_files find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
+    nnoremap <Leader>a :Gcd<CR> :Telescope live_grep find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
+    nnoremap <Leader>be :lua require'telescope.builtin'.buffers(require('telescope.themes').get_ivy({}))<cr>
+    autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
     " Toggle tagbar (definitions, functions etc.)
     nnoremap <F1> :TagbarToggle<CR>
@@ -373,16 +369,6 @@
 
 "" Plugin Configuration
 
-    " Settings for ctrlp and ag.vim -> Ignores do not seem to always be working
-    let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-      \ 'file': '\v\.(pdf|mp3|m4a|mkv|iso|zip|ogg|png|jpg|webm)$',
-      \ 'link': '',
-      \ }
-    let g:ctrlp_working_path_mode = 'ra' " Always start from project root
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    let g:ag_working_path_mode = 'r' " Always start from project root
-
     " Clever-f preferences
     let g:clever_f_across_no_line = 1
     let g:clever_f_show_promt = 1
@@ -405,11 +391,11 @@
     let g:mundo_right = 0
 
     " Startify Layout Configuration
-    let g:ctrlp_reuse_window = 'startify' " don't split in startify
     let g:startify_bookmarks = [
             \ $HOME . '/.config/nvim/init.vim' ,
             \ $HOME . '/.vimrc_personal',
             \ $HOME . '/.vimrc_plugins',
+            \ $HOME . '/.bash_profile',
             \ ]
     let g:startify_custom_header = [
             \ '   Author:      Merel Jossart',
@@ -424,7 +410,7 @@
             \     'left': [
             \         ['mode', 'paste'],
             \         ['fugitive', 'readonly'],
-            \         ['ctrlpmark', 'bufferline']
+            \         ['bufferline']
             \     ],
             \     'right': [
             \         ['lineinfo'],
@@ -439,7 +425,6 @@
             \     'mode'         : 'LightlineMode',
             \     'fugitive'     : 'LightlineFugitive',
             \     'readonly'     : 'LightlineReadonly',
-            \     'ctrlpmark'    : 'LightlineCtrlPMark',
             \     'bufferline'   : 'LightlineBufferline',
             \     'fileformat'   : 'LightlineFileformat',
             \     'fileencoding' : 'LightlineFileencoding',
@@ -473,7 +458,6 @@
         function! LightlineMode()
             let fname = expand('%:t')
             return fname ==? '__Tagbar__' ? 'Tagbar' :
-                    \ fname ==? 'ControlP' ? 'CtrlP' :
                     \ fname ==? 'NERD_tree' ? 'NerdTree' :
                     \ fname ==? '__Mundo__' ? 'Mundo' :
                     \ fname ==? '__Mundo_Preview__' ? 'Mundo Preview' :
@@ -493,16 +477,6 @@
 
         function! LightlineReadonly()
             return &ft !~? 'help' && &readonly ? '≠' : ''
-        endfunction
-
-        function! LightlineCtrlPMark()
-            if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
-                call lightline#link('iR'[g:lightline.ctrlp_regex])
-                return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-                    \ , g:lightline.ctrlp_next], 0)
-            else
-                return ''
-            endif
         endfunction
 
         " https://github.com/itchyny/lightline.vim/issues/36
@@ -535,23 +509,6 @@
 
         function! LightlineFiletype()
             return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-        endfunction
-
-        let g:ctrlp_status_func = {
-            \ 'main': 'CtrlPStatusFunc_1',
-            \ 'prog': 'CtrlPStatusFunc_2',
-            \ }
-
-        function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-            let g:lightline.ctrlp_regex = a:regex
-            let g:lightline.ctrlp_prev = a:prev
-            let g:lightline.ctrlp_item = a:item
-            let g:lightline.ctrlp_next = a:next
-            return lightline#statusline(0)
-        endfunction
-
-        function! CtrlPStatusFunc_2(str)
-            return lightline#statusline(0)
         endfunction
 
         let g:tagbar_status_func = 'TagbarStatusFunc'
