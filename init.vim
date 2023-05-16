@@ -350,7 +350,7 @@
     nnoremap <F1> :TagbarToggle<CR>
 
     " Toggle the file tree browser
-    nnoremap <F2> :NvimTreeToggle<CR>
+    nnoremap <F2> :Gcd<CR> :NvimTreeToggle<CR>
 
     " Toggle Gundo panel
     nnoremap <f3> :MundoToggle<CR>
