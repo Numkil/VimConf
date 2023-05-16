@@ -28,7 +28,7 @@
     call dein#add('~/.nvim/bundle/repos/github.com/Shougo/dein.vim')
 
     " A file tree explorer
-    call dein#add('scrooloose/nerdtree')
+    call dein#add('nvim-tree/nvim-tree.lua')
 
     " A fuzzy file finder + ripgrep content search + buffexplorer
     call dein#add('nvim-lua/plenary.nvim')
@@ -237,9 +237,12 @@
     augroup END
 
 
-    " close nvim if nerdtree is the only remaining tab
-    augroup NoNerdTreeAlone
-        autocmd! BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+    " close nvim if file tree is the only remaining tab
+    augroup NoFileTreeAlone()
+        autocmd! BufEnter *
+            \ if tabpagenr('$') == 1 && winnr('$') == 1 && @% == 'NvimTree_1' |
+            \      :qa |
+            \ endif
     augroup END
 
     " Return to last edit position when opening files
@@ -346,8 +349,8 @@
     " Toggle tagbar (definitions, functions etc.)
     nnoremap <F1> :TagbarToggle<CR>
 
-    " Toggle the NERDTree file browser
-    nnoremap <F2> :NERDTreeToggle<CR>
+    " Toggle the file tree browser
+    nnoremap <F2> :NvimTreeToggle<CR>
 
     " Toggle Gundo panel
     nnoremap <f3> :MundoToggle<CR>
@@ -376,9 +379,30 @@
     " Setting indentline to speedmode
     let g:indentLine_faster = 1
 
-    " NERDTree Positioning
-    let g:NERDTreeWinPos = 'left'
-    let g:NERDTreeHijackNetrw = 1
+    " File tree configuration
+    let g:loaded_netrw=1
+    let g:loaded_netrwPlugin=1
+:lua << EOF
+    require("nvim-tree").setup({
+      sort_by = "case_sensitive",
+      view = {
+          width = 45,
+      },
+      renderer = {
+          icons = {
+              show = {
+                  file = false,
+                  folder = false,
+                  folder_arrow = false,
+               }
+          }
+      },
+      filters = {
+          dotfiles = false,
+          custom = { "^.git$" }
+      },
+    })
+EOF
 
     " TagBar Positioning
     let g:tagbar_left = 0
@@ -457,8 +481,8 @@
 
         function! LightlineMode()
             let fname = expand('%:t')
-            return fname ==? '__Tagbar__' ? 'Tagbar' :
-                    \ fname ==? 'NERD_tree' ? 'NerdTree' :
+            return fname ==? '__Tagbar__.1' ? 'Tagbar' :
+                    \ fname ==? 'NvimTree_1' ? 'NvimTree' :
                     \ fname ==? '__Mundo__' ? 'Mundo' :
                     \ fname ==? '__Mundo_Preview__' ? 'Mundo Preview' :
                     \ winwidth(0) > 60 ? lightline#mode() : ''
