@@ -419,7 +419,6 @@ EOF
           },
       },
       presets = {
-        bottom_search = true,
         command_palette = true,
         long_message_to_split = true,
         inc_rename = false,
@@ -427,7 +426,10 @@ EOF
       },
       views = {
         popupmenu = {
-          position = "auto",
+          position = {
+            row = "50%",
+            col = "50%",
+          },
         },
         notify = {
           merge = true,
@@ -609,7 +611,7 @@ EOF
         call deoplete#custom#option('smart_case', v:true)
         call deoplete#custom#option('sources', {
             \ '_': ['tag', 'buffer', 'file', 'LanguageClient', 'syntax', 'omni', 'ultisnips'],
-            \ 'php': ['omni', 'phpactor', 'ultisnips', 'buffer']
+            \ 'php': ['phpactor', 'ultisnips', 'omni', 'buffer']
         \})
 
     " UltiSnips
@@ -660,7 +662,6 @@ EOF
             if !col || getline('.')[col - 1] =~ '\s'
                 return "\<Tab>"
             endif
-            return deoplete#manual_complete()
         endfunction
 
     " Overlength sometimes need repainting after messing around with the colorscheme
