@@ -34,6 +34,13 @@
     call dein#add('nvim-lua/plenary.nvim')
     call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.x' })
 
+    " UI updates
+    " REQUIREMENTS: Hack Nerd Font
+    call dein#add('rcarriga/nvim-notify')
+    call dein#add('nvim-treesitter/nvim-treesitter')
+    call dein#add('MunifTanjim/nui.nvim')
+    call dein#add('folke/noice.nvim')
+
     " Git wrapper inside Vim
     call dein#add('tpope/vim-fugitive')
 
@@ -55,12 +62,6 @@
 
     " UNIX shell command helpers, e.g. sudo, chmod, remove etc.
     call dein#add('tpope/vim-eunuch')
-
-    " Awesome syntax checker.
-    " Since syntastic is quite complex it might be helpfull to read :h Syntastic-intro.
-    " You are required if you want Syntastic to be actually useful to add your own configurations
-    " of this plugin to .vimrc_personal, as it is always a strictly personal setting.
-    call dein#add('vim-syntastic/syntastic')
 
     " Snippet engine and library
     call dein#add('SirVer/ultisnips')
@@ -94,13 +95,14 @@
     " Light and dark colourscheme for vim
     call dein#add('lifepillar/vim-solarized8')
 
+    call dein#add('phpactor/phpactor', {'build': 'composer install'})
+    call dein#add('kristijanhusak/deoplete-phpactor')
+
     " A fancy start screen, shows MRU etc.
     call dein#add('mhinz/vim-startify')
 
-    " Language Specific plugins go into this file
-    if filereadable($HOME.'/.vimrc_plugins')
-        source $HOME/.vimrc_plugins
-    endif
+    " A devicons
+    call dein#add('ryanoasis/vim-devicons')
 
     call dein#end()
     call dein#save_state()
@@ -127,10 +129,6 @@
     set wildignore+=*.m4a
     set wildmenu                            " better auto complete
     set wildmode=longest:full,list:full     " bash-like auto complete
-    set guifont=DejaVu\ Sans\ Mono\ 9
-    set guioptions-=m                       " remove menubar
-    set guioptions-=T                       " remove toolbar
-    set guioptions-=r                       " remove right scrollbar
     set completeopt=menu,preview,longest    " insert mode completion
     set hidden                              " buffer change, more undo
     set history=1000                        " default 20
@@ -217,7 +215,7 @@
 
     " Colorscheme
     set termguicolors
-    set background=dark
+    set background=light
     colorscheme solarized8
 
     " Disabling Flashbell in cli and gui
@@ -384,29 +382,92 @@
     let g:loaded_netrwPlugin=1
 :lua << EOF
     require("nvim-tree").setup({
-      sort_by = "case_sensitive",
+      respect_buf_cwd = true,
+      update_focused_file = {
+        enable = true,
+      },
       view = {
-          width = 45,
+        width = 45,
+      },
+      git = {
+        ignore = true,
       },
       renderer = {
-          icons = {
-              show = {
-                  file = false,
-                  folder = false,
-                  folder_arrow = false,
-               }
-          }
+        highlight_git = true,
       },
+      sort_by = "case_sensitive",
       filters = {
-          dotfiles = false,
-          custom = { "^.git$" }
+        dotfiles = false,
+        custom = { "^.git$" }
+      },
+    })
+EOF
+    " UI updates configuration
+:lua << EOF
+    require("noice").setup({
+      lsp = {
+        hover = {
+          enabled = true,
+        },
+        signature = {
+          enabled = true,
+        },
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+          },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = false,
+        lsp_doc_border = true,
+      },
+      views = {
+        popupmenu = {
+          position = "auto",
+        },
+        notify = {
+          merge = true,
+        },
+        cmdline_popup = {
+          position = {
+            row = "50%",
+            col = "50%",
+          },
+          size = {
+            min_width = 80,
+          },
+        },
+      },
+    })
+EOF
+    " tree sitter configuration
+:lua << EOF
+    require'nvim-treesitter.configs'.setup({
+      ensure_installed = { "lua", "vim", "vimdoc", "query", "bash", "php", "regex", "markdown", "markdown_inline" },
+      sync_install = false,
+      auto_install = true,
+      highlight = {
+        enable = true,
+        disable = {"twig"},
+        disable = function(lang, buf)
+          local max_filesize = 100 * 1024 -- 100 KB
+          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+          if ok and stats and stats.size > max_filesize then
+            return true
+          end
+        end,
+        additional_vim_regex_highlighting = false,
       },
     })
 EOF
 
     " TagBar Positioning
-    let g:tagbar_left = 0
-    let g:tagbar_width = 30
+    let g:tagbar_left = 1
+    let g:tagbar_width = 35
     set tags=tags;/
 
     " Gundo Positioning
@@ -439,7 +500,7 @@ EOF
             \     'right': [
             \         ['lineinfo'],
             \         ['percent'],
-            \         ['fileformat', 'fileencoding', 'filetype', 'syntastic']
+            \         ['fileformat', 'fileencoding', 'filetype']
             \     ]
             \ },
             \ 'component': {
@@ -453,12 +514,6 @@ EOF
             \     'fileformat'   : 'LightlineFileformat',
             \     'fileencoding' : 'LightlineFileencoding',
             \     'filetype'     : 'LightlineFiletype'
-            \ },
-            \ 'component_expand': {
-            \     'syntastic': 'SyntasticStatuslineFlag',
-            \ },
-            \ 'component_type': {
-            \     'syntastic': 'middle',
             \ },
             \ 'subseparator': {
             \     'left': '|', 'right': '|'
@@ -541,15 +596,6 @@ EOF
             let g:lightline.fname = a:fname
             return lightline#statusline(0)
         endfunction
-
-        augroup AutoSyntastic
-            autocmd!
-            autocmd BufWritePost *.pl,*.c,*.cpp,*.h,*.php,*.java call s:syntastic()
-        augroup END
-        function! s:syntastic()
-            SyntasticCheck
-            call lightline#update()
-        endfunction
     " }}} Lightline configuration ends here
 
     " Deoplete configurations
@@ -568,12 +614,6 @@ EOF
 
     " UltiSnips
         let g:UltiSnipsSnippetsDir='~/.nvim/privatesnips'
-
-    " Syntastic default configuration every1 should use. Language specific stuff in vimrc_personal
-        let g:syntastic_always_populate_loc_list = 1
-        let g:syntastic_auto_loc_list = 1
-        let g:syntastic_check_on_open = 1
-        let g:syntastic_check_on_wq = 0
 
 "" Functions
 
@@ -683,8 +723,3 @@ EOF
        function! Ender()
            :execute "normal! mqA;\<esc>`q"
        endfunction
-
-    " Attempt to include external file with personal extra configurations
-    if filereadable($HOME.'/.vimrc_personal')
-        source $HOME/.vimrc_personal
-    endif
