@@ -34,12 +34,14 @@
     call dein#add('nvim-lua/plenary.nvim')
     call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.x' })
 
-    " UI updates
+    " UI modernization, floating windows, statusline, popups, treesitter for
+    " syntax highlights
     " REQUIREMENTS: Hack Nerd Font
     call dein#add('rcarriga/nvim-notify')
     call dein#add('nvim-treesitter/nvim-treesitter')
     call dein#add('MunifTanjim/nui.nvim')
     call dein#add('folke/noice.nvim')
+    call dein#add('nvim-lualine/lualine.nvim')
 
     " Git wrapper inside Vim
     call dein#add('tpope/vim-fugitive')
@@ -87,10 +89,6 @@
 
     " Easily manipulate surrounding characters
     call dein#add('tpope/vim-surround')
-
-    " A pretty statusline, bufferline integration
-    call dein#add('itchyny/lightline.vim')
-    call dein#add('bling/vim-bufferline')
 
     " Light and dark colourscheme for vim
     call dein#add('lifepillar/vim-solarized8')
@@ -234,7 +232,6 @@
         \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
     augroup END
 
-
     " close nvim if file tree is the only remaining tab
     augroup NoFileTreeAlone()
         autocmd! BufEnter *
@@ -377,6 +374,16 @@
     " Setting indentline to speedmode
     let g:indentLine_faster = 1
 
+    " statusline
+:lua << EOF
+    require('lualine').setup({
+      options = {
+        theme = "solarized"
+      },
+      extensions = {'fugitive', 'mundo', 'nvim-tree'}
+    })
+EOF
+
     " File tree configuration
     let g:loaded_netrw=1
     let g:loaded_netrwPlugin=1
@@ -446,6 +453,7 @@ EOF
       },
     })
 EOF
+
     " tree sitter configuration
 :lua << EOF
     require'nvim-treesitter.configs'.setup({
@@ -490,116 +498,6 @@ EOF
             \ ]
     let g:startify_files_number = 5
 
-    " Lightline and bufferline configuration  {{{
-        let g:lightline = {
-            \ 'colorscheme': 'solarized',
-            \ 'active': {
-            \     'left': [
-            \         ['mode', 'paste'],
-            \         ['fugitive', 'readonly'],
-            \         ['bufferline']
-            \     ],
-            \     'right': [
-            \         ['lineinfo'],
-            \         ['percent'],
-            \         ['fileformat', 'fileencoding', 'filetype']
-            \     ]
-            \ },
-            \ 'component': {
-            \     'paste': '%{&paste?"!":""}'
-            \ },
-            \ 'component_function': {
-            \     'mode'         : 'LightlineMode',
-            \     'fugitive'     : 'LightlineFugitive',
-            \     'readonly'     : 'LightlineReadonly',
-            \     'bufferline'   : 'LightlineBufferline',
-            \     'fileformat'   : 'LightlineFileformat',
-            \     'fileencoding' : 'LightlineFileencoding',
-            \     'filetype'     : 'LightlineFiletype'
-            \ },
-            \ 'subseparator': {
-            \     'left': '|', 'right': '|'
-            \ }
-            \ }
-
-        " Ensure that each mode indicator is the same size and casing
-        let g:lightline.mode_map = {
-            \ 'n'      : ' N ',
-            \ 'i'      : ' I ',
-            \ 'R'      : ' R ',
-            \ 'v'      : ' V ',
-            \ 'V'      : 'V-L',
-            \ 'c'      : ' C ',
-            \ "\<C-v>" : 'V-B',
-            \ 's'      : ' S ',
-            \ 'S'      : 'S-L',
-            \ "\<C-s>" : 'S-B',
-            \ '?'      : '      ' }
-
-        function! LightlineMode()
-            let fname = expand('%:t')
-            return fname ==? '__Tagbar__.1' ? 'Tagbar' :
-                    \ fname ==? 'NvimTree_1' ? 'NvimTree' :
-                    \ fname ==? '__Mundo__' ? 'Mundo' :
-                    \ fname ==? '__Mundo_Preview__' ? 'Mundo Preview' :
-                    \ winwidth(0) > 60 ? lightline#mode() : ''
-        endfunction
-
-        function! LightlineFugitive()
-            try
-                if expand('%:t') !~? 'Tagbar\|Mundo\|NERD' && exists('*fugitive#head')
-                    let branch = fugitive#head()
-                    return branch !=# '' ? '± '.branch : ''
-                endif
-            catch
-            endtry
-            return ''
-        endfunction
-
-        function! LightlineReadonly()
-            return &ft !~? 'help' && &readonly ? '≠' : ''
-        endfunction
-
-        " https://github.com/itchyny/lightline.vim/issues/36
-        function! LightlineBufferline()
-            call bufferline#refresh_status()
-            let b = g:bufferline_status_info.before
-            let c = g:bufferline_status_info.current
-            let a = g:bufferline_status_info.after
-            let alen = strlen(a)
-            let blen = strlen(b)
-            let clen = strlen(c)
-            let w = winwidth(0) * 4 / 11
-            if w < alen+blen+clen
-                let whalf = (w - strlen(c)) / 2
-                let aa = alen > whalf && blen > whalf ? a[:whalf] : alen + blen < w - clen || alen < whalf ? a : a[:(w - clen - blen)]
-                let bb = alen > whalf && blen > whalf ? b[-(whalf):] : alen + blen < w - clen || blen < whalf ? b : b[-(w - clen - alen):]
-                return (strlen(bb) < strlen(b) ? '...' : '') . bb . c . aa . (strlen(aa) < strlen(a) ? '...' : '')
-            else
-                return b . c . a
-            endif
-        endfunction
-
-        function! LightlineFileformat()
-            return winwidth(0) > 90 ? &fileformat : ''
-        endfunction
-
-        function! LightlineFileencoding()
-            return winwidth(0) > 80 ? (&fenc !=# '' ? &fenc : &enc) : ''
-        endfunction
-
-        function! LightlineFiletype()
-            return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-        endfunction
-
-        let g:tagbar_status_func = 'TagbarStatusFunc'
-
-        function! TagbarStatusFunc(current, sort, fname, ...) abort
-            let g:lightline.fname = a:fname
-            return lightline#statusline(0)
-        endfunction
-    " }}} Lightline configuration ends here
-
     " Deoplete configurations
         " Disable AutoComplPop.
         let g:acp_enableAtStartup = 0
@@ -633,13 +531,13 @@ EOF
             endif
         endfunction
 
-    " Highlight characters past 85 characters
+    " Highlight characters past 150 characters
         let g:overlength_enabled = 0
 
         function! ToggleOverLength()
-        highlight OverLength ctermbg=181 guibg=MistyRose1
+            highlight OverLength ctermbg=181 guibg=MistyRose1
             if g:overlength_enabled == 0
-                match OverLength /\%85v.*/
+                match OverLength /\%150v.*/
                 let g:overlength_enabled = 1
                 echo 'OverLength highlighting turned on'
             else
@@ -684,10 +582,9 @@ EOF
     " Toggle between dark and light background
         function! BackgroundToggle()
             let &background = ( &background ==? 'dark' ? 'light' : 'dark')
-            if exists("g:lightline")
-                runtime autoload/lightline/colorscheme/solarized.vim
-                call lightline#colorscheme()
-            endif
+:lua << EOF
+            require('lualine').refresh()
+EOF
             call RepaintOverLength()
         endfunction
 
