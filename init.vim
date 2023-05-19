@@ -4,7 +4,7 @@
 " Requirements: Neovim                                             "
 "------------------------------------------------------------------"
 
-   call system('mkdir -p $HOME/.nvim/{privatesnips,undo}')
+   call system('mkdir -p $HOME/.nvim/undo')
 "" Dein plugin manager
     "Automatically setting up Dein, taken from
     "http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
@@ -63,16 +63,6 @@
     " UNIX shell command helpers, e.g. sudo, chmod, remove etc.
     call dein#add('tpope/vim-eunuch')
 
-    " Snippet engine and library
-    call dein#add('SirVer/ultisnips')
-    call dein#add('honza/vim-snippets')
-
-    " AutoComplete
-    call dein#add('Shougo/deoplete.nvim')
-
-    " Combined package for all filetype syntax support
-    call dein#add('sheerun/vim-polyglot')
-
     " Multiple cursors to enable faster refactoring
     call dein#add('terryma/vim-multiple-cursors')
 
@@ -95,8 +85,24 @@
     " Light and dark colourscheme for vim
     call dein#add('lifepillar/vim-solarized8')
 
+    " LSP Implementation
+    call dein#add('prabirshrestha/vim-lsp')
+    call dein#add('mattn/vim-lsp-settings')
+
+    " code completion engine
+    call dein#add('Shougo/ddc.vim')
+    call dein#add('vim-denops/denops.vim')
+    call dein#add('tani/ddc-fuzzy')
+    call dein#add('tani/ddc-path')
+    call dein#add('Shougo/ddc-matcher_head')
+    call dein#add('Shougo/ddc-source-around')
+    call dein#add('Shougo/ddc-ui-native')
+    call dein#add('shun/ddc-vim-lsp')
+
+    " php engine for autocompletion
     call dein#add('phpactor/phpactor', {'build': 'composer install'})
     call dein#add('kristijanhusak/deoplete-phpactor')
+
 
     " A fancy start screen, shows MRU etc.
     call dein#add('mhinz/vim-startify')
@@ -267,9 +273,6 @@
 
     " Toggle text wrapping
     nnoremap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
-
-    "Call our own tab function
-    inoremap <silent> <Tab> <C-R>=HandleTab()<CR>
 
     " Toggle folding
     " http://vim.wikia.com/wiki/Folding#Mappings_to_toggle_folds
@@ -598,22 +601,49 @@ EOF
         endfunction
     " }}} Lightline configuration ends here
 
-    " Deoplete configurations
+    " Ddc configurations
         " Disable AutoComplPop.
         let g:acp_enableAtStartup = 0
-        " Stop ultisnips from overriding our <Tab> remap
-        let g:UltiSnipsExpandTrigger = "<F12>"
 
-        let g:deoplete#enable_at_startup = 1
-        call deoplete#custom#option('camel_case', v:true)
-        call deoplete#custom#option('smart_case', v:true)
-        call deoplete#custom#option('sources', {
-            \ '_': ['tag', 'buffer', 'file', 'LanguageClient', 'syntax', 'omni', 'ultisnips'],
-            \ 'php': ['omni', 'phpactor', 'ultisnips', 'buffer']
-        \})
+        call ddc#custom#patch_global('ui', 'native')
+        call ddc#custom#patch_global('sourceOptions', {
+          \   '_': {
+          \     'matchers': ['matcher_fuzzy'],
+          \     'sorters': ['sorter_fuzzy'],
+          \     'converters': ['converter_fuzzy']
+          \   }
+          \ })
+        call ddc#custom#patch_global('sources', ['around'])
+        call ddc#custom#patch_global('sources', ['path'])
+        call ddc#custom#patch_global('sourceOptions', {
+          \   'path': {'mark': 'P'},
+          \ })
+        call ddc#custom#patch_global('sourceParams', {
+          \   'path': {
+          \     'cmd': ['find', '-maxdepth', '5'],
+          \   }
+          \ })
 
-    " UltiSnips
-        let g:UltiSnipsSnippetsDir='~/.nvim/privatesnips'
+        call ddc#custom#patch_global('sources', ['vim-lsp'])
+        call ddc#custom#patch_global('sourceOptions', {
+          \ 'vim-lsp': {
+          \   'matchers': ['matcher_head'],
+          \   'mark': 'lsp',
+          \ },
+          \ })
+
+" " Mappings
+
+        inoremap <silent><expr> <TAB>
+          \ pumvisible() ? '<C-n>' :
+          \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+          \ '<TAB>' : ddc#map#manual_complete()
+
+        " <S-TAB>: completion back.
+        inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+
+        " Use ddc.
+        call ddc#enable()
 
 "" Functions
 
@@ -645,22 +675,6 @@ EOF
                 let g:overlength_enabled = 0
                 echo 'OverLength highlighting turned off'
             endif
-        endfunction
-
-    " Our own supertab function
-        function! HandleTab() abort
-            call UltiSnips#ExpandSnippetOrJump()
-            if g:ulti_expand_or_jump_res > 0
-                return ""
-            endif
-            if pumvisible()
-                return "\<C-n>"
-            endif
-            let col = col('.') - 1
-            if !col || getline('.')[col - 1] =~ '\s'
-                return "\<Tab>"
-            endif
-            return deoplete#manual_complete()
         endfunction
 
     " Overlength sometimes need repainting after messing around with the colorscheme
