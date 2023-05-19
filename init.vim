@@ -342,7 +342,7 @@
     autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
     " Toggle tagbar (definitions, functions etc.)
-    nnoremap <F1> :TagbarToggle<CR>
+    nnoremap <F1> :TagbarOpenAutoClose<CR>
 
     " Toggle the file tree browser
     nnoremap <F2> :Gcd<CR> :NvimTreeToggle<CR>
