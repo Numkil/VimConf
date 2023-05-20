@@ -84,23 +84,21 @@
     call dein#add('lifepillar/vim-solarized8')
 
     " LSP Implementation
-    call dein#add('prabirshrestha/vim-lsp')
-    call dein#add('mattn/vim-lsp-settings')
+    call dein#add('vim-denops/denops.vim')
+    call dein#add('neovim/nvim-lspconfig')
+    call dein#add('ErichDonGubler/lsp_lines.nvim')
+    call dein#add("williamboman/mason.nvim")
+    call dein#add("williamboman/mason-lspconfig.nvim")
 
     " code completion engine
     call dein#add('Shougo/ddc.vim')
-    call dein#add('vim-denops/denops.vim')
+    call dein#add('matsui54/denops-popup-preview.vim')
     call dein#add('tani/ddc-fuzzy')
-    call dein#add('tani/ddc-path')
-    call dein#add('Shougo/ddc-matcher_head')
-    call dein#add('Shougo/ddc-source-around')
+    call dein#add('Shougo/ddc-nvim-lsp')
+    call dein#add('Shougo/ddc-around')
+    call dein#add('Shougo/ddc-source-nvim-lsp')
+    call dein#add('matsui54/ddc-buffer')
     call dein#add('Shougo/ddc-ui-native')
-    call dein#add('shun/ddc-vim-lsp')
-
-    " php engine for autocompletion
-    call dein#add('phpactor/phpactor', {'build': 'composer install'})
-    call dein#add('kristijanhusak/deoplete-phpactor')
-
 
     " A fancy start screen, shows MRU etc.
     call dein#add('mhinz/vim-startify')
@@ -429,6 +427,12 @@ EOF
         lsp_doc_border = true,
       },
       views = {
+        hover = {
+          position = {
+            row = "10%",
+            col = "50%",
+          },
+        },
         popupmenu = {
           position = {
             row = "50%",
@@ -469,6 +473,9 @@ EOF
         end,
         additional_vim_regex_highlighting = false,
       },
+      indent = {
+        enable = true
+      },
     })
 EOF
 
@@ -496,37 +503,63 @@ EOF
     let g:startify_files_number = 5
 
 
+    " lsp / mason configuration
+:lua << EOF
+    require 'lspconfig'.intelephense.setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+            intelephense = {
+                stubs = {
+                    'Core',
+                    'SPL',
+                    'imagick',
+                    'standard',
+                    'pcre',
+                    'date',
+                    'json',
+                    'ctype',
+                    'SimpleXML',
+                    'Reflection',
+                }
+            }
+        }
+    }
+
+    require("lsp_lines").setup {
+    }
+    require("mason").setup {
+    }
+    require("mason-lspconfig").setup {
+        ensure_installed = { "intelephense" },
+    }
+EOF
+
     " Ddc configurations
-        " Disable AutoComplPop.
-        let g:acp_enableAtStartup = 0
-
         call ddc#custom#patch_global('ui', 'native')
-        call ddc#custom#patch_global('sourceOptions', {
-          \   '_': {
-          \     'matchers': ['matcher_fuzzy'],
-          \     'sorters': ['sorter_fuzzy'],
-          \     'converters': ['converter_fuzzy']
-          \   }
-          \ })
-        call ddc#custom#patch_global('sources', ['around'])
-        call ddc#custom#patch_global('sources', ['path'])
-        call ddc#custom#patch_global('sourceOptions', {
-          \   'path': {'mark': 'P'},
-          \ })
-        call ddc#custom#patch_global('sourceParams', {
-          \   'path': {
-          \     'cmd': ['find', '-maxdepth', '5'],
-          \   }
-          \ })
-        call ddc#custom#patch_global('sources', ['vim-lsp'])
-        call ddc#custom#patch_global('sourceOptions', {
-          \ 'vim-lsp': {
-          \   'matchers': ['matcher_head'],
-          \   'mark': 'lsp',
-          \ },
-          \ })
+        call ddc#custom#patch_global({
+        \ 'sources': ['nvim-lsp', 'around', 'buffer'],
+        \ 'sourceOptions': {
+            \ '_': {
+            \ 'matchers': ['matcher_fuzzy'],
+            \ 'sorters': ['sorter_fuzzy'],
+            \ 'converters': ['converter_fuzzy'],
+            \ },
+            \ 'nvim-lsp': {
+            \ 'mark': 'LSP',
+            \ 'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+            \ },
+            \ 'around': {
+            \ 'mark': 'AROUND',
+            \ },
+            \ 'buffer': {
+            \ 'mark': 'BUFFER',
+            \ },
+        \ },
+        \ })
 
-" " Mappings
+        " Markdown FileType completion sources
+        call ddc#custom#patch_filetype('markdown', { 'sources': ['around', 'buffer'] })
 
         inoremap <silent><expr> <TAB>
           \ pumvisible() ? '<C-n>' :
@@ -537,6 +570,7 @@ EOF
         inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
 
         " Use ddc.
+        call popup_preview#enable()
         call ddc#enable()
 
 "" Functions
@@ -552,21 +586,6 @@ EOF
                 normal! 2k
             else
                 normal! 2j
-            endif
-        endfunction
-
-    " Our own supertab function
-        function! HandleTab() abort
-            call UltiSnips#ExpandSnippetOrJump()
-            if g:ulti_expand_or_jump_res > 0
-                return ""
-            endif
-            if pumvisible()
-                return "\<C-n>"
-            endif
-            let col = col('.') - 1
-            if !col || getline('.')[col - 1] =~ '\s'
-                return "\<Tab>"
             endif
         endfunction
 
