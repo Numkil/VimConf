@@ -90,7 +90,7 @@
     call dein#add("williamboman/mason.nvim")
     call dein#add("williamboman/mason-lspconfig.nvim")
 
-    " code completion engine
+    " Code completion engine
     call dein#add('Shougo/ddc.vim')
     call dein#add('matsui54/denops-popup-preview.vim')
     call dein#add('tani/ddc-fuzzy')
@@ -100,10 +100,15 @@
     call dein#add('matsui54/ddc-buffer')
     call dein#add('Shougo/ddc-ui-native')
 
+    " Snippet Engine + Presets
+    call dein#add('hrsh7th/vim-vsnip-integ')
+    call dein#add('hrsh7th/vim-vsnip')
+    call dein#add('rafamadriz/friendly-snippets')
+
     " A fancy start screen, shows MRU etc.
     call dein#add('mhinz/vim-startify')
 
-    " A devicons
+    " Devicons
     call dein#add('ryanoasis/vim-devicons')
 
     call dein#end()
@@ -458,7 +463,7 @@ EOF
     " tree sitter configuration
 :lua << EOF
     require'nvim-treesitter.configs'.setup({
-      ensure_installed = { "lua", "vim", "vimdoc", "query", "bash", "php", "regex", "markdown", "markdown_inline" },
+      ensure_installed = { "lua", "vim", "vimdoc", "query", "bash", "php", "regex", "markdown", "markdown_inline", "twig" },
       sync_install = false,
       auto_install = true,
       highlight = {
@@ -538,7 +543,7 @@ EOF
     " Ddc configurations
         call ddc#custom#patch_global('ui', 'native')
         call ddc#custom#patch_global({
-        \ 'sources': ['nvim-lsp', 'around', 'buffer'],
+        \ 'sources': ['nvim-lsp', 'vsnip', 'around', 'buffer'],
         \ 'sourceOptions': {
             \ '_': {
             \ 'matchers': ['matcher_fuzzy'],
@@ -548,6 +553,9 @@ EOF
             \ 'nvim-lsp': {
             \ 'mark': 'LSP',
             \ 'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+            \ },
+            \ 'vsnip': {
+            \ 'mark': 'SNIPPET',
             \ },
             \ 'around': {
             \ 'mark': 'AROUND',
@@ -561,6 +569,7 @@ EOF
         " Markdown FileType completion sources
         call ddc#custom#patch_filetype('markdown', { 'sources': ['around', 'buffer'] })
 
+        inoremap <expr> <C-y> pumvisible() ? (vsnip#expandable() ? "\<Plug>(vsnip-expand)" : "\<C-y>") : "\<C-y>"
         inoremap <silent><expr> <TAB>
           \ pumvisible() ? '<C-n>' :
           \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
