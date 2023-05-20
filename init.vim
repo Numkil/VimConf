@@ -332,9 +332,6 @@
     nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>
     nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>
 
-    " Toggle Overlength // Function at Functions block
-    nnoremap <Leader>h :call ToggleOverLength()<CR>
-
     " Telescope mappings
     nnoremap <c-p> :Gcd<CR> :Telescope find_files find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
     nnoremap <Leader>a :Gcd<CR> :Telescope live_grep find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
@@ -350,14 +347,11 @@
     " Toggle Gundo panel
     nnoremap <f3> :MundoToggle<CR>
 
-    " Toggle syntax highlighting // Function at Functions block
-    nnoremap <F4> :call ToggleSyntaxHighLighting()<CR>
-
     " Toggle light-dark background // Function at Functions block
-    nnoremap <F5> :call BackgroundToggle()<CR>
+    nnoremap <F4> :call BackgroundToggle()<CR>
 
     " Toggle Autopairing tags like (
-    let g:AutoPairsShortcutToggle = '<F6>'
+    let g:AutoPairsShortcutToggle = '<F5>'
 
     " Toggle RelativeNumbers // Function at Functions block
     nnoremap <Leader>r :call NumberToggle()<CR>
@@ -531,22 +525,6 @@ EOF
             endif
         endfunction
 
-    " Highlight characters past 150 characters
-        let g:overlength_enabled = 0
-
-        function! ToggleOverLength()
-            highlight OverLength ctermbg=181 guibg=MistyRose1
-            if g:overlength_enabled == 0
-                match OverLength /\%150v.*/
-                let g:overlength_enabled = 1
-                echo 'OverLength highlighting turned on'
-            else
-                match
-                let g:overlength_enabled = 0
-                echo 'OverLength highlighting turned off'
-            endif
-        endfunction
-
     " Our own supertab function
         function! HandleTab() abort
             call UltiSnips#ExpandSnippetOrJump()
@@ -562,13 +540,6 @@ EOF
             endif
         endfunction
 
-    " Overlength sometimes need repainting after messing around with the colorscheme
-        function! RepaintOverLength()
-        highlight OverLength ctermbg=181 guibg=MistyRose1
-            if g:overlength_enabled == 1
-                match OverLength /\%85v.*/
-            endif
-        endfunction
 
     " Toggle relativenumber
         function! NumberToggle()
@@ -585,18 +556,6 @@ EOF
 :lua << EOF
             require('lualine').refresh()
 EOF
-            call RepaintOverLength()
-        endfunction
-
-    " Toggle syntax highlighting
-        function! ToggleSyntaxHighLighting()
-            if exists('g:syntax_on')
-                syntax off
-            else
-                syntax enable
-            endif
-            IndentLinesReset
-            call RepaintOverLength()
         endfunction
 
     " Remove multiple empty lines
