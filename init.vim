@@ -91,6 +91,7 @@
     call dein#add("williamboman/mason-lspconfig.nvim")
 
     " Code completion engine
+    " REQUIREMENTS: Deno runtime
     call dein#add('Shougo/ddc.vim')
     call dein#add('matsui54/denops-popup-preview.vim')
     call dein#add('tani/ddc-fuzzy')
