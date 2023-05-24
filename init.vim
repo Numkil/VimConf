@@ -43,11 +43,9 @@
     call dein#add('folke/noice.nvim')
     call dein#add('nvim-lualine/lualine.nvim')
 
-    " Git wrapper inside Vim
+    " Git integration
     call dein#add('tpope/vim-fugitive')
-
-    " Show modified lines for files tracked in git
-    call dein#add('mhinz/vim-signify')
+    call dein#add('lewis6991/gitsigns.nvim')
 
     " Smooth scrolling
     call dein#add('psliwka/vim-smoothie')
@@ -71,11 +69,11 @@
     " Smarter inline f and t commands
     call dein#add('rhysd/clever-f.vim')
 
-    " Indentation guides for vim
-    call dein#add('Yggdroot/indentLine')
+    " Indentation guides using treesitter
+    call dein#add('lukas-reineke/indent-blankline.nvim')
 
     " Closes ( or ' etc.
-    call dein#add('jiangmiao/auto-pairs')
+    call dein#add('windwp/nvim-autopairs')
 
     " Easily manipulate surrounding characters
     call dein#add('tpope/vim-surround')
@@ -124,10 +122,10 @@
 
     set cursorline                          " highlight cursor line
     set more                                " -more-- like less
-    set number	                            " Show line numbers
-    set signcolumn=number                   " Merge git sign column and line numbers
-    set showmatch	                        " Highlight matching brace
-    set smartindent	                        " Enable smart-indent
+    set number                              " Show line numbers
+    set signcolumn=number                   " Merge status and number line
+    set showmatch                           " Highlight matching brace
+    set smartindent                         " Enable smart-indent
     set scrolloff=3                         " Lines above/below cursor
     set wildignore+=*.bak,*.pyc,*.o,*.ojb   " ignore said files
     set wildignore+=*.a,*.pdf,*.jpg,*.gif
@@ -356,9 +354,6 @@
     " Toggle light-dark background // Function at Functions block
     nnoremap <F4> :call BackgroundToggle()<CR>
 
-    " Toggle Autopairing tags like (
-    let g:AutoPairsShortcutToggle = '<F5>'
-
     " Toggle RelativeNumbers // Function at Functions block
     nnoremap <Leader>r :call NumberToggle()<CR>
 
@@ -371,20 +366,98 @@
     let g:clever_f_across_no_line = 1
     let g:clever_f_show_promt = 1
 
-    " Setting indentline to speedmode
-    let g:indentLine_faster = 1
-
-    " statusline
 :lua << EOF
+    vim.opt.list = true
+
+    require("indent_blankline").setup {
+        space_char_blankline = " ",
+        show_current_context = true,
+        show_current_context_start = true,
+    }
+    require('nvim-autopairs').setup({
+        check_ts = true,
+    })
     require('lualine').setup({
       options = {
         theme = "solarized"
       },
       extensions = {'fugitive', 'mundo', 'nvim-tree'}
     })
+    require('telescope').setup({
+      defaults = {
+        prompt_prefix = "  ",
+        selection_caret = "❯ ",
+        borderchars = { "█", " ", "▀", "█", "█", " ", " ", "▀" },
+        sorting_strategy = "ascending",
+        file_ignore_patterns = {
+          ".git/",
+          "target/",
+          "docs/",
+          "vendor/*",
+          "%.lock",
+          "__pycache__/*",
+          "%.sqlite3",
+          "%.ipynb",
+          "node_modules/*",
+          -- "%.jpg",
+          -- "%.jpeg",
+          -- "%.png",
+          "%.svg",
+          "%.otf",
+          "%.ttf",
+          "%.webp",
+          ".dart_tool/",
+          ".github/",
+          ".gradle/",
+          ".idea/",
+          ".settings/",
+          ".vscode/",
+          "__pycache__/",
+          "build/",
+          "gradle/",
+          "node_modules/",
+          "%.pdb",
+          "%.dll",
+          "%.class",
+          "%.exe",
+          "%.cache",
+          "%.ico",
+          "%.pdf",
+          "%.dylib",
+          "%.jar",
+          "%.docx",
+          "%.met",
+          "smalljre_*/*",
+          ".vale/",
+          "%.burp",
+          "%.mp4",
+          "%.mkv",
+          "%.rar",
+          "%.zip",
+          "%.7z",
+          "%.tar",
+          "%.bz2",
+          "%.epub",
+          "%.flac",
+          "%.tar.gz",
+        },
+        layout_config = {
+          horizontal = {
+            prompt_position = "top",
+            preview_width = 0.55,
+            results_width = 0.8,
+          },
+          vertical = {
+            mirror = false,
+          },
+          width = 0.87,
+          height = 0.80,
+          preview_cutoff = 120,
+        },
+      },
+    })
 EOF
 
-    " File tree configuration
     let g:loaded_netrw=1
     let g:loaded_netrwPlugin=1
 :lua << EOF
@@ -408,9 +481,6 @@ EOF
         custom = { "^.git$" }
       },
     })
-EOF
-    " UI updates configuration
-:lua << EOF
     require("noice").setup({
       lsp = {
         hover = {
@@ -458,12 +528,8 @@ EOF
         },
       },
     })
-EOF
-
-    " tree sitter configuration
-:lua << EOF
     require'nvim-treesitter.configs'.setup({
-      ensure_installed = { "lua", "vim", "vimdoc", "query", "bash", "php", "regex", "markdown", "markdown_inline", "twig" },
+      ensure_installed = { "lua", "vim", "vimdoc", "query", "bash", "php", "regex", "markdown", "markdown_inline", "twig", "html" },
       sync_install = false,
       auto_install = true,
       highlight = {
@@ -481,7 +547,12 @@ EOF
       indent = {
         enable = true
       },
+      autotag = {
+        enable = true,
+        filetypes = { "html", "xml", "twig" },
+      },
     })
+    require('gitsigns').setup()
 EOF
 
     " TagBar Positioning
