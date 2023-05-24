@@ -20,7 +20,6 @@ Installation
 * Hack Nerd Font
 * [Neovim](https://github.com/neovim/neovim) together with both python2 and python3 plugin installed
 * [rg](https://github.com/BurntSushi/ripgrep)
-* Deno runtime
 
 **advice:** I strongly advice using a terminal emulator that supports 256 colors if you
 want to benefit from the amazing solarized colorscheme, Terminator

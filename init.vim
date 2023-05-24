@@ -1,7 +1,7 @@
 "------------------------------------------------------------------"
 " Author:       Merel Jossart                                      "
 " Source:       https://github.com/Numkil/VimConf                  "
-" Requirements: Neovim                                             "
+" Requirements: Neovim, Ctags, Hack Nerd Font, Git, Rg                                             "
 "------------------------------------------------------------------"
 
    call system('mkdir -p $HOME/.nvim/undo')
@@ -29,7 +29,6 @@
 
     " UI modernization, floating windows, statusline, popups, treesitter for
     " syntax highlights
-    " REQUIREMENTS: Hack Nerd Font
     call dein#add('rcarriga/nvim-notify')
     call dein#add('nvim-treesitter/nvim-treesitter')
     call dein#add('MunifTanjim/nui.nvim')
@@ -81,7 +80,6 @@
     call dein#add('scrooloose/nerdcommenter')
 
     " Displays a list of classes/functions/variabels in the file
-    " REQUIREMENTS: (exuberant)-ctags
     call dein#add('preservim/tagbar')
 
     " UNIX shell command helpers, e.g. sudo, chmod, remove etc.
