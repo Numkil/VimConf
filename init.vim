@@ -27,13 +27,6 @@
     " Recursive Dein so it can self-update
     call dein#add('~/.nvim/bundle/repos/github.com/Shougo/dein.vim')
 
-    " A file tree explorer
-    call dein#add('nvim-tree/nvim-tree.lua')
-
-    " A fuzzy file finder + ripgrep content search + buffexplorer
-    call dein#add('nvim-lua/plenary.nvim')
-    call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.x' })
-
     " UI modernization, floating windows, statusline, popups, treesitter for
     " syntax highlights
     " REQUIREMENTS: Hack Nerd Font
@@ -42,6 +35,37 @@
     call dein#add('MunifTanjim/nui.nvim')
     call dein#add('folke/noice.nvim')
     call dein#add('nvim-lualine/lualine.nvim')
+
+    " Light and dark colourscheme for vim
+    call dein#add('lifepillar/vim-solarized8')
+
+    " Devicons
+    call dein#add('ryanoasis/vim-devicons')
+
+    " LSP Implementation
+    call dein#add('neovim/nvim-lspconfig')
+    call dein#add('ErichDonGubler/lsp_lines.nvim')
+    call dein#add("williamboman/mason.nvim")
+    call dein#add("williamboman/mason-lspconfig.nvim")
+
+    " Code completion engine
+    call dein#add('hrsh7th/cmp-nvim-lsp')
+    call dein#add('hrsh7th/cmp-buffer')
+    call dein#add('hrsh7th/cmp-path')
+    call dein#add('hrsh7th/cmp-cmdline')
+    call dein#add('hrsh7th/nvim-cmp')
+
+    " Snippet Engine + Presets
+    call dein#add('hrsh7th/cmp-vsnip')
+    call dein#add('hrsh7th/vim-vsnip')
+    call dein#add('rafamadriz/friendly-snippets')
+
+    " A file tree explorer
+    call dein#add('nvim-tree/nvim-tree.lua')
+
+    " A fuzzy file finder + ripgrep content search + buffexplorer
+    call dein#add('nvim-lua/plenary.nvim')
+    call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.x' })
 
     " Git integration
     call dein#add('tpope/vim-fugitive')
@@ -78,37 +102,8 @@
     " Easily manipulate surrounding characters
     call dein#add('tpope/vim-surround')
 
-    " Light and dark colourscheme for vim
-    call dein#add('lifepillar/vim-solarized8')
-
-    " LSP Implementation
-    call dein#add('vim-denops/denops.vim')
-    call dein#add('neovim/nvim-lspconfig')
-    call dein#add('ErichDonGubler/lsp_lines.nvim')
-    call dein#add("williamboman/mason.nvim")
-    call dein#add("williamboman/mason-lspconfig.nvim")
-
-    " Code completion engine
-    " REQUIREMENTS: Deno runtime
-    call dein#add('Shougo/ddc.vim')
-    call dein#add('matsui54/denops-popup-preview.vim')
-    call dein#add('tani/ddc-fuzzy')
-    call dein#add('Shougo/ddc-nvim-lsp')
-    call dein#add('Shougo/ddc-around')
-    call dein#add('Shougo/ddc-source-nvim-lsp')
-    call dein#add('matsui54/ddc-buffer')
-    call dein#add('Shougo/ddc-ui-native')
-
-    " Snippet Engine + Presets
-    call dein#add('hrsh7th/vim-vsnip-integ')
-    call dein#add('hrsh7th/vim-vsnip')
-    call dein#add('rafamadriz/friendly-snippets')
-
     " A fancy start screen, shows MRU etc.
     call dein#add('mhinz/vim-startify')
-
-    " Devicons
-    call dein#add('ryanoasis/vim-devicons')
 
     call dein#end()
     call dein#save_state()
@@ -284,11 +279,6 @@
     " Working ci(, works for both breaklined, inline and multiple ()
     nnoremap ci( %ci(
 
-    " We don't need any help!
-    inoremap <F1> <nop>
-    nnoremap <F1> <nop>
-    vnoremap <F1> <nop>
-
     " Disable annoying ex mode (Q)
     map Q <nop>
 
@@ -319,9 +309,6 @@
     nnoremap <Leader>9 :9b<CR>
     nnoremap <Leader>0 :10b<CR>
 
-    " Highlight last inserted text
-    nnoremap gV '[V']
-
     " Visual shifting ( does not exit Visual mode )
     vnoremap < <gv
     vnoremap > >gv
@@ -342,6 +329,10 @@
     nnoremap <Leader>a :Gcd<CR> :Telescope live_grep find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
     nnoremap <Leader>be :lua require'telescope.builtin'.buffers(require('telescope.themes').get_ivy({}))<cr>
     autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
+
+    "vsnip mappings
+    imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+    smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 
     " Toggle tagbar (definitions, functions etc.)
     nnoremap <F1> :TagbarOpenAutoClose<CR>
@@ -612,47 +603,88 @@ EOF
     }
 EOF
 
-    " Ddc configurations
-        call ddc#custom#patch_global('ui', 'native')
-        call ddc#custom#patch_global({
-        \ 'sources': ['nvim-lsp', 'vsnip', 'around', 'buffer'],
-        \ 'sourceOptions': {
-            \ '_': {
-            \ 'matchers': ['matcher_fuzzy'],
-            \ 'sorters': ['sorter_fuzzy'],
-            \ 'converters': ['converter_fuzzy'],
-            \ },
-            \ 'nvim-lsp': {
-            \ 'mark': 'LSP',
-            \ 'forceCompletionPattern': '\.\w*|:\w*|->\w*',
-            \ },
-            \ 'vsnip': {
-            \ 'mark': 'SNIPPET',
-            \ },
-            \ 'around': {
-            \ 'mark': 'AROUND',
-            \ },
-            \ 'buffer': {
-            \ 'mark': 'BUFFER',
-            \ },
-        \ },
-        \ })
+" nvim-cmp configuration
 
-        " Markdown FileType completion sources
-        call ddc#custom#patch_filetype('markdown', { 'sources': ['around', 'buffer'] })
+lua <<EOF
+  local cmp = require'cmp'
 
-        inoremap <expr> <C-y> pumvisible() ? (vsnip#expandable() ? "\<Plug>(vsnip-expand)" : "\<C-y>") : "\<C-y>"
-        inoremap <silent><expr> <TAB>
-          \ pumvisible() ? '<C-n>' :
-          \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-          \ '<TAB>' : ddc#map#manual_complete()
+  local has_words_before = function()
+    unpack = unpack or table.unpack
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+  end
 
-        " <S-TAB>: completion back.
-        inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+  local feedkey = function(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+  end
 
-        " Use ddc.
-        call popup_preview#enable()
-        call ddc#enable()
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
+    },
+    window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif vim.fn["vsnip#available"](1) == 1 then
+          feedkey("<Plug>(vsnip-expand-or-jump)", "")
+        elseif has_words_before() then
+          cmp.complete()
+        else
+          fallback()
+        end
+    end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function()
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+          feedkey("<Plug>(vsnip-jump-prev)", "")
+        end
+    end, { "i", "s" }),
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' },
+      { name = 'buffer' },
+    })
+  })
+
+  cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+  local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+  local cmp = require('cmp')
+  cmp.event:on(
+    'confirm_done',
+    cmp_autopairs.on_confirm_done()
+  )
+EOF
 
 "" Functions
 
