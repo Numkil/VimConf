@@ -15,7 +15,6 @@ Installation
 ------------
 **Required packages:**
 
-* Ctags
 * Git
 * Hack Nerd Font
 * [Neovim](https://github.com/neovim/neovim) together with both python2 and python3 plugin installed

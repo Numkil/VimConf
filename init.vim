@@ -1,7 +1,7 @@
 "------------------------------------------------------------------"
 " Author:       Merel Jossart                                      "
 " Source:       https://github.com/Numkil/VimConf                  "
-" Requirements: Neovim, Ctags, Hack Nerd Font, Git, Rg                                             "
+" Requirements: Neovim, Hack Nerd Font, Git, Rg                                             "
 "------------------------------------------------------------------"
 
    call system('mkdir -p $HOME/.nvim/undo')
@@ -62,7 +62,7 @@
     " A file tree explorer
     call dein#add('nvim-tree/nvim-tree.lua')
 
-    " A fuzzy file finder + ripgrep content search + buffexplorer
+    " A fuzzy file finder + ripgrep content search + buffexplorer + tag explorer
     call dein#add('nvim-lua/plenary.nvim')
     call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.x' })
 
@@ -78,9 +78,6 @@
 
     " Super easy commenting, toggle comments etc
     call dein#add('scrooloose/nerdcommenter')
-
-    " Displays a list of classes/functions/variabels in the file
-    call dein#add('preservim/tagbar')
 
     " UNIX shell command helpers, e.g. sudo, chmod, remove etc.
     call dein#add('tpope/vim-eunuch')
@@ -325,15 +322,14 @@
     " Telescope mappings
     nnoremap <c-p> :Gcd<CR> :Telescope find_files find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
     nnoremap <Leader>a :Gcd<CR> :Telescope live_grep find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
+    nnoremap <Leader>\ :Telescope lsp_definitions<CR>
+    nnoremap <F1> :Telescope treesitter theme=ivy<CR>
     nnoremap <Leader>be :lua require'telescope.builtin'.buffers(require('telescope.themes').get_ivy({}))<cr>
     autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
     "vsnip mappings
     imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
     smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-
-    " Toggle tagbar (definitions, functions etc.)
-    nnoremap <F1> :TagbarOpenAutoClose<CR>
 
     " Toggle the file tree browser
     nnoremap <F2> :Gcd<CR> :NvimTreeToggle<CR>
@@ -544,11 +540,6 @@ EOF
     })
     require('gitsigns').setup()
 EOF
-
-    " TagBar Positioning
-    let g:tagbar_left = 1
-    let g:tagbar_width = 35
-    set tags=tags;/
 
     " Gundo Positioning
     let g:mundo_width = 35
