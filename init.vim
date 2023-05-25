@@ -352,6 +352,10 @@
     let g:clever_f_across_no_line = 1
     let g:clever_f_show_promt = 1
 
+    " Vsnip extend filetypes
+    let g:vsnip_filetypes = {}
+    let g:vsnip_filetypes.twig = ['twig', 'html']
+
 :lua << EOF
     vim.opt.list = true
 
