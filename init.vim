@@ -274,6 +274,11 @@
     " Working ci(, works for both breaklined, inline and multiple ()
     nnoremap ci( %ci(
 
+    " Disable <F1> cause i keep accidentally hitting it
+    inoremap <F1> <nop>
+    nnoremap <F1> <nop>
+    vnoremap <F1> <nop>
+
     " Disable annoying ex mode (Q)
     map Q <nop>
 
@@ -323,7 +328,7 @@
     nnoremap <c-p> :Gcd<CR> :Telescope find_files find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
     nnoremap <Leader>a :Gcd<CR> :Telescope live_grep find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
     nnoremap <Leader>\ :Telescope lsp_definitions<CR>
-    nnoremap <F1> :Telescope treesitter theme=ivy<CR>
+    nnoremap <F4> :Telescope treesitter theme=ivy<CR>
     nnoremap <Leader>be :lua require'telescope.builtin'.buffers(require('telescope.themes').get_ivy({}))<cr>
     autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
@@ -338,7 +343,7 @@
     nnoremap <f3> :MundoToggle<CR>
 
     " Toggle light-dark background // Function at Functions block
-    nnoremap <F4> :call BackgroundToggle()<CR>
+    nnoremap <F5> :call BackgroundToggle()<CR>
 
     " Toggle RelativeNumbers // Function at Functions block
     nnoremap <Leader>r :call NumberToggle()<CR>
@@ -587,13 +592,14 @@ EOF
         }
     }
     require 'lspconfig'.tailwindcss.setup {}
+    require 'lspconfig'.tsserver.setup {}
 
     require("lsp_lines").setup {
     }
     require("mason").setup {
     }
     require("mason-lspconfig").setup {
-        ensure_installed = { "intelephense", "tailwindcss" },
+        ensure_installed = { "intelephense", "tailwindcss", "tsserver" },
     }
 EOF
 
@@ -651,6 +657,7 @@ lua <<EOF
       { name = 'nvim_lsp' },
       { name = 'vsnip' },
       { name = 'buffer' },
+      { name = 'path' },
     })
   })
 
@@ -664,8 +671,7 @@ lua <<EOF
   cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
+      { name = 'path' },
       { name = 'cmdline' }
     })
   })
