@@ -586,13 +586,14 @@ EOF
             }
         }
     }
+    require 'lspconfig'.tailwindcss.setup {}
 
     require("lsp_lines").setup {
     }
     require("mason").setup {
     }
     require("mason-lspconfig").setup {
-        ensure_installed = { "intelephense" },
+        ensure_installed = { "intelephense", "tailwindcss" },
     }
 EOF
 
