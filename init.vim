@@ -53,6 +53,11 @@
     call dein#add('hrsh7th/cmp-path')
     call dein#add('hrsh7th/cmp-cmdline')
     call dein#add('hrsh7th/nvim-cmp')
+    call dein#add('onsails/lspkind.nvim')
+
+    " Ai pair programming
+    call dein#add('zbirenbaum/copilot.lua')
+    call dein#add('zbirenbaum/copilot-cmp')
 
     " Snippet Engine + Presets
     call dein#add('hrsh7th/cmp-vsnip')
@@ -64,6 +69,7 @@
 
     " A fuzzy file finder + ripgrep content search + buffexplorer + tag explorer
     call dein#add('nvim-lua/plenary.nvim')
+    call dein#add('ahmedkhalf/project.nvim')
     call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.x' })
 
     " Git integration
@@ -325,8 +331,8 @@
     nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>
 
     " Telescope mappings
-    nnoremap <c-p> :Gcd<CR> :Telescope find_files find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
-    nnoremap <Leader>a :Gcd<CR> :Telescope live_grep find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
+    nnoremap <c-p> :Telescope find_files find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
+    nnoremap <Leader>a :Telescope live_grep find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
     nnoremap <Leader>\ :Telescope lsp_definitions<CR>
     nnoremap <F4> :Telescope treesitter theme=ivy<CR>
     nnoremap <Leader>be :lua require'telescope.builtin'.buffers(require('telescope.themes').get_ivy({}))<cr>
@@ -337,7 +343,7 @@
     smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 
     " Toggle the file tree browser
-    nnoremap <F2> :Gcd<CR> :NvimTreeToggle<CR>
+    nnoremap <F2> :NvimTreeToggle<CR>
 
     " Toggle Gundo panel
     nnoremap <f3> :MundoToggle<CR>
@@ -451,12 +457,15 @@
         },
       },
     })
+    require('project_nvim').setup()
+    require('telescope').load_extension('projects')
 EOF
 
     let g:loaded_netrw=1
     let g:loaded_netrwPlugin=1
 :lua << EOF
     require("nvim-tree").setup({
+      sync_root_with_cwd = true,
       respect_buf_cwd = true,
       update_focused_file = {
         enable = true,
@@ -606,7 +615,8 @@ EOF
 " nvim-cmp configuration
 
 lua <<EOF
-  local cmp = require'cmp'
+  local lspkind = require 'lspkind'
+  local cmp = require 'cmp'
 
   local has_words_before = function()
     unpack = unpack or table.unpack
@@ -627,6 +637,13 @@ lua <<EOF
     window = {
       completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
+    },
+    formatting = {
+        format = lspkind.cmp_format({
+            mode = "symbol",
+            max_width = 50,
+            symbol_map = { Copilot = "" }
+        })
     },
     mapping = cmp.mapping.preset.insert({
       ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -654,6 +671,7 @@ lua <<EOF
     end, { "i", "s" }),
     }),
     sources = cmp.config.sources({
+      { name = 'copilot' },
       { name = 'nvim_lsp' },
       { name = 'vsnip' },
       { name = 'buffer' },
@@ -684,6 +702,13 @@ lua <<EOF
     'confirm_done',
     cmp_autopairs.on_confirm_done()
   )
+
+  require("copilot").setup({
+    suggestion = { enabled = false },
+    panel = { enabled = false },
+    })
+
+  require("copilot_cmp").setup()
 EOF
 
 "" Functions
