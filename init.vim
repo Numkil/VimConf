@@ -36,7 +36,7 @@
     call dein#add('nvim-lualine/lualine.nvim')
 
     " Light and dark colourscheme for vim
-    call dein#add('lifepillar/vim-solarized8')
+    call dein#add('catppuccin/nvim')
 
     " Devicons
     call dein#add('ryanoasis/vim-devicons')
@@ -218,7 +218,7 @@
     " Colorscheme
     set termguicolors
     set background=light
-    colorscheme solarized8
+    colorscheme catppuccin
 
     " Disabling Flashbell in cli and gui
     set noerrorbells visualbell t_vb=
@@ -380,7 +380,7 @@
     })
     require('lualine').setup({
       options = {
-        theme = "solarized"
+          theme = "catppuccin"
       },
       extensions = {'fugitive', 'mundo', 'nvim-tree'}
     })
@@ -459,6 +459,13 @@
     })
     require('project_nvim').setup()
     require('telescope').load_extension('projects')
+    require("catppuccin").setup({
+      integrations = {
+        mason = true,
+        noice = true,
+        notify = true,
+      }
+})
 EOF
 
     let g:loaded_netrw=1
