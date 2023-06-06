@@ -76,9 +76,6 @@
     call dein#add('tpope/vim-fugitive')
     call dein#add('lewis6991/gitsigns.nvim')
 
-    " Smooth scrolling
-    call dein#add('psliwka/vim-smoothie')
-
     " Advanced Undo solution
     call dein#add('simnalamburt/vim-mundo')
 
@@ -91,9 +88,6 @@
     " Multiple cursors to enable faster refactoring
     call dein#add('terryma/vim-multiple-cursors')
 
-    " Smarter inline f and t commands
-    call dein#add('rhysd/clever-f.vim')
-
     " Indentation guides using treesitter
     call dein#add('lukas-reineke/indent-blankline.nvim')
 
@@ -102,6 +96,9 @@
 
     " Easily manipulate surrounding characters
     call dein#add('tpope/vim-surround')
+
+    " Navigation plugin
+    call dein#add('phaazon/hop.nvim')
 
     " A fancy start screen, shows MRU etc.
     call dein#add('mhinz/vim-startify')
@@ -133,7 +130,6 @@
     set wildmode=longest:full,list:full     " bash-like auto complete
     set completeopt=menu,preview,longest    " insert mode completion
     set hidden                              " buffer change, more undo
-    set history=1000                        " default 20
     set iskeyword+=_,$,@,%,#                " not word dividers
     set laststatus=2                        " always show statusline
     set linebreak                           " don't cut words on wrap
@@ -142,7 +138,6 @@
     set mouse=                              " disable mouse
     set nolist                              " wraps to whole words
     set noshowmode                          " hide mode cmd line
-    set noexrc                              " don't use other .*rc(s)
     set nostartofline                       " keep cursor column pos
     set shortmess+=I                        " disable startup message
     set splitbelow                          " splits go below w/focus
@@ -203,17 +198,9 @@
             autocmd BufNewFile,BufRead *.md set ft=markdown tw=79     " markdown opened w/highlight
         augroup END
 
-        "Only force 256 colors on select terminals, other terminals need to be configured
-        "outside of vim to correctly diplay these colors
-        if (&term =~? 'xterm') || (&term =~? 'screen')
-            set t_Co=256
-        endif
-
 "" Advanced Built-in Settings
 
     set ruler	                                       " Show row and column ruler information
-    set timeout timeoutlen=1000 ttimeoutlen=100        " Fluid ESC and other keycodes
-    set updatetime=300                                 " Faster response on async functions
 
     " Colorscheme
     set termguicolors
@@ -234,14 +221,6 @@
         " Notification after file change
         autocmd FileChangedShellPost *
         \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
-    augroup END
-
-    " close nvim if file tree is the only remaining tab
-    augroup NoFileTreeAlone()
-        autocmd! BufEnter *
-            \ if tabpagenr('$') == 1 && winnr('$') == 1 && @% == 'NvimTree_1' |
-            \      :qa |
-            \ endif
     augroup END
 
     " Return to last edit position when opening files
@@ -370,6 +349,22 @@
 :lua << EOF
     vim.opt.list = true
 
+    local hop = require('hop')
+    local directions = require('hop.hint').HintDirection
+    vim.keymap.set('', 'f', function()
+    hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true })
+    end, {remap=true})
+    vim.keymap.set('', 'F', function()
+    hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true })
+    end, {remap=true})
+    vim.keymap.set('', 't', function()
+    hop.hint_words({ direction = directions.AFTER_CURSOR})
+    end, {remap=true})
+    vim.keymap.set('', 'T', function()
+    hop.hint_words({ direction = directions.BEFORE_CURSOR})
+    end, {remap=true})
+    hop.setup()
+
     require("indent_blankline").setup {
         space_char_blankline = " ",
         show_current_context = true,
@@ -464,6 +459,7 @@
         mason = true,
         noice = true,
         notify = true,
+        hop = true,
       }
 })
 EOF
@@ -545,7 +541,6 @@ EOF
       auto_install = true,
       highlight = {
         enable = true,
-        disable = {"twig"},
         disable = function(lang, buf)
           local max_filesize = 100 * 1024 -- 100 KB
           local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
