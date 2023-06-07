@@ -65,7 +65,7 @@
     call dein#add('rafamadriz/friendly-snippets')
 
     " A file tree explorer
-    call dein#add('nvim-tree/nvim-tree.lua')
+    call dein#add('nvim-neo-tree/neo-tree.nvim')
 
     " A fuzzy file finder + ripgrep content search + buffexplorer + tag explorer
     call dein#add('nvim-lua/plenary.nvim')
@@ -313,16 +313,16 @@
     nnoremap <c-p> :Telescope find_files find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
     nnoremap <Leader>a :Telescope live_grep find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
     nnoremap <Leader>\ :Telescope lsp_definitions<CR>
+    nnoremap <Leader>/ :Telescope lsp_references<CR>
     nnoremap <F4> :Telescope treesitter theme=ivy<CR>
-    nnoremap <Leader>be :lua require'telescope.builtin'.buffers(require('telescope.themes').get_ivy({}))<cr>
-    autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
+    nnoremap <Leader>be :Neotree toggle show buffers bottom<cr>
 
     "vsnip mappings
     imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
     smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 
     " Toggle the file tree browser
-    nnoremap <F2> :NvimTreeToggle<CR>
+    nnoremap <F2> :Neotree toggle reveal_force_cwd<CR>
 
     " Toggle Gundo panel
     nnoremap <f3> :MundoToggle<CR>
@@ -377,7 +377,7 @@
       options = {
           theme = "catppuccin"
       },
-      extensions = {'fugitive', 'mundo', 'nvim-tree'}
+      extensions = {'fugitive', 'mundo', 'neo-tree'}
     })
     require('telescope').setup({
       defaults = {
@@ -467,27 +467,6 @@ EOF
     let g:loaded_netrw=1
     let g:loaded_netrwPlugin=1
 :lua << EOF
-    require("nvim-tree").setup({
-      sync_root_with_cwd = true,
-      respect_buf_cwd = true,
-      update_focused_file = {
-        enable = true,
-      },
-      view = {
-        width = 45,
-      },
-      git = {
-        ignore = true,
-      },
-      renderer = {
-        highlight_git = true,
-      },
-      sort_by = "case_sensitive",
-      filters = {
-        dotfiles = false,
-        custom = { "^.git$" }
-      },
-    })
     require("noice").setup({
       lsp = {
         hover = {
@@ -765,6 +744,8 @@ EOF
         augroup END
 
     " Insert semicolon at end of line without moving cursor
-       function! Ender()
-           :execute "normal! mqA;\<esc>`q"
-       endfunction
+        function! Ender()
+            :execute "normal! mqA;\<esc>`q"
+        endfunction
+
+        autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
