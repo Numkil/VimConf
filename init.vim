@@ -479,7 +479,20 @@ EOF
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
           ["cmp.entry.get_documentation"] = true,
-          },
+        },
+        documentation = {
+            opts = {
+                border = { style = "rounded" },
+                position = {
+                    row = 2,
+                },
+                win_options = {
+                    winhighlight = {
+                        NormalFloat = "Normal",
+                    },
+                },
+            },
+        },
       },
       presets = {
         command_palette = true,
@@ -488,29 +501,29 @@ EOF
         lsp_doc_border = true,
       },
       views = {
-        hover = {
-          position = {
-            row = "10%",
-            col = "50%",
-          },
+        cmdline_popup = {
+            position = {
+                row = 8,
+                col = "50%",
+            },
+            size = {
+                width = math.floor(vim.o.columns * 0.4),
+                height = "auto",
+            },
         },
         popupmenu = {
-          position = {
-            row = "50%",
-            col = "50%",
-          },
-        },
-        notify = {
-          merge = true,
-        },
-        cmdline_popup = {
-          position = {
-            row = "50%",
-            col = "50%",
-          },
-          size = {
-            min_width = 80,
-          },
+            relative = "editor",
+            position = {
+                row = 11,
+                col = "50%",
+            },
+            size = {
+                width = math.floor(vim.o.columns * 0.4),
+                height = "auto",
+            },
+            border = {
+                style = "rounded",
+            },
         },
       },
     })
