@@ -64,13 +64,12 @@
     call dein#add('hrsh7th/vim-vsnip')
     call dein#add('rafamadriz/friendly-snippets')
 
-    " A file tree explorer
-    call dein#add('nvim-neo-tree/neo-tree.nvim')
-
-    " A fuzzy file finder + ripgrep content search + buffexplorer + tag explorer
+    " Telescope all in one fuzzy finder + file browser + ripgrep searcher +
+    " lsp navigator
     call dein#add('nvim-lua/plenary.nvim')
     call dein#add('ahmedkhalf/project.nvim')
     call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.x' })
+    call dein#add('nvim-telescope/telescope-file-browser.nvim')
 
     " Git integration
     call dein#add('tpope/vim-fugitive')
@@ -312,17 +311,16 @@
     " Telescope mappings
     nnoremap <c-p> :Telescope find_files find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
     nnoremap <Leader>a :Telescope live_grep find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
-    nnoremap <Leader>\ :Telescope lsp_definitions<CR>
-    nnoremap <Leader>/ :Telescope lsp_references<CR>
+    nnoremap <Leader>\ :Telescope lsp_definitions theme=dropdown<CR>
+    nnoremap <Leader>/ :Telescope lsp_references theme=dropdown<CR>
     nnoremap <F4> :Telescope treesitter theme=ivy<CR>
-    nnoremap <Leader>be :Neotree toggle show buffers bottom<cr>
+    nnoremap <Leader>be :Telescope buffers theme=dropdown<CR>
+    nnoremap <F2> :Telescope file_browser theme=dropdown<CR>
 
     "vsnip mappings
     imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
     smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 
-    " Toggle the file tree browser
-    nnoremap <F2> :Neotree toggle reveal_force_cwd<CR>
 
     " Toggle Gundo panel
     nnoremap <f3> :MundoToggle<CR>
@@ -377,7 +375,7 @@
       options = {
           theme = "catppuccin"
       },
-      extensions = {'fugitive', 'mundo', 'neo-tree'}
+      extensions = {'fugitive', 'mundo'}
     })
     require('telescope').setup({
       defaults = {
@@ -386,56 +384,20 @@
         borderchars = { "█", " ", "▀", "█", "█", " ", " ", "▀" },
         sorting_strategy = "ascending",
         file_ignore_patterns = {
-          ".git/",
-          "target/",
-          "docs/",
-          "vendor/*",
-          "%.lock",
-          "__pycache__/*",
-          "%.sqlite3",
-          "%.ipynb",
-          "node_modules/*",
-          -- "%.jpg",
-          -- "%.jpeg",
-          -- "%.png",
-          "%.svg",
-          "%.otf",
-          "%.ttf",
-          "%.webp",
-          ".dart_tool/",
-          ".github/",
-          ".gradle/",
-          ".idea/",
-          ".settings/",
-          ".vscode/",
-          "__pycache__/",
-          "build/",
-          "gradle/",
-          "node_modules/",
-          "%.pdb",
-          "%.dll",
-          "%.class",
-          "%.exe",
-          "%.cache",
-          "%.ico",
-          "%.pdf",
-          "%.dylib",
-          "%.jar",
-          "%.docx",
-          "%.met",
-          "smalljre_*/*",
-          ".vale/",
-          "%.burp",
-          "%.mp4",
-          "%.mkv",
-          "%.rar",
-          "%.zip",
-          "%.7z",
-          "%.tar",
-          "%.bz2",
-          "%.epub",
-          "%.flac",
-          "%.tar.gz",
+            '.git/',
+        },
+        dynamic_preview_title = true,
+        vimgrep_arguments = {
+        'rg',
+        '--ignore',
+        '--hidden',
+        '--color=never',
+        '--no-heading',
+        '--with-filename',
+        '--line-number',
+        '--column',
+        '--smart-case',
+        '--trim',
         },
         layout_config = {
           horizontal = {
@@ -450,10 +412,14 @@
           height = 0.80,
           preview_cutoff = 120,
         },
+        extensions = {
+            hijack_netrw = true,
+        },
       },
     })
     require('project_nvim').setup()
     require('telescope').load_extension('projects')
+    require("telescope").load_extension "file_browser"
     require("catppuccin").setup({
       integrations = {
         mason = true,
@@ -664,13 +630,21 @@ lua <<EOF
         end
     end, { "i", "s" }),
     }),
-    sources = cmp.config.sources({
-      { name = 'copilot' },
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' },
-      { name = 'buffer' },
-      { name = 'path' },
-    })
+    sources = cmp.config.sources(
+        {
+            { name = 'vsnip' },
+            { name = 'nvim_lsp' },
+        },
+        {
+            { name = 'copilot' },
+        },
+        {
+            { name = 'path' },
+        },
+        {
+            { name = 'buffer' },
+        }
+    )
   })
 
   cmp.setup.cmdline({ '/', '?' }, {
