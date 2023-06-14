@@ -69,7 +69,7 @@
     call dein#add('nvim-lua/plenary.nvim')
     call dein#add('ahmedkhalf/project.nvim')
     call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.x' })
-    call dein#add('nvim-telescope/telescope-file-browser.nvim')
+    call dein#add('nvim-neo-tree/neo-tree.nvim')
 
     " Git integration
     call dein#add('tpope/vim-fugitive')
@@ -309,13 +309,15 @@
     nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>
 
     " Telescope mappings
-    nnoremap <c-p> :Telescope find_files find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
-    nnoremap <Leader>a :Telescope live_grep find_command=rg,--ignore,--hidden,--files theme=ivy<CR>
-    nnoremap <Leader>\ :Telescope lsp_definitions theme=dropdown<CR>
-    nnoremap <Leader>/ :Telescope lsp_references theme=dropdown<CR>
+    nnoremap <c-p> :Telescope find_files theme=ivy<CR>
+    nnoremap <Leader>a :Telescope live_grep theme=ivy<CR>
+    nnoremap <Leader>\ :Telescope lsp_definitions theme=ivy<CR>
+    nnoremap <Leader>/ :Telescope lsp_references theme=ivy<CR>
     nnoremap <F4> :Telescope treesitter theme=ivy<CR>
-    nnoremap <Leader>be :Telescope buffers theme=dropdown<CR>
-    nnoremap <F2> :Telescope file_browser theme=dropdown<CR>
+
+    " file browser and buffer browser
+    nnoremap <F2> :Neotree toggle reveal_force_cwd<CR>
+    nnoremap <Leader>be :Neotree toggle show buffers bottom<cr>
 
     "vsnip mappings
     imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
@@ -375,7 +377,20 @@
       options = {
           theme = "catppuccin"
       },
-      extensions = {'fugitive', 'mundo'}
+      extensions = {'fugitive', 'mundo', 'neo-tree'}
+    })
+    require("neo-tree").setup({
+        close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
+        filesystem = {
+          filtered_items = {
+            visible = true,
+            never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
+              ".idea",
+              "node_modules/",
+              ".git/",
+            },
+          },
+        },
     })
     require('telescope').setup({
       defaults = {
@@ -385,6 +400,8 @@
         sorting_strategy = "ascending",
         file_ignore_patterns = {
             '.git/',
+            'node_modules/',
+            '.idea/',
         },
         dynamic_preview_title = true,
         vimgrep_arguments = {
@@ -412,14 +429,10 @@
           height = 0.80,
           preview_cutoff = 120,
         },
-        extensions = {
-            hijack_netrw = true,
-        },
       },
     })
     require('project_nvim').setup()
     require('telescope').load_extension('projects')
-    require("telescope").load_extension "file_browser"
     require("catppuccin").setup({
       integrations = {
         mason = true,
@@ -734,5 +747,3 @@ EOF
         function! Ender()
             :execute "normal! mqA;\<esc>`q"
         endfunction
-
-        autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
