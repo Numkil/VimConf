@@ -57,7 +57,6 @@
 
     " Ai pair programming
     call dein#add('zbirenbaum/copilot.lua')
-    call dein#add('zbirenbaum/copilot-cmp')
 
     " Snippet Engine + Presets
     call dein#add('hrsh7th/cmp-vsnip')
@@ -367,6 +366,7 @@
 
     require("indent_blankline").setup {
         space_char_blankline = " ",
+        use_treesitter = true,
         show_current_context = true,
         show_current_context_start = true,
     }
@@ -553,6 +553,8 @@ EOF
 
     " lsp / mason configuration
 :lua << EOF
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
     require 'lspconfig'.intelephense.setup {
         capabilities = capabilities,
         on_attach = on_attach,
@@ -562,6 +564,7 @@ EOF
                     'Core',
                     'SPL',
                     'imagick',
+                    'curl',
                     'standard',
                     'pcre',
                     'date',
@@ -625,31 +628,32 @@ lua <<EOF
       ['<C-e>'] = cmp.mapping.abort(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
       ["<Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        elseif vim.fn["vsnip#available"](1) == 1 then
-          feedkey("<Plug>(vsnip-expand-or-jump)", "")
-        elseif has_words_before() then
-          cmp.complete()
-        else
-          fallback()
-        end
+          if cmp.visible() then
+            cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true })
+          elseif require("copilot.suggestion").is_visible() then
+            require("copilot.suggestion").accept()
+          elseif vim.fn["vsnip#available"](1) == 1 then
+            feedkey("<Plug>(vsnip-expand-or-jump)", "")
+          elseif has_words_before() then
+            cmp.complete()
+          else
+            fallback()
+          end
     end, { "i", "s" }),
     ["<S-Tab>"] = cmp.mapping(function()
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-          feedkey("<Plug>(vsnip-jump-prev)", "")
-        end
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif vim.fn["vsnip#available"](-1) == 1 then
+            feedkey("<Plug>(vsnip-jump-prev)", "")
+          else
+            fallback()
+          end
     end, { "i", "s" }),
     }),
     sources = cmp.config.sources(
         {
             { name = 'vsnip' },
             { name = 'nvim_lsp' },
-        },
-        {
-            { name = 'copilot' },
         },
         {
             { name = 'path' },
@@ -675,8 +679,6 @@ lua <<EOF
     })
   })
 
-  local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
   local cmp_autopairs = require('nvim-autopairs.completion.cmp')
   local cmp = require('cmp')
   cmp.event:on(
@@ -685,11 +687,27 @@ lua <<EOF
   )
 
   require("copilot").setup({
-    suggestion = { enabled = false },
-    panel = { enabled = false },
-    })
+    panel = {
+        enabled = true,
+        auto_refresh = true,
+    },
+    suggestion = {
+        enabled = true,
+        auto_trigger = true,
+        accept = false,
+    },
+  })
 
-  require("copilot_cmp").setup()
+    local cmp_status_ok, cmp = pcall(require, "cmp")
+      if cmp_status_ok then
+        cmp.event:on("menu_opened", function()
+          vim.b.copilot_suggestion_hidden = true
+        end)
+
+        cmp.event:on("menu_closed", function()
+          vim.b.copilot_suggestion_hidden = false
+        end)
+      end
 EOF
 
 "" Functions
